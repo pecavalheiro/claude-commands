@@ -1,6 +1,7 @@
 # Start Requirements Gathering
 
 Begin gathering requirements for: $ARGUMENTS
+ultrathink: Deep analysis of problem space and implications
 
 ## Full Workflow:
 
@@ -16,6 +17,7 @@ Begin gathering requirements for: $ARGUMENTS
    - Identify main components and services
    - Understand technology stack
    - Note patterns and conventions
+   - ultrathink: Deep understanding of codebase architecture and implementation patterns
 
 ### Phase 2: Context Discovery Questions
 6. Generate the five most important yes/no questions to understand the problem space:
@@ -28,6 +30,7 @@ Begin gathering requirements for: $ARGUMENTS
    - Write all questions to 01-discovery-questions.md with smart defaults
    - Begin asking questions one at a time proposing the question with a smart default option
    - Only after all questions are asked, record answers in 02-discovery-answers.md as received and update metadata.json. Not before.
+   - ultrathink: Synthesize discovery insights before moving to context gathering
 
 ### Phase 3: Targeted Context Gathering (Autonomous)
 7. After all discovery questions answered:
@@ -42,6 +45,7 @@ Begin gathering requirements for: $ARGUMENTS
      - Similar features analyzed in detail
      - Technical constraints and considerations
      - Integration points identified
+   - ultrathink: Synthesize technical context into actionable insights
 
 ### Phase 4: Expert Requirements Questions
 8. Now ask questions like a senior developer who knows the codebase:
@@ -51,6 +55,7 @@ Begin gathering requirements for: $ARGUMENTS
    - Include smart defaults based on codebase patterns
    - Ask questions one at a time
    - Only after all questions are asked, record answers in 05-detail-answers.md as received
+   - ultrathink: Comprehensive analysis before requirements documentation
 
 ### Phase 5: Requirements Documentation
 9. Generate comprehensive requirements spec in 06-requirements-spec.md:
@@ -60,6 +65,7 @@ Begin gathering requirements for: $ARGUMENTS
    - Implementation hints and patterns to follow
    - Acceptance criteria
    - Assumptions for any unanswered questions
+   - ultrathink: Complete requirements synthesis ensuring clarity and implementability
 
 ## Question Formats:
 
@@ -88,6 +94,12 @@ Begin gathering requirements for: $ARGUMENTS
 
 ## Q8: Will this require new database migrations in db/migrations/?
 **Default if unknown:** No (based on similar features not requiring schema changes)
+
+## Q9: Should authentication be handled at the API layer?
+**Default if unknown:** Yes (consistent with security patterns)
+
+## Q10: Will this need real-time updates via WebSocket?
+**Default if unknown:** No (most features use standard HTTP polling)
 ```
 
 ## Important Rules:
@@ -120,3 +132,5 @@ Begin gathering requirements for: $ARGUMENTS
 - After each phase, announce: "Phase complete. Starting [next phase]..."
 - Save all work before moving to next phase
 - User can check progress anytime with /requirements-status
+- When approving the implementation plan:
+- ultrathink: Final validation of requirements completeness and feasibility
