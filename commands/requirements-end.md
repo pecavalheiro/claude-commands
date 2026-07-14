@@ -23,17 +23,16 @@ Finalize the current requirement gathering session.
 4. Based on choice:
 
 ### Option 1: Generate Spec
-- Create 06-requirements-spec.md
-- Include all answered questions
-- Add defaults for unanswered with "ASSUMED:" prefix
-- Generate implementation hints
-- Update metadata status to "complete"
+- Create 06-requirements-spec.md following EXACTLY the Phase 5 output contract in requirements-start.md (same section headings /synthesize parses; decision-complete; no intermediate states or people-coordination content)
+- Defaults for unanswered NON-critical questions become final decisions, recorded under Assumptions. **Never default a critical item:** decisions flagged by the criticality override and FRs held under override option (a) are never resolved from "current information" — present each one now: the user gives a final or interim decision (recorded with its provenance tag), or the FR is descoped to a follow-up listed in Out of Scope
+- People-facing follow-ups go to communications.md (header-marked NOT /synthesize input) and are echoed in chat
+- Update metadata status to "complete" — permitted only when no `metadata.holds` entry has `"resolution": null`
 
 ### Option 2: Mark Incomplete
 - Update metadata status to "incomplete"
 - Add "lastUpdated" timestamp
 - Create summary of progress
-- Note what's still needed
+- Note what's still needed — including any outstanding holds (C-n, owner, held FRs)
 
 ### Option 3: Cancel
 - Confirm deletion
@@ -41,34 +40,8 @@ Finalize the current requirement gathering session.
 - Clear .current-requirement
 
 ## Final Spec Format:
-```markdown
-# Requirements Specification: [Name]
 
-Generated: [timestamp]
-Status: [Complete with X assumptions / Partial]
-
-## Overview
-[Problem statement and solution summary]
-
-## Detailed Requirements
-
-### Functional Requirements
-[Based on answered questions]
-
-### Technical Requirements
-- Affected files: [list with paths]
-- New components: [if any]
-- Database changes: [if any]
-
-### Assumptions
-[List any defaults used for unanswered questions]
-
-### Implementation Notes
-[Specific guidance for implementation]
-
-### Acceptance Criteria
-[Testable criteria for completion]
-```
+Use the Phase 5 output contract from requirements-start.md verbatim — sections: Problem Statement, Solution Overview, Functional Requirements (FR*), Technical Requirements, Implementation Hints, Acceptance Criteria, Assumptions, Out of Scope. Do not use an alternative template: /synthesize parses these exact section names.
 
 5. Clear .current-requirement
 6. Update requirements/index.md
