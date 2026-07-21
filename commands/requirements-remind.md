@@ -1,6 +1,6 @@
 # Requirements Gathering Reminder
 
-Quick correction when deviating from requirements gathering rules.
+Re-grounding card for requirements gathering. Two uses: a quick correction when deviating from the rules, and a proactive refresh — run it at the opening of each interactive phase (2 and 4), on resuming a run, and after the conversation has been summarized/compacted, before any drift appears. This card is the gist; `~/.claude/commands/requirements-start.md` is the authoritative letter of the rules — re-read it at phase boundaries per its Phase Transitions section.
 
 ## Aliases:
 - /requirements-remind
