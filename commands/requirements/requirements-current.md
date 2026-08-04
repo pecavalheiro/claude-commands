@@ -26,6 +26,10 @@ Display detailed information about the active requirement.
 - 04-detail-questions.md - Expert requirements questions
 - 05-detail-answers.md - User's detailed answers
 - 06-requirements-spec.md - Final requirements document
+- metadata.json - Status, phase, sources, verification, holds
+- research-notes.md - Claims register + verification reports
+- communications.md - People-facing items (never spec input)
+- gates.md - Per-phase gate blocks; the authoritative position of the run
 
 ## Display Format:
 ```
@@ -68,5 +72,6 @@ Q3: Add new API endpoint to routes/api/v1? [PENDING]
 
 ## Important:
 - This is view-only (doesn't continue gathering)
+- Phase and progress come from gates.md and metadata.json — the last gate block in gates.md is authoritative
 - Shows complete history and context
 - Use /requirements-status to continue

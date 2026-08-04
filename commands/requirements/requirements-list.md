@@ -28,7 +28,7 @@ Display all requirements with their status and summaries.
 2025-01-26-0900-dark-mode-toggle
    Status: Ready for implementation | 15 questions answered
    Summary: Full theme system with user preferences
-   Linked PR: #234 (merged)
+   Linked MR: !234 (merged)
 
 2025-01-25-1400-export-reports  
    Status: Implemented | 22 questions answered
@@ -50,7 +50,7 @@ Display all requirements with their status and summaries.
 
 1. Show linked artifacts:
    - Development sessions
-   - Pull requests
+   - Merge requests
    - Implementation status
 
 2. Highlight stale requirements:
@@ -58,6 +58,6 @@ Display all requirements with their status and summaries.
    - Suggest resuming or ending
 
 3. Quick actions:
-   - "View details: /requirements-show [id]"
+   - "View active: /requirements-current"
    - "Resume incomplete: /requirements-status"
    - "Start new: /requirements-start [description]"

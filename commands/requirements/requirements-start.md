@@ -16,7 +16,7 @@ This file is only the map. The rules live in per-phase files, and **a phase's fi
 | 2 — Coverage checkpoint & discovery questions | `~/.claude/requirements-phases/phase-2-questions.md` |
 | 3 — Targeted context | `~/.claude/requirements-phases/phase-3-context.md` |
 | 3b — Adversarial verification | `~/.claude/requirements-phases/phase-3b-verify.md` |
-| 4 — Expert detail questions | `phase-2-questions.md` again — its 'Phase 4 variant' section |
+| 4 — Expert detail questions | `~/.claude/requirements-phases/phase-2-questions.md` again — its 'Phase 4 variant' section |
 | 5 — Spec & communications | `~/.claude/requirements-phases/phase-5-output.md` |
 | People-facing text, any phase | `~/.claude/requirements-phases/drafts-contract.md` |
 
@@ -43,7 +43,8 @@ Interactive phases (2 and 4): ONLY yes/no questions (critical third-party items 
 
 - Folder: `requirements/YYYY-MM-DD-HHMM-[slug]/`
 - Files: `00-initial-request.md`, `01-discovery-questions.md`, `02-discovery-answers.md`, `03-context-findings.md`, `04-detail-questions.md`, `05-detail-answers.md`, `06-requirements-spec.md`, `metadata.json`, `research-notes.md`, `communications.md`, `gates.md`
-- /synthesize reads: `metadata.json` (needs `"status": "complete"`, `contextFiles`, `relatedFeatures`, `holds`), `06-requirements-spec.md` (the exact section names, FR/TR numbering), `03-context-findings.md`, and `research-notes.md` (currency snapshot + verification report for its preflight). `communications.md` and `gates.md` are never spec input. The metadata structure is defined in `phase-0-sources.md`; `status`/`phase` may never be "complete" while any hold has `resolution: null`.
+- Pointer: `requirements/.current-requirement` names the active run (written in Phase 0, cleared by /requirements-end)
+- /synthesize reads: `metadata.json` (needs `"status": "complete"`, `contextFiles`, `relatedFeatures`, `holds`), `06-requirements-spec.md` (the exact section names, FR/TR numbering), `03-context-findings.md`, and `research-notes.md` (currency snapshot + verification report for its preflight). `communications.md` and `gates.md` are never spec input. The metadata structure is defined in `~/.claude/requirements-phases/phase-0-sources.md`; `status`/`phase` may never be "complete" while any hold has `resolution: null`.
 
 ## Phase transitions
 
