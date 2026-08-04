@@ -44,4 +44,3 @@ Finalize the current requirement gathering session.
 Use the output contract from `~/.claude/requirements-phases/phase-5-output.md` verbatim — sections: Problem Statement, Solution Overview, Functional Requirements (FR*), Technical Requirements, Implementation Hints, Acceptance Criteria, Assumptions, Out of Scope. Do not use an alternative template: /synthesize parses these exact section names.
 
 5. Clear .current-requirement
-6. Update requirements/index.md
