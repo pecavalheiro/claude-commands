@@ -23,4 +23,14 @@ for file in "$COMMANDS_DIR"/*; do
     fi
 done
 
+# Symlink the phase files directory (read by the commands at runtime)
+PHASES_DIR="$(cd "$(dirname "$0")/phases" && pwd)"
+PHASES_TARGET="$HOME/.claude/requirements-phases"
+if [ -d "$PHASES_TARGET" ] && [ ! -L "$PHASES_TARGET" ]; then
+    echo "ERROR: $PHASES_TARGET exists as a real directory — move it aside first." >&2
+    exit 1
+fi
+ln -sfn "$PHASES_DIR" "$PHASES_TARGET"
+echo "Created symlink: $PHASES_TARGET -> $PHASES_DIR"
+
 echo "Done! All commands have been symlinked to ~/.claude/commands/"

@@ -23,9 +23,9 @@ Finalize the current requirement gathering session.
 4. Based on choice:
 
 ### Option 1: Generate Spec
-- Create 06-requirements-spec.md following EXACTLY the Phase 5 output contract in requirements-start.md (same section headings /synthesize parses; decision-complete; no intermediate states or people-coordination content)
+- Read `~/.claude/requirements-phases/phase-5-output.md` first, then create 06-requirements-spec.md following EXACTLY its output contract (same section headings /synthesize parses; decision-complete; no intermediate states or people-coordination content; final provenance audit included)
 - Defaults for unanswered NON-critical questions become final decisions, recorded under Assumptions. **Never default a critical item:** decisions flagged by the criticality override and FRs held under override option (a) are never resolved from "current information" — present each one now: the user gives a final or interim decision (recorded with its provenance tag), or the FR is descoped to a follow-up listed in Out of Scope
-- People-facing follow-ups go to communications.md (header-marked NOT /synthesize input) and are echoed in chat
+- People-facing follow-ups go to communications.md (header-marked NOT /synthesize input) and are echoed in chat — every paste-ready draft written under `~/.claude/requirements-phases/drafts-contract.md`
 - Update metadata status to "complete" — permitted only when no `metadata.holds` entry has `"resolution": null`
 
 ### Option 2: Mark Incomplete
@@ -41,7 +41,7 @@ Finalize the current requirement gathering session.
 
 ## Final Spec Format:
 
-Use the Phase 5 output contract from requirements-start.md verbatim — sections: Problem Statement, Solution Overview, Functional Requirements (FR*), Technical Requirements, Implementation Hints, Acceptance Criteria, Assumptions, Out of Scope. Do not use an alternative template: /synthesize parses these exact section names.
+Use the output contract from `~/.claude/requirements-phases/phase-5-output.md` verbatim — sections: Problem Statement, Solution Overview, Functional Requirements (FR*), Technical Requirements, Implementation Hints, Acceptance Criteria, Assumptions, Out of Scope. Do not use an alternative template: /synthesize parses these exact section names.
 
 5. Clear .current-requirement
 6. Update requirements/index.md

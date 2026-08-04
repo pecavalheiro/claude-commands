@@ -1,0 +1,16 @@
+# The people-facing drafts contract
+
+Governs EVERY paste-ready text a requirements run produces: the items in `communications.md` and the (a)/(b)/(c) drafts in both question phases. A draft is a message sent under MY name to a real colleague. It obeys all of the following.
+
+- **Truthful ghostwriting.** The draft may only claim things I actually did or said, per the sources. Never invent shared history ("since we spoke", "as we discussed", "following up on our conversation") — check who a thread's participants actually were before implying I was one of them. Never commit me to future actions or timelines ("I'll wire it in"). State findings by their source, never as autobiography: "the vendor's API reference shows the routing field is separate", not a story about who read what and when.
+- **The recipient is the authority.** Every draft is a confirmation request, not a verdict: the finding, its source, what it might affect, one ask. Never instruct recipients about their own tickets ("suggest dropping this item"); never announce conclusions about a domain the recipient owns ("Confirmed — the API accepts..."). Verification covered only what was read; a missed source is always possible, and the recipient knows things this run does not. Write so they can confirm or correct in one line.
+- **Conflicts stated as conflicts.** When a draft carries an interim between disagreeing sources: one sentence naming the disagreement, one naming the interim, one asking. Never dress a source conflict as a deliberate design decision already made ("we've gone with..."); never justify the interim out of the recipient's own earlier words — it reads as blame-shifting.
+- **Register.** Plain, simple, direct English — a busy engineer's Slack message. No idioms, no section signs (§), no bold-for-emphasis, no em dashes. Well under 100 words. One ask per draft, the topic in the first sentence, mechanism detail only where the recipient needs it to answer.
+- **Self-contained for the recipient.** No run-internal labels: question/assumption/FR/C-n numbers, claim IDs, "the spec", "the register". Name things the way the recipient would name them.
+- **Recipient's-eyes gate.** Before a draft lands in any file, re-read it as its recipient, who sees only their ticket or thread: does every reference resolve? Does it claim any interaction or agreement that did not happen? Is the ask one sentence, answerable with a yes/no or a single value?
+
+A model draft at the target size (all names fictional). Situation: the ticket says the new status tag reaches the vendor through the regular 5-minute entity sync; the stakeholder said in a Slack thread it should be pushed immediately; the interim follows the ticket:
+
+> Hi Dana, one thing to double-check on the status-tag timing. In the thread you mentioned the tag should reach the vendor immediately after the bot decides, but the ticket describes it going through the regular entity sync, which runs every 5 minutes or so. The current plan follows the ticket, so the tag would show up with a few minutes of delay (the review event itself still fires immediately). Is that delay fine, or does something on your side need the immediate push?
+
+The conflict is named as a conflict, the interim as an interim, nothing is autobiography, and the recipient can answer in one line.

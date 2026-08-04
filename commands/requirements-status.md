@@ -12,8 +12,9 @@ Show current requirement gathering progress and continue.
 
 3. If active requirement exists:
    - Read metadata.json for current phase and progress
+   - Read gates.md in the run folder — the last appended gate is the authoritative position of the run
    - Show formatted status
-   - Load appropriate question/answer files
+   - Before continuing, Read the current phase's file under ~/.claude/requirements-phases/ (a phase's file IS the phase — see requirements-start.md); then load the appropriate question/answer files
    - Continue from last unanswered question
 
 ## Status Display Format:

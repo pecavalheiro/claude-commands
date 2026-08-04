@@ -1,6 +1,6 @@
 # Requirements Gathering Reminder
 
-Re-grounding card for requirements gathering. Two uses: a quick correction when deviating from the rules, and a proactive refresh — run it at the opening of each interactive phase (2 and 4), on resuming a run, and after the conversation has been summarized/compacted, before any drift appears. This card is the gist; `~/.claude/commands/requirements-start.md` is the authoritative letter of the rules — re-read it at phase boundaries per its Phase Transitions section.
+Re-grounding card for requirements gathering. Two uses: a quick correction when deviating from the rules, and a proactive refresh — run it on resuming a run and after the conversation has been summarized/compacted, before any drift appears. This card is only the gist; the authoritative rules live in the per-phase files under `~/.claude/requirements-phases/` — a phase's file IS the phase, and it must be Read before that phase begins, resumes, or continues (see requirements-start.md). After printing this card, read `gates.md` in the run folder to locate the run, then re-read the current phase's file.
 
 ## Aliases:
 - /requirements-remind
@@ -26,12 +26,16 @@ Progress: [X/Y questions]
 📋 PHASE-SPECIFIC RULES:
 
 Phase 0 - Source Inventory (Autonomous, with hard stops):
-- ✅ Connector preflight before fetching: Linear/Notion/GitLab/Figma (+ Slack when referenced) connected and authenticated
+- ✅ Connector preflight before fetching: Linear/Notion/GitLab/Figma/Slack connected and authenticated; a deferred type's preflight FIRES the moment a reference to it enters the graph (a permalink inside fetched content counts)
 - ✅ Every source fetched via its native connector — an app-shell/login 200 from WebFetch is a FAILED fetch
+- ✅ Search sweep beyond link traversal: search each system for the ticket id, feature terms, and every person the sources quote — Slack search is REQUIRED when an open question names a person
+- ✅ Every node carries status + fetched_via evidence; "excluded" requires a fetch record — an unfetched node is "pending", never judged from its title/anchor text
 - ❌ Never continue past an inaccessible source — blocking question (fix/skip/abort) immediately, no deferral, no self-assessed "non-load-bearing"
 
 Phase 2 - Context Discovery:
-- ✅ Open with the source-coverage checkpoint: table of every source-graph node (fully read / partial+missing / excluded+why — "excluded" only for FETCHED sources) + Phase 0 flags with prior rulings inline; WAIT unless all-green; a named missing source returns the run to Phase 0
+- ✅ Open with the source-coverage checkpoint DERIVED FROM THE REGISTER (never from memory): every node (fully read / partial+missing / excluded+why — "excluded" only for FETCHED sources) + Phase 0 flags with prior rulings inline; ends with the search-sweep summary AND the unlinked-sources ask ("any relevant thread/doc not linked anywhere?") — the ask always waits for an answer; a named missing source returns the run to Phase 0
+- ✅ Pre-ask provenance audit by a fresh subagent (register + question file only): naked facts, unresolvable IDs, quote-support mismatches incl. scope transfers, attribution mismatches, unregistered inventions — all fixed before the first ask
+- ❌ Never bundle a model invention inside an option — anything you originate is a `[model proposal — no source]` register entry with its OWN disposition row (externally-visible ones are critical)
 - ✅ Disposition every DECISION (not just questions) in the decision disposition table — source-settled (authoritative quote) / other-owned & independent (citation) / critical / low-stakes comms / engineering
 - ✅ Criticality override BEATS Gates B and C: source-posed open questions, genuinely conflicting sources, externally-visible + hard-to-reverse-or-new-behavior defaults, NEW policy positions → ALWAYS interactive, with owner + where + paste-ready draft + consequence + (a)/(b)/(c) options; whether it blocks is the USER's call
 - ✅ Every question passes Gate A (sources don't answer it — conflicting sources are never "an answer"), Gate B (product altitude), Gate C (NON-critical third-party items only → communications.md; rationale = low stakes, never "not blocking"; no owner-availability assumptions)
@@ -43,9 +47,10 @@ Phase 2 - Context Discovery:
 Phase 3/3b - Targeted Context + Adversarial Verification (Autonomous):
 - ✅ Use available search/read tools and subagents to explore code
 - ✅ Meet the evidence bars: static → file:line; behavioral → defining mechanism; absence → named search; literals → resolved from authoritative source
-- ✅ Verify with FRESH context-isolated subagents (source re-verification, code re-derivation, reverse-check, currency check)
-- ✅ Document findings in context file; tag what can't be verified `[unverified]`
-- ❌ No user interaction during these phases
+- ✅ 3b runs SEVEN named passes, each by fresh context-isolated subagents, each leaving a report: refutation (goal-framed, never the framed claim), source re-check (quote/anchor/AUTHOR), code re-derivation, cross-source conflict hunt (register only — catches two-source problems and scope transfers), reverse-check, currency, arithmetic
+- ✅ Counts are computed (grep, command pasted), never recalled — extracted = verified + sampled + unverified must reconcile; metadata copies computed numbers
+- ✅ Document findings in context file; tag what can't be verified `[unverified]` — a pass with no report did not happen
+- ❌ No user interaction during these phases (changed premises are presented once, after)
 
 Phase 4 - Expert Requirements:
 - ✅ Open with a coverage DELTA table if Phase 3/3b added sources (full table on a resumed session)
@@ -57,6 +62,7 @@ Phase 4 - Expert Requirements:
 - ✅ Record answers ONLY after all questions asked
 
 🚫 GENERAL RULES:
+0. ❌ Don't run any phase without having Read its phase file this session; don't pass a gate line you can't fill with evidence
 1. ❌ Don't start coding or implementing
 2. ❌ Don't ask open-ended questions (override items use the fixed (a)/(b)/(c) option format — that is not open-ended)
 3. ❌ Don't record answers until ALL questions in phase are asked
