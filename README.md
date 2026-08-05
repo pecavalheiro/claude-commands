@@ -33,6 +33,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | Command | Role |
 |---|---|
 | `/final-check <link>` | Deep review of my own Linear ticket branch or a colleague's GitLab MR: five parallel review lenses (`review-lenses/`), strict scope and evidence discipline, severity-ranked findings with paste-ready comments. |
+| `/review-retro <MR>` | Closes the `/final-check` loop after humans review: classifies what they found vs what the review caught, verifies their claims, appends lessons to the review-lessons journal (binding on the next run), and proposes lens-file edits. |
 | `/mr-feedback-fix <MR>` | Work through unresolved review threads on my own MR: a verdict per thread, fixes grouped one commit per group, paste-ready replies. |
 | `/commit` | Commit current changes split into logical, chronologically ordered commits. |
 
@@ -44,6 +45,7 @@ commands/               # one .md = one slash command, installed flat
   *.md                  #   standalone commands
 requirements-phases/    # pipeline rule files  -> ~/.claude/requirements-phases
 review-lenses/          # /final-check lenses  -> ~/.claude/review-lenses
+skills/                 # agent skills, per-skill -> ~/.claude/skills/<name>
 docs/                   # documentation (not installed)
 install.sh
 ```

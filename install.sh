@@ -8,7 +8,9 @@
 #                                  are organizational only; basenames must be unique)
 #   <top-level dir>/            -> ~/.claude/<dirname>            (support bundles,
 #                                  e.g. requirements-phases, review-lenses)
-#   commands/ and docs/ are exempt from the bundle rule.
+#   skills/<name>/              -> ~/.claude/skills/<name>        (per-skill, so
+#                                  skills living elsewhere coexist)
+#   commands/, docs/, and skills/ are exempt from the bundle rule.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -72,7 +74,7 @@ done
 echo "Support bundles:"
 for dir in "$REPO_DIR"/*/; do
     name=$(basename "$dir")
-    case "$name" in commands|docs) continue ;; esac
+    case "$name" in commands|docs|skills) continue ;; esac
     target="$HOME/.claude/$name"
     if [ -d "$target" ] && [ ! -L "$target" ]; then
         echo "ERROR: $target exists as a real directory — move it aside first." >&2
@@ -81,5 +83,20 @@ for dir in "$REPO_DIR"/*/; do
     ln -sfn "${dir%/}" "$target"
     echo "  ~/.claude/$name -> $name/"
 done
+
+if [ -d "$REPO_DIR/skills" ]; then
+    echo "Skills:"
+    mkdir -p "$HOME/.claude/skills"
+    for dir in "$REPO_DIR"/skills/*/; do
+        name=$(basename "$dir")
+        target="$HOME/.claude/skills/$name"
+        if [ -e "$target" ] && [ ! -L "$target" ]; then
+            echo "ERROR: $target exists as a real directory — move it aside first." >&2
+            exit 1
+        fi
+        ln -sfn "${dir%/}" "$target"
+        echo "  ~/.claude/skills/$name -> skills/$name/"
+    done
+fi
 
 echo "Done."
