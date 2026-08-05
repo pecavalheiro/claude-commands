@@ -18,7 +18,7 @@ in scope.
 3. Scope discipline: fix exactly what a thread asks plus its direct, demonstrable
    consequences. No opportunistic refactors, no drive-by cleanups. Anything worth doing
    beyond a thread → propose as a follow-up; do not do it here.
-4. Evidence discipline (as in /final-check): verify every thread's premise against the
+4. Evidence discipline (as in /deep-review): verify every thread's premise against the
    code before any verdict — behavioral claims traced to their defining source, never
    assumed from the diff. A reviewer can be wrong; prove it before pushing back — and
    prove them right before agreeing.

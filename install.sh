@@ -19,6 +19,7 @@ CMD_TARGET="$HOME/.claude/commands"
 
 # Extra names for existing commands: "<alias>:<canonical file basename>"
 ALIASES="
+final-check:deep-review
 rt:refine-ticket
 remind:requirements-remind
 r:requirements-remind
