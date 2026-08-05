@@ -36,6 +36,8 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | `/review-retro <MR>` | Closes the `/deep-review` loop after humans review: classifies what they found vs what the review caught, verifies their claims, appends lessons to the review-lessons journal (binding on the next run), and proposes lens-file edits. |
 | `/mr-feedback-fix <MR>` | Work through unresolved review threads on my own MR: a verdict per thread, fixes grouped one commit per group, paste-ready replies. |
 | `/commit` | Commit current changes split into logical, chronologically ordered commits. |
+| `/prepare-mr [ticket]` | Default MR write-up: fills the repo's own MR template plus a title from the branch diff and the ticket, reconciling what the ticket asked against what actually shipped, and lists what must be solved before merge. One pass, no fan-out. |
+| `/prepare-mr-deep` | Same job for complex pipeline work: additionally sweeps the `/synthesize` run folder (`implementation/` notes, spec Assumptions and volatile markers, `communications.md`, holds) for loose ends, each re-verified against the code. Thorough and slow — use `/prepare-mr` unless the run folder matters. |
 
 ## Repository layout
 

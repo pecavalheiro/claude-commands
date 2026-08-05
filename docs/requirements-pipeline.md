@@ -6,6 +6,7 @@ End-to-end flow:
 /refine-ticket (optional, upstream)
       → /requirements-start … /requirements-end   (gathering)
       → /synthesize                               (implementation)
+      → /prepare-mr-deep                          (delivery: MR title + description + pre-merge items)
       → /requirements-retro                       (feedback loop, when a run's findings are challenged)
 ```
 
@@ -40,6 +41,22 @@ End-to-end flow:
 - The spec's section names are parsed and are not negotiable: **Problem Statement, Solution Overview, Functional Requirements (FR-numbered), Technical Requirements, Implementation Hints, Acceptance Criteria, Assumptions, Out of Scope.**
 - `communications.md` and `gates.md` are never spec input.
 - Outputs implementation plan/todo/notes under `[run]/implementation/` and implements to ship-ready state, ending with a four-section report (Needs you now / Yours by design / Deviations from spec / Done & verified).
+
+## The /prepare-mr-deep interface
+
+`/prepare-mr-deep` closes the run out into a merge request. It reads the same artifacts plus everything `/synthesize` produced, and its pre-merge item list is assembled from exactly five places — the pipeline records loose ends there, so nothing has to be re-derived from the diff:
+
+| Source | What it contributes |
+|---|---|
+| `implementation/implementation-todo_current` | tasks not completed; `BLOCKED:` lines |
+| `implementation/implementation-notes_current` | deviations from spec, mid-flight discoveries and decisions |
+| `06-requirements-spec.md` | unmet acceptance criteria, Assumptions, `[volatile: <dependency>]` markers, `interim — final answer owned by <who>` tags, unexecuted Technical-Requirement prerequisites |
+| `communications.md` | items still standing, with their destination |
+| `metadata.json` | `holds`, held or descoped requirements |
+
+When `/synthesize` ran in the same session, its "Needs you now" / "Deviations from spec" report is the primary source and the files are the backstop. Every candidate is re-verified against the current code before it is listed (an artifact records a moment, not the present state), and no run-internal label (FR/TR numbers, `C-n`, claim IDs) may reach the MR description. The command never posts, pushes, or creates the MR.
+
+This sweep is what makes it expensive, so it is not the default: `/prepare-mr` does the same write-up from the branch diff and the ticket in one pass, and is the right choice whenever the run folder holds nothing the diff does not already show.
 
 ## The feedback loop
 
