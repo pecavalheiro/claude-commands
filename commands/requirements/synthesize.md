@@ -2,8 +2,6 @@
 
 Analyzes completed requirements, generates a detailed implementation plan with tracked todo steps, then implements it to a ship-ready state.
 
-aliases: synth, implement
-
 ## Principles (apply throughout)
 
 1. **The spec is final.** `06-requirements-spec.md` is decision-complete: implement every FR/TR as written. Do not re-open, re-litigate, or "defer" spec items. A deviation is allowed only for a BLOCKER whose mechanism you have verified to /deep-review evidence standards (traced to its defining source, not hypothesized — "risks X" without proof is not a blocker). Every deviation is logged in implementation-notes AND appears in the final report's "Needs you now" section — never as an optional menu item.

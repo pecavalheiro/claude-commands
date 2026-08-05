@@ -3,8 +3,6 @@
 Refine into an implementation-ready ticket: $ARGUMENTS
 ultrathink: Deep analysis of a ticket's clarity, completeness, and readiness
 
-aliases: rt
-
 The input is a tracker ticket (URL or ID), optionally followed by extra context I explicitly name (links, local paths). The mission: produce a **clear, concise, self-contained version of that ticket** plus an honest **readiness verdict** — a ticket someone could pick up and implement (via /requirements-start) without doing any external research. This command is NOT a spec and NOT implementation planning: it settles **product behavior and expectations**, at ticket altitude. The driver: tickets get marked "ready for development" while still containing wrong facts, contradictions, and unanswered questions — this command exists to catch that before an implementer does.
 
 ## Deliverables (every one presented IN CHAT — see the chat-first contract)

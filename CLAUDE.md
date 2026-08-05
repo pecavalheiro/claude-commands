@@ -6,7 +6,7 @@ Personal Claude Code slash commands and their runtime support files, installed i
 
 - One `.md` file under `commands/` = one slash command. The basename is the command name and must be unique across all subfolders — commands install **flat** into `~/.claude/commands/`, so subfolders are organizational only.
 - Group a family into a subfolder (like `commands/requirements/`) once it reaches ~3 files; standalone commands stay loose in `commands/`.
-- Aliases are real symlinks, declared in the `ALIASES` list at the top of `install.sh` (`<alias>:<canonical basename>`). An `aliases:` line in a command's body does nothing by itself.
+- **One command, one name — no alias symlinks.** Claude Code deduplicates entries resolving to the same file and displays only the alphabetically-first name, so an alias like `implement.md` hijacks `/synthesize`'s spot in the picker. (An `aliases:` line in a command's body does nothing either.)
 - Run `./install.sh` after adding, moving, or renaming files. Pure content edits need no re-run — symlinks pick them up.
 
 ## Support bundles

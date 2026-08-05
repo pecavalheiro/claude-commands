@@ -2,11 +2,6 @@
 
 Re-grounding card for requirements gathering. Two uses: a quick correction when deviating from the rules, and a proactive refresh — run it on resuming a run and after the conversation has been summarized/compacted, before any drift appears. This card is only the gist; the authoritative rules live in the per-phase files under `~/.claude/requirements-phases/` — a phase's file IS the phase, and it must be Read before that phase begins, resumes, or continues (see requirements-start.md). After printing this card, read `gates.md` in the run folder to locate the run, then re-read the current phase's file.
 
-## Aliases:
-- /requirements-remind
-- /remind  
-- /r
-
 ## Instructions:
 
 1. Check requirements/.current-requirement

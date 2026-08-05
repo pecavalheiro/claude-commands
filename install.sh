@@ -17,16 +17,6 @@ REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 CMD_SRC="$REPO_DIR/commands"
 CMD_TARGET="$HOME/.claude/commands"
 
-# Extra names for existing commands: "<alias>:<canonical file basename>"
-ALIASES="
-final-check:deep-review
-rt:refine-ticket
-remind:requirements-remind
-r:requirements-remind
-synth:synthesize
-implement:synthesize
-"
-
 mkdir -p "$CMD_TARGET"
 
 # --- Guard: commands install flat, so basenames must be unique across subfolders
@@ -36,12 +26,17 @@ if [ -n "$dups" ]; then
     exit 1
 fi
 
-# --- Prune symlinks that point into this repo but whose target no longer exists
+# --- Prune repo-pointing symlinks that are stale or not among the installed commands
+expected=$(find "$CMD_SRC" -type f -name '*.md' -exec basename {} \;)
 for link in "$CMD_TARGET"/*.md; do
     [ -L "$link" ] || continue
     dest=$(readlink "$link")
     case "$dest" in
-        "$REPO_DIR"/*) [ -e "$dest" ] || { rm "$link"; echo "Pruned stale symlink: $link"; } ;;
+        "$REPO_DIR"/*)
+            if [ ! -e "$dest" ] || ! printf '%s\n' "$expected" | grep -qx "$(basename "$link")"; then
+                rm "$link"
+                echo "Pruned: $link"
+            fi ;;
     esac
 done
 
@@ -59,18 +54,6 @@ echo "Commands:"
 while IFS= read -r file; do
     link_command "$file" "$(basename "$file")"
 done < <(find "$CMD_SRC" -type f -name '*.md' | sort)
-
-echo "Aliases:"
-for pair in $ALIASES; do
-    alias_name="${pair%%:*}"
-    canonical="${pair#*:}"
-    src=$(find "$CMD_SRC" -type f -name "$canonical.md" | head -n 1)
-    if [ -z "$src" ]; then
-        echo "ERROR: alias '$alias_name' points at missing command '$canonical'" >&2
-        exit 1
-    fi
-    link_command "$src" "$alias_name.md"
-done
 
 echo "Support bundles:"
 for dir in "$REPO_DIR"/*/; do

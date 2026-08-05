@@ -8,7 +8,7 @@ Personal collection of Claude Code slash commands and the runtime files they dep
 ./install.sh
 ```
 
-This symlinks every command under `commands/` (flat — subfolders are organizational only) into `~/.claude/commands/`, and every top-level support bundle (`requirements-phases/`, `review-lenses/`) into `~/.claude/<name>`. Because everything is a symlink, `git pull` updates content in place; re-run the installer only when files are added, moved, or renamed. The installer also creates the command aliases (`/rt`, `/remind`, `/r`, `/synth`, `/implement`) and never clobbers real files or directories already living in `~/.claude`.
+This symlinks every command under `commands/` (flat — subfolders are organizational only) into `~/.claude/commands/`, and every top-level support bundle (`requirements-phases/`, `review-lenses/`) into `~/.claude/<name>`. Because everything is a symlink, `git pull` updates content in place; re-run the installer only when files are added, moved, or renamed. The installer never clobbers real files or directories already living in `~/.claude`, and prunes its own leftover links after renames.
 
 ## Commands
 
@@ -18,14 +18,14 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 
 | Command | Role |
 |---|---|
-| `/refine-ticket <url>` (`/rt`) | Upstream of the pipeline: crawls every source linked from a tracker ticket, grounds claims against code and data, resolves each open question with you one at a time, and delivers a paste-ready refined ticket plus a Definition-of-Ready verdict, split proposal, and ask pack. |
+| `/refine-ticket <url>` | Upstream of the pipeline: crawls every source linked from a tracker ticket, grounds claims against code and data, resolves each open question with you one at a time, and delivers a paste-ready refined ticket plus a Definition-of-Ready verdict, split proposal, and ask pack. |
 | `/requirements-start <ticket>` | Entry point: runs the phased gathering pipeline (source inventory → code analysis → questions → targeted context → adversarial verification → spec). The rules live in `requirements-phases/`. |
 | `/requirements-status` | Locate and resume the active run from its gate ledger. |
 | `/requirements-current` | Read-only view of the active run. |
 | `/requirements-list` | Dashboard of all runs in the current project. |
-| `/requirements-remind` (`/remind`, `/r`) | Compressed rule card to re-ground the model after drift or context compaction. |
+| `/requirements-remind` | Compressed rule card to re-ground the model after drift or context compaction. |
 | `/requirements-end` | Finalize a run: generate the spec from current information, park it as incomplete, or cancel. |
-| `/synthesize` (`/synth`, `/implement`) | Implement the most recent completed spec to a ship-ready state, with a staleness preflight and a Definition-of-Done gate. |
+| `/synthesize` | Implement the most recent completed spec to a ship-ready state, with a staleness preflight and a Definition-of-Done gate. |
 | `/requirements-retro` | Post-mortem on a finished run whose findings were later challenged; distills confirmed misses into the lessons journal that future runs load as binding. |
 
 ### Review & delivery
