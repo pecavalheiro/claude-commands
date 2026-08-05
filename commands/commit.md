@@ -1,4 +1,4 @@
-# Commit
+# Commit in logical order
 
 Commit the changes in this branch, split into logically and chronologically ordered commits.
 
