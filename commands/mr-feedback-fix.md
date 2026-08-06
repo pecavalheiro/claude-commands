@@ -31,6 +31,18 @@ in scope.
    evidence contradicts it — then push back with the evidence instead of silently
    implementing a third path.
 
+## Step 0 — Git preflight (always, before anything else)
+
+- Check the current branch and the working tree (`git status`, untracked files included).
+- **Any local changes** (staged, unstaged, or untracked): STOP. Report the branch and the
+  exact files and ask what to do (stash / commit / abort) — never stash, discard, or
+  proceed on your own.
+- **Clean tree**: if $ARGUMENTS is empty, resolve the MR for the current branch NOW,
+  before switching away. Then sync: `git switch master` (or the repo's default branch if
+  it isn't master) and `git pull`. Then check out the MR's source branch and bring it to
+  the remote tip — the fixes in Step 4 are committed there, never on master. Only then
+  start Step 1.
+
 ## Step 1 — Fetch & scope gate
 
 - Resolve project + MR iid (from $ARGUMENTS or the current branch). Fetch ALL
@@ -96,3 +108,8 @@ contradicts the plan's premise for that group.
 - No push, no posting — I take it from here. This command creates no files or folders;
   the MR threads and git history are the state, so re-running later simply picks up
   whatever is still unresolved.
+- Close the wrap-up message by ALWAYS proposing to merge the latest master into the MR
+  branch, and wait for my answer. On my go: `git fetch origin` then
+  `git merge origin/master` (never push — rule 1 still applies). If the merge conflicts,
+  stop, list the conflicting files, and ask — never resolve conflicts on your own. After
+  a clean merge, re-run the targeted tests from Step 4 and report the result.
