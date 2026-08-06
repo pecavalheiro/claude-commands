@@ -11,7 +11,7 @@ Binding principles for this phase:
 
 ## 0.1 Lessons journal
 
-Walk up from the repo to a directory containing `implementation/`; if `implementation/requirements-lessons.md` exists there, read it now. Its lessons are binding for this run, same as the rules in this file. If absent, note that and continue.
+If `~/.claude/journals/requirements-lessons.md` exists, read it now — one file, shared by every project. Its lessons are binding for this run, same as the rules in this file; say how many you loaded. If absent, note that in one line and continue: a first run on a machine legitimately has no journal, and it is never invented or searched for elsewhere.
 
 ## 0.2 Connector preflight
 

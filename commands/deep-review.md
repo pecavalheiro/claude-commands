@@ -24,9 +24,10 @@ The review runs as five parallel lenses (Step 2) whose findings you then verify 
    - the agent rule files (`.cursor/rules/`, `.agents/rules/`): the architecture rules always, plus every rule file whose topic the diff touches (e.g. the hooks rules whenever hook producers, consumers, or hook config change)
    - each touched domain's `AGENTS.md` and `interface.yaml`, when present
    - the test conventions doc (e.g. `test/CLAUDE.md`) when tests change
-3. Read the two journals under `implementation/` at the employ workspace root (default `~/projects/remote/employ_workspace/implementation/`; if missing, walk up from the repo to the directory containing `tiger/`, `dragon/`, etc.):
-   - `review-lessons.md` — accumulated lessons from past reviews; binding, same as the repo rules
-   - `domain.md` — domain facts for the touched area
+3. Read the two journals under `~/.claude/journals/`. Both are optional and machine-local, so a missing file is a normal state, never an error — never invent a path or search elsewhere for them:
+   - `<app>/review-lessons.md`, where `<app>` is this repo's name from its remote: `basename -s .git "$(git remote get-url origin)"` (no `origin` → its only remote; no remotes → the repo's top-level directory name). Accumulated lessons from past reviews; binding, same as the repo rules. Every clone of an app shares one journal, wherever it sits on disk. If it does not exist, say so in one line ("no review lessons yet for `<app>`") and continue.
+   - `domain.md` — domain facts, system topology, and glossary for the work this repo belongs to. One file, shared by every repo. If it does not exist, skip it silently and continue.
+   State which journals you loaded and roughly how many entries each held, so a review that ran without its binding lessons is visible rather than silent.
 4. Read the ticket.
 5. Write a briefing file in the scratchpad containing: the ticket summary and its requirements; the link under review, branch, local repo path, saved-diff path, and changed-file list; (MR path) the thread summary from the gate; the paths of every rules file and journal from steps 2-3; and the lens output contract below, copied verbatim.
 

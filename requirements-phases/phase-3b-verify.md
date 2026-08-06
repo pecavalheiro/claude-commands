@@ -4,7 +4,7 @@ This file IS the phase — read it fully before running Phase 3b. First verify G
 
 Why this phase exists: everything upstream was produced by one line of reasoning; this is where independent eyes attack it. **Verification that does not happen but gets counted is worse than none — it converts unverified claims into trusted ones.** Every pass below is therefore a named deliverable: it produces a report appended to `research-notes.md`, and the gate cites each report by location. A pass with no report did not happen, whatever you remember.
 
-Re-read the lessons journal (`implementation/requirements-lessons.md`, if present) before designing the passes — it records how previous runs' verification missed things.
+Re-read the lessons journal (`~/.claude/journals/requirements-lessons.md`, if present) before designing the passes — it records how previous runs' verification missed things.
 
 **Verify by consequence, not uniformly.** Load-bearing claims — anything an FR, a question default, a disposition row, or a communications draft rests on — get exhaustive treatment; benign confirmatory claims get sampled (at least 1 in 5). Isolate every verifier from the FRAME, not just the reasoning: a verifier handed a framed claim can only return CONFIRMED.
 

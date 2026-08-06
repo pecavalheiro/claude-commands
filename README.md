@@ -57,7 +57,7 @@ Conventions for adding commands are in [CLAUDE.md](CLAUDE.md).
 ## Notes
 
 - The requirements pipeline writes run folders to `requirements/` in the **target project's** working directory — gitignore it there. `/refine-ticket` similarly uses `ticket-refinements/`.
-- Some commands read or append journals under an `implementation/` directory outside this repo (`requirements-lessons.md` for the pipeline retro, `review-lessons.md` and `domain.md` for `/deep-review`), resolved by walking up from the target repo.
+- Some commands read or append **journals** under `~/.claude/journals/` — machine-local, in no repo, and not installed by this one: `<app>/review-lessons.md` (per app, written by `/review-retro`), `requirements-lessons.md` (all projects, written by `/requirements-retro`), and `domain.md` (all projects, maintained separately). `<app>` comes from the repo's remote, not its path, so every clone of an app shares one journal wherever it lives. A missing journal is a normal first-run state: commands note it and continue. See [CLAUDE.md](CLAUDE.md#journals).
 
 ## Acknowledgments
 

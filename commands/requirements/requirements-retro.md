@@ -11,6 +11,6 @@ Post-mortem on a completed /requirements-start run whose findings were later cha
    - whether the rule existed and was skipped (enforcement miss — quote the gate line and what its evidence actually was) or did not exist (spec gap);
    - what the run's own records show: a gate line filled without real evidence, an audit that never ran, a search never made, a count that did not reconcile.
 4. Distill each miss into a lesson of at most 3 lines: the trigger ("when ..."), the action ("do / check ..."), and the run + date it came from. Lessons are read by FUTURE runs (Phase 0 and Phase 3b load the journal as binding), so phrase them as instructions, not stories.
-5. Append the lessons to `implementation/requirements-lessons.md` — walk up from the repo to the directory containing `implementation/`. If no such directory exists, STOP and ask me where the journal lives; do not create directories on a guess.
+5. Append the lessons to `~/.claude/journals/requirements-lessons.md` — one file, shared by every project, since these lessons are about the pipeline's own gates rather than any one codebase. Create it if it does not exist; when it does, Read it first and merge into the matching section instead of duplicating.
 6. When a miss reveals a genuine spec gap in a phase file (`~/.claude/requirements-phases/`), propose the exact edit (file + wording) in chat — do NOT edit the phase files yourself.
 7. Never rewrite the finished run's artifacts to look better in hindsight; the record stays as it ran, plus dated addenda.
