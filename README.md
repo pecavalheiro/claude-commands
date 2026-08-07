@@ -2,6 +2,23 @@
 
 Personal collection of Claude Code slash commands and the runtime files they depend on, installed into `~/.claude` via symlinks.
 
+## Prerequisites
+
+**CLI tools:**
+
+- **[`glab`](https://gitlab.com/gitlab-org/cli)**, authenticated (`glab auth login`) — every GitLab-facing command shells out to it: `/deep-review` (whose MR gate refuses to produce findings without the discussion threads), `/mr-feedback-fix`, `/prepare-mr`, `/prepare-mr-deep`, `/review-retro`. `/deep-review` needs it even when the GitLab MCP is connected, because that server has no MR-notes tool.
+- **`jq`** — used by `/review-retro` to resolve your GitLab username.
+
+**MCP connectors** are not optional for the two research commands; both gate on them before doing any work:
+
+- `/refine-ticket` preflights **every** connector it can use, before it crawls anything: Linear, Slack, Notion, GitLab, Figma, Loom, web, and **Snowflake** — it confirms load-bearing data assumptions against real data, not just against code. If any one is missing, unauthenticated, or erroring it stops immediately and names it; only you may decide to proceed without it.
+- `/requirements-start` preflights on demand — whichever connectors the ticket's source graph actually needs (typically Linear, Notion, GitLab, Figma, Slack). A source type absent from the graph can be deferred, but that deferral cancels itself the moment a link of that type appears. Missing or unauthenticated means it stops and asks you to connect it (`/mcp`) or to waive that source type for the run.
+- Elsewhere they genuinely are optional: `/prepare-mr` reads the ticket through the Linear MCP or `glab`, whichever fits the URL.
+
+That connector list is the stack this pipeline was built against. `/requirements-start`'s gate is generic — it verifies whatever a source in the graph requires — but `/refine-ticket`'s list is explicit, so on a different stack (no Snowflake, another tracker) it will stop on the first run until you waive the missing servers or edit that list.
+
+Nothing else needs setting up. The journals under `~/.claude/journals/` are created on demand by the retro commands; until then a missing journal is the normal first-run state, which each command notes in one line and continues past.
+
 ## Install
 
 ```bash
@@ -9,6 +26,19 @@ Personal collection of Claude Code slash commands and the runtime files they dep
 ```
 
 This symlinks every command under `commands/` (flat — subfolders are organizational only) into `~/.claude/commands/`, and every top-level support bundle (`requirements-phases/`, `review-lenses/`) into `~/.claude/<name>`. Because everything is a symlink, `git pull` updates content in place; re-run the installer only when files are added, moved, or renamed. The installer never clobbers real files or directories already living in `~/.claude`, and prunes its own leftover links after renames.
+
+If any target the installer owns (`~/.claude/requirements-phases`, `~/.claude/review-lenses`, `~/.claude/skills/review-retro`) already exists as a **real directory** rather than a symlink, the installer stops with `ERROR: … move it aside first` and changes nothing. Move or remove it, then re-run. Individual command files that are real files, not symlinks, are skipped with a message instead.
+
+### Per-project setup (requirements pipeline only)
+
+The pipeline writes run folders to `requirements/` in the **target project's** working directory, and `/refine-ticket` writes to `ticket-refinements/`. Neither belongs in that project's history, so ignore them there — per repo:
+
+```gitignore
+/requirements/
+/ticket-refinements/
+```
+
+or once for every repo in your global ignore (`~/.config/git/ignore`, or wherever `core.excludesFile` points). Keep the leading slash: it anchors the rule to the repo root, so a legitimately tracked nested directory of the same name — like `commands/requirements/` in this repo — stays trackable.
 
 ## Commands
 
@@ -56,7 +86,6 @@ Conventions for adding commands are in [CLAUDE.md](CLAUDE.md).
 
 ## Notes
 
-- The requirements pipeline writes run folders to `requirements/` in the **target project's** working directory — gitignore it there. `/refine-ticket` similarly uses `ticket-refinements/`.
 - Some commands read or append **journals** under `~/.claude/journals/` — machine-local, in no repo, and not installed by this one: `<app>/review-lessons.md` (per app, written by `/review-retro`), `requirements-lessons.md` (all projects, written by `/requirements-retro`), and `domain.md` (all projects, maintained separately). `<app>` comes from the repo's remote, not its path, so every clone of an app shares one journal wherever it lives. A missing journal is a normal first-run state: commands note it and continue. See [CLAUDE.md](CLAUDE.md#journals).
 
 ## Acknowledgments
