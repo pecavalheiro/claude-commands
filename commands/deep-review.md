@@ -97,6 +97,7 @@ Ultrathink, then give me:
     - **Medium** - real defect on a plausible but non-central path, or a design problem that will cause maintenance pain soon.
     - **Low** - real but narrow: needs an atypical or near-unreachable input, or has diagnostic/cosmetic-only impact with no behavior or scoring change.
     - **Nitpick** - style, naming, wording, doc drift; correct as-is, just cleaner if changed.
+  - Anti-downgrade rules, applied after choosing a tentative severity and overriding the general reachability guidance above: (a) a written rule the diff violates ranks as written — uneven adoption of that rule elsewhere in the codebase never downgrades it; (b) a defect in the exact behavior the MR exists to change is High at minimum — reachability arguments cannot demote it, because the MR's own premise establishes that the path matters.
 - a separate "Unverified, worth a look" section for findings you could not confirm, each naming what is unconfirmed and the one fact that would settle it, only if applicable
 - a separate "Reminders" section for anything pre-existing worth my awareness, only if applicable
 
