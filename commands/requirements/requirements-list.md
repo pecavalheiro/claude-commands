@@ -25,7 +25,7 @@ Display all requirements with their status and summaries.
    Next: Q4 about file restrictions
 
 ✅ COMPLETE:
-2025-01-26-0900-dark-mode-toggle
+2025-01-26-0900-ABC-123-dark-mode-toggle
    Status: Ready for implementation | 15 questions answered
    Summary: Full theme system with user preferences
    Linked MR: !234 (merged)

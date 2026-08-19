@@ -33,7 +33,7 @@ End-to-end flow:
 
 ## Run folder contract
 
-`requirements/YYYY-MM-DD-HHMM-[slug]/` in the **target project's** working directory (gitignore it there), containing: `00-initial-request.md`, `01-discovery-questions.md`, `02-discovery-answers.md`, `03-context-findings.md`, `04-detail-questions.md`, `05-detail-answers.md`, `06-requirements-spec.md`, `metadata.json`, `research-notes.md`, `communications.md`, `gates.md`. `requirements/.current-requirement` points at the active run. Every run starts fresh — prior run folders are never read.
+`requirements/YYYY-MM-DD-HHMM-<TICKET-ID>-[slug]/` in the **target project's** working directory (gitignore it there; the ticket segment is dropped when the request has no ticket), containing: `00-initial-request.md`, `01-discovery-questions.md`, `02-discovery-answers.md`, `03-context-findings.md`, `04-detail-questions.md`, `05-detail-answers.md`, `06-requirements-spec.md`, `metadata.json`, `research-notes.md`, `communications.md`, `gates.md`. `requirements/.current-requirement` points at the active run. Every run starts fresh — prior run folders are never read.
 
 ## The /synthesize interface (do not break)
 

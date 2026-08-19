@@ -41,7 +41,7 @@ Interactive phases (2 and 4): ONLY yes/no questions (critical third-party items 
 
 ## Files & the /synthesize interface (do not break)
 
-- Folder: `requirements/YYYY-MM-DD-HHMM-[slug]/`
+- Folder: `requirements/YYYY-MM-DD-HHMM-<TICKET-ID>-[slug]/` (no ticket in the request → no ticket segment)
 - Files: `00-initial-request.md`, `01-discovery-questions.md`, `02-discovery-answers.md`, `03-context-findings.md`, `04-detail-questions.md`, `05-detail-answers.md`, `06-requirements-spec.md`, `metadata.json`, `research-notes.md`, `communications.md`, `gates.md`
 - Pointer: `requirements/.current-requirement` names the active run (written in Phase 0, cleared by /requirements-end)
 - /synthesize reads: `metadata.json` (needs `"status": "complete"`, `contextFiles`, `relatedFeatures`, `holds`), `06-requirements-spec.md` (the exact section names, FR/TR numbering), `03-context-findings.md`, and `research-notes.md` (currency snapshot + verification report for its preflight). `communications.md` and `gates.md` are never spec input. The metadata structure is defined in `~/.claude/requirements-phases/phase-0-sources.md`; `status`/`phase` may never be "complete" while any hold has `resolution: null`.
