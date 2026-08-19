@@ -86,6 +86,8 @@ Spawn ONE fresh subagent. It receives exactly two inputs: the register section o
 
 Fix every finding before the first ask (register + disposition what it caught, or delete it); record the audit report and the fixes in `research-notes.md`. This audit is cheap, and it catches exactly the class of failure that otherwise reaches me looking confident.
 
+The audit gets a ledger row; its report is read before any drafted material — the questions or their substance — reaches me. While it runs, finish other open work from this phase, or stop with one line.
+
 ## 6. Recording
 
 Record answers in `02-discovery-answers.md` (Phase 2) / `05-detail-answers.md` (Phase 4) only after all questions are asked; update metadata progress.
@@ -106,6 +108,7 @@ Everything above applies, with these deltas:
 - disposition table: <N> rows, every row cited — <location>
 - inventions: <each model proposal registered + dispositioned, or "none">
 - provenance audit: report at <location>; <N> findings, each resolved
+- subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
 - questions: <n> asked of <budget>; criticals: <list or "none">; zero-questions justification if applicable
 - answers recorded: <file>; metadata updated
 ```

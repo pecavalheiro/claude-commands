@@ -22,7 +22,7 @@ This file is only the map. The rules live in per-phase files, and **a phase's fi
 
 ## Gate discipline
 
-Every phase file ends with a gate block: a fixed checklist appended to `gates.md` in the run folder, every line carrying evidence — a location, a tool result, a count WITH the command that computed it. **No phase begins until the previous gate block exists and every line is filled.** A gate line you cannot fill is a phase you have not finished — go back and finish it. Counts are always computed (grep/wc, command shown), never recalled. `gates.md` doubles as the resume pointer.
+Every phase file ends with a gate block: a fixed checklist appended to `gates.md` in the run folder, every line carrying evidence — a location, a tool result, a count WITH the command that computed it. **No phase begins until the previous gate block exists and every line is filled.** A gate line you cannot fill is a phase you have not finished — go back and finish it. Counts and gate timestamps are always computed (grep/wc, `date -u` — command shown), never recalled. `gates.md` doubles as the resume pointer.
 
 ## Always-on principles (each phase file carries the ones it enforces in detail)
 

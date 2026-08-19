@@ -8,6 +8,7 @@ Binding principles for this phase:
 - **No invention.** Nothing fabricated; any artifact representing external reality (API payloads, fixtures) comes from a verified capture or is flagged `[unverified]`.
 - **Third-party API claims are never trusted from a ticket.** Tickets describe external APIs from memory and are often wrong. Verify every external-API claim (endpoints, fields, hosts, auth, expiry, ordering guarantees) against the official docs, and empirically when a sandbox is available — and do it NOW, in this phase: a nonexistent endpoint discovered late invalidates hours of downstream work. Account/key configuration (pinned API versions!) changes behavior — verify against OUR account's configuration, not just the latest docs. If a load-bearing external-API claim cannot be checked without access, ask me for a temporary key, stating exactly what you will test. Your training memory of a fast-moving external API is stale by default — "I recall it can't" is a hypothesis to check against CURRENT docs, never a finding.
 - **Subagents return evidence** (verbatim quotes, locators, snippets), never verdicts. Read the evidence and conclude yourself.
+- **Track every launch in the ledger (§0.9); settle it from evidence at every gate.**
 
 ## 0.1 Lessons journal
 
@@ -86,6 +87,14 @@ Login-walled videos, expiring screenshots: flag explicitly in the register with 
 
 Record status + timestamp of every mutable fact (ticket states, MR states, branch existence) — these get re-checked in Phase 3b, and again by /synthesize's staleness preflight at implementation start.
 
+## 0.9 Subagent ledger
+
+`research-notes.md` § Subagent ledger: one row per launch, written in the launch turn — `# | scope | launched (date -u) | status` (`running` / `done — <where evidence landed>` / `failed → re-covered by #<row> or scope dropped (my ruling)`). Read results as they arrive and flip the row when you do.
+
+The run keeps moving — results usually land while you work. At a gate, or when a row looks stuck, settle every open row from evidence, never memory: the notification is usually already in the conversation; otherwise `ListAgents` (its Subagents section) says whether the agent is still running. Still running, with nothing left in the current phase → say what you're waiting on in one line and stop; its notification wakes you. Stopped → its result already exists (conversation or output file) — go read it. A dead agent is a STOP: tell me what died and what re-covers it. Open rows block gates — no gate line while any row is open — and never present as settled what an open row could still change (progress notes are fine; conclusions built on unarrived evidence are not). A `SendMessage` re-task is live only if the reply says *resumed* — "queued for delivery" to a stopped agent runs nothing.
+
+A turn ends into one of three things: a question awaiting my answer, a running agent's notification, or the run's announced completion. None pending → you are not done; keep working.
+
 ## Gate 0 — append to `gates.md` before leaving this phase
 
 ```
@@ -98,9 +107,10 @@ Record status + timestamp of every mutable fact (ticket states, MR states, branc
 - claims: <N> register entries — <count command + output>
 - third-party API claims: <each: claim → how verified now, or the key request made>
 - currency snapshot: <location>
+- subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
 - STOPs raised: <each + my ruling, or "none">
 ```
 
-Every line carries its evidence; counts are computed (command shown), never recalled. A line you cannot fill is a phase you have not finished.
+Every line carries its evidence; counts and the gate timestamp are computed (command shown; `date -u`), never recalled. A line you cannot fill is a phase you have not finished.
 
 **Then announce: "Phase 0 complete (gate appended). Starting Phase 1: Codebase Analysis..." and read `~/.claude/requirements-phases/phase-1-code.md`.**

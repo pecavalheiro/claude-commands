@@ -26,6 +26,8 @@ Sibling file; header: "NOT part of the spec; NOT input for /synthesize". It hold
 
 Same design as the pre-ask audit: ONE fresh subagent, given ONLY the register section of `research-notes.md`, `06-requirements-spec.md`, and `communications.md` — never your reasoning. It returns findings in these categories: naked facts; unresolvable IDs; quote-support mismatches (including scope transfers); attribution mismatches; per-row provenance violations (rows a blanket citation does not actually cover); `[unverified]` content stated as fact anywhere — above all inside paste-ready drafts; run-internal labels (Q/FR/C-n numbers, claim IDs, "the spec") inside paste-ready text. Fix every finding; record the report + fixes in `research-notes.md`.
 
+The audit gets a ledger row; its report is read before the spec or the completion announcement reaches me. While it runs, finish other open work from this phase, or stop with one line.
+
 ## Verification report (append to `research-notes.md`)
 
 Per source — claims extracted/verified counts (the Phase 3b COMPUTED numbers, pasted, never re-typed from memory); code claims re-derived; currency checks with timestamps; the decision disposition table (every row with its citation); the remaining `[unverified]` items and Assumptions. This is the trust dashboard, and its numbers come from the arithmetic pass or they do not go in.
@@ -44,6 +46,7 @@ Set metadata `"status": "complete"` and `"phase": "complete"` (never while a hol
 - final provenance audit: report at <location>; <N> findings, each resolved
 - communications: <N> items, each with destination + consequence label; drafts contract applied per draft
 - verification report appended: <location>; metadata verification numbers = computed numbers (<show both>)
+- subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
 - completion announced in chat
 ```
 

@@ -51,6 +51,8 @@ All counts are computed, never recalled: claims extracted (grep on claim-ID line
 - **Decision-impact check:** for each answer I already gave, did verification change the premise it rested on? If yes, present the changed premise ONCE — evidence, consequence, recommended new default — as new information, never as the old question re-asked. A held FR (override option (a)) is treated like an `[unverified]` claim: context gathering continues (the evidence sharpens the ask to the owner), no other FR may rest on it, and if verification changes the recommendation, update the paste-ready draft in its C-n item — open a new user round-trip only if the set of viable options flips.
 - **Disposition consistency:** if any pass declares a conflict over a quote that a Gate A disposition row calls "settled", reopen that row (the table must never hold both).
 
+Settle the ledger (§0.9 of `phase-0-sources.md`) before the gate.
+
 ## Gate 3b — append to `gates.md`
 
 ```
@@ -65,6 +67,7 @@ All counts are computed, never recalled: claims extracted (grep on claim-ID line
 - corrections applied: <list, each with the files it touched>
 - [unverified] remaining: <list>
 - changed premises presented to me: <list or "none">
+- subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
 ```
 
 **Then announce: "Phase 3b complete (gate appended). Starting Phase 4: Expert Detail Questions..." and read `~/.claude/requirements-phases/phase-2-questions.md` again — its 'Phase 4 variant' section applies.**

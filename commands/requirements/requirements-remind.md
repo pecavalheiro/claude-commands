@@ -67,6 +67,7 @@ Phase 4 - Expert Requirements:
 7. ❌ Don't state unverified claims as facts — tag them `[unverified]`
 8. ❌ Don't put intermediate states, revision narration, or people-coordination content in 06 — final decisions only; people-facing items go to communications.md + chat (sole exception: the provenance tag `interim — final answer owned by <who> (C-n)`)
 9. ❌ Don't route critical decisions to communications.md — source-posed open questions, conflicting sources, hard-to-reverse or policy-encoding defaults go to the user, who decides whether they block; "to avoid blocking you" is never a reason
+10. ❌ Don't end a phase or a turn on beliefs about agents — settle the ledger from evidence (§0.9): open rows block gates and conclusions; wait only on a ListAgents-proven running agent; a dead agent is a STOP for the user; a turn ends only into a question awaiting the user, a running agent's notification, or the run's announced completion — otherwise keep working
 
 📍 CURRENT STATE:
 - Last question: [Show last question]

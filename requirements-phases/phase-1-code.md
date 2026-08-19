@@ -21,6 +21,8 @@ Inventory both directions of every integration: what the change writes AND every
 
 All claims from this phase enter the register as `CODE-*` entries under the Phase 0 rules (IDs, locators, provenance tags). A claim you could not verify to its bar is tagged `[unverified]`, hedge kept verbatim.
 
+Settle the ledger (§0.9 of `phase-0-sources.md`) before the gate.
+
 ## Gate 1 — append to `gates.md`
 
 ```
@@ -30,6 +32,7 @@ All claims from this phase enter the register as `CODE-*` entries under the Phas
 - absence claims: <each names its exhaustive search, or "none">
 - door-closing claims: <each listed + queued for the Phase 3b refutation pass, or "none">
 - integration inventory: <location — both directions covered>
+- subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
 - contextFiles updated in metadata.json: <yes>
 ```
 

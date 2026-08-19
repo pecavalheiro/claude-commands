@@ -8,6 +8,8 @@ Document everything in `03-context-findings.md` under the Phase 1 evidence bars 
 
 New sources discovered during the dive (tickets, MRs, docs, threads) enter the graph under the Phase 0 rules: register row with fetch evidence, claims with IDs, preflight re-fire if they introduce a new source type. They will appear in Phase 4's delta table.
 
+Settle the ledger (§0.9 of `phase-0-sources.md`) before the gate.
+
 ## Gate 3 — append to `gates.md`
 
 ```
@@ -17,6 +19,7 @@ New sources discovered during the dive (tickets, MRs, docs, threads) enter the g
 - new sources: <list + fetch records, or "none">
 - door-closing claims added: <each queued for the 3b refutation pass, or "none">
 - [unverified] tags: <count + list>
+- subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
 ```
 
 **Then announce: "Phase 3 complete (gate appended). Starting Phase 3b: Adversarial Verification..." and read `~/.claude/requirements-phases/phase-3b-verify.md`.**
