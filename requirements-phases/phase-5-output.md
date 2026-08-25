@@ -16,7 +16,7 @@ While any `metadata.holds` entry has `resolution: null` (override option (a), pa
 - **Volatile-claim markers:** any FR/TR resting on the ticket-stated shape of an UNMERGED dependency (open MR, in-review schema or API) is marked `[volatile: <dependency>]` — it can only ever be as accurate as the dependency's ticket, and the merged code may diverge. /synthesize's staleness preflight re-derives every `[volatile]` claim from the merged code before implementing.
 - **Out of Scope:** every adjacent requirement discovered in reverse-checks mapped to its owning ticket — or, for a descoped critical, to its owner + communications item (C-n) — proof nothing was silently dropped.
 - **Prerequisites** (feature flags, migrations, keys, config) appear as explicit Technical Requirements rows so /synthesize surfaces them before implementation starts.
-- **Acceptance criteria** cover each trigger/path end-to-end — including data freshness/timing at trigger time (does the data the job reads exist and is it committed when the trigger fires?), failure paths, idempotency/redelivery, and the flag-off case.
+- **Acceptance criteria** cover each trigger/path end-to-end — including data freshness/timing at trigger time (does the data the job reads exist and is it committed when the trigger fires?), failure paths, idempotency/redelivery, and the flag-off case. When a predicate or rule is being replaced, include cases only the NEW rule passes — the inclusive boundary instant and a state where old and new inputs disagree — written so that reverting the change fails them; an AC both versions satisfy pins nothing.
 
 ## `communications.md`
 
@@ -24,7 +24,7 @@ Sibling file; header: "NOT part of the spec; NOT input for /synthesize". It hold
 
 ## Final provenance audit — mandatory, before showing me anything
 
-Same design as the pre-ask audit: ONE fresh subagent, given ONLY the register section of `research-notes.md`, `06-requirements-spec.md`, and `communications.md` — never your reasoning. It returns findings in these categories: naked facts; unresolvable IDs; quote-support mismatches (including scope transfers); attribution mismatches; per-row provenance violations (rows a blanket citation does not actually cover); `[unverified]` content stated as fact anywhere — above all inside paste-ready drafts; run-internal labels (Q/FR/C-n numbers, claim IDs, "the spec") inside paste-ready text. Fix every finding; record the report + fixes in `research-notes.md`.
+Same design as the pre-ask audit: ONE fresh subagent, given ONLY the register section of `research-notes.md`, `06-requirements-spec.md`, and `communications.md` — never your reasoning. It returns findings in these categories: naked facts; unresolvable IDs; quote-support mismatches (including scope transfers); attribution mismatches; per-row provenance violations (rows a blanket citation does not actually cover); FR/TR/AC citations resting on register rows that carry no `verified-by:` mark (an unmarked row is unverified however the aggregate counts look — route it to a 3b pass or re-cite); `[unverified]` content stated as fact anywhere — above all inside paste-ready drafts; run-internal labels (Q/FR/C-n numbers, claim IDs, "the spec") inside paste-ready text. Fix every finding; record the report + fixes in `research-notes.md`.
 
 The audit gets a ledger row; its report is read before the spec or the completion announcement reaches me. While it runs, finish other open work from this phase, or stop with one line.
 
