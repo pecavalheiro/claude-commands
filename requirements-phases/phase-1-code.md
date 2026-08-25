@@ -8,7 +8,7 @@ Map the domain: the code the sources point at, the hook/trigger points, preceden
 
 - **Static** (names, enum values, schema fields, literals, config): read the defining file; cite file:line.
 - **Behavioral** (side effects, notification chains, transactions/rollback, retries, permission checks, ordering, cron schedules): trace to the code that DEFINES the behavior — framework module, worker config, changeset internals, cron registration. A call site alone never supports a behavioral claim. "How the library usually behaves" is not evidence; codebases override defaults.
-- **Absence** ("no other callers", "no X exists", "the only setter"): name the exhaustive search performed (patterns, scope, exclusions) or do not make the claim. An absence in OUR code bounds only what we have built — it never licenses a claim about what an external system can do, and never closes a door on a source-requested capability. Before letting an absence close a door, search the adjacent space (sibling ids/tables/config keys, precedent patterns) for the thing that would flip it.
+- **Absence** ("no other callers", "no X exists", "the only setter"): name the exhaustive search performed (patterns, scope, exclusions) AND the freshly fetched `origin/<default-branch>` SHA it ran against, or do not make the claim. An absence is a snapshot, not a durable fact — it decays the moment the branch moves, and the Phase 3b and Gate 5 currency checks re-derive it. An absence in OUR code bounds only what we have built — it never licenses a claim about what an external system can do, and never closes a door on a source-requested capability. Before letting an absence close a door, search the adjacent space (sibling ids/tables/config keys, precedent patterns) for the thing that would flip it.
 - **Literal values** (country names, hosts, config strings): NEVER hardcode from memory or reasoning — resolve from the authoritative seed/table/config and cite it.
 
 ## Door-closing claims are guilty until proven
@@ -29,7 +29,7 @@ Settle the ledger (§0.9 of `phase-0-sources.md`) before the gate.
 ## Gate 1 — codebase (<timestamp>)
 - exploration: <subagents run + their scopes>
 - code claims: <N> CODE-* entries, each classed static/behavioral/absence/literal with file:line — <count command + output>
-- absence claims: <each names its exhaustive search, or "none">
+- absence claims: <each names its exhaustive search + the fetched origin/<default-branch> SHA, or "none">
 - door-closing claims: <each listed + queued for the Phase 3b refutation pass, or "none">
 - integration inventory: <location — both directions covered>
 - subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running

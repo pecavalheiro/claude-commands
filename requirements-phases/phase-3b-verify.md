@@ -38,7 +38,7 @@ What does this source require or constrain that the draft does NOT reflect? Tria
 
 ### 6. Currency re-check
 
-Every mutable Phase 0 fact re-checked and timestamped: ticket states, MR states, branch existence.
+Every mutable Phase 0 fact re-checked and timestamped: ticket states, MR states, branch existence — and repo state via `git fetch` + `origin/<default-branch>`, never a local branch's HEAD. The gate line shows the Phase 0 SHA → current SHA and the commits between them touching any register-cited path; each such commit is read for impact on the absence and behavioral claims it could decay. A "no material changes" verdict without both SHAs and that commit list did not happen.
 
 ### 7. Arithmetic pass — the register must add up
 
@@ -62,7 +62,7 @@ Settle the ledger (§0.9 of `phase-0-sources.md`) before the gate.
 - code re-derivation: report at <location>; <N> re-derived, <X> changed on re-derivation
 - cross-source: report at <location>; findings: <list or "none">
 - reverse-check: <per source, one line each>
-- currency: re-checked <timestamp>; changes: <list or "none">
+- currency: fetched; origin/<default-branch> <phase-0 sha> → <sha>; commits touching register-cited paths: <list + impact, or "none">; ticket/MR states: <changes or "none">
 - arithmetic: <the pasted count commands + outputs + the reconciliation line>
 - corrections applied: <list, each with the files it touched>
 - [unverified] remaining: <list>

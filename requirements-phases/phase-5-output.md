@@ -44,6 +44,7 @@ Set metadata `"status": "complete"` and `"phase": "complete"` (never while a hol
 - spec: section headings verified against the contract; banned-word scan: <command + result>
 - per-row provenance: <how checked + result>
 - final provenance audit: report at <location>; <N> findings, each resolved
+- currency at freeze: fetched; origin/<default-branch> <sha> (Gate 3b: <sha>); commits touching register-cited paths since: <list, each re-derived, or "none">
 - communications: <N> items, each with destination + consequence label; drafts contract applied per draft
 - verification report appended: <location>; metadata verification numbers = computed numbers (<show both>)
 - subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
