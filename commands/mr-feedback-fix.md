@@ -45,9 +45,12 @@ in scope.
 
 ## Step 1 — Fetch & scope gate
 
-- Resolve project + MR iid (from $ARGUMENTS or the current branch). Fetch ALL
-  discussions: `glab api "projects/<id>/merge_requests/<iid>/discussions?per_page=100"`,
-  paginating until exhausted. If this fails, STOP — never work from a partial list.
+- Resolve project + MR iid (from $ARGUMENTS or the current branch), and record the MR's
+  `target_branch` (`glab api "projects/<id>/merge_requests/<iid>"`). A target that is not
+  the repo's default branch means this is a STACKED MR — Step 5 depends on knowing this.
+  Fetch ALL discussions:
+  `glab api "projects/<id>/merge_requests/<iid>/discussions?per_page=100"`, paginating
+  until exhausted. If this fails, STOP — never work from a partial list.
 - Enumerate UNRESOLVED threads as T1..Tn: author, file:line, trimmed verbatim quote,
   note anchor link. Separately list what is excluded (resolved threads, my own
   self-notes). Unresolved bot threads are included by default.
@@ -108,8 +111,20 @@ contradicts the plan's premise for that group.
 - No push, no posting — I take it from here. This command creates no files or folders;
   the MR threads and git history are the state, so re-running later simply picks up
   whatever is still unresolved.
-- Close the wrap-up message by ALWAYS proposing to merge the latest master into the MR
-  branch, and wait for my answer. On my go: `git fetch origin` then
-  `git merge origin/master` (never push — rule 1 still applies). If the merge conflicts,
-  stop, list the conflicting files, and ask — never resolve conflicts on your own. After
-  a clean merge, re-run the targeted tests from Step 4 and report the result.
+- Close the wrap-up message by ALWAYS proposing to bring the MR branch up to date — but
+  check the `target_branch` from Step 1 FIRST and propose merging *that* branch. Never
+  reflexively reach for master:
+  - **Target is the default branch** (`master`): propose `git merge origin/master`.
+  - **Target is another branch** (stacked MR): propose `git merge origin/<target_branch>`,
+    and state plainly that master must NOT be merged. Merging master into a stacked branch
+    does not advance its merge-base with the parent target, so every commit master gained
+    since the stack forked lands in the MR diff — on !90903 that turned 6 files / 296
+    insertions into 6715 files / 445,970. It is also near-irreversible once pushed:
+    force-push is off the table, and `git revert -m 1 <merge>` is not a safe substitute,
+    because the branch would then carry content that re-deletes master's commits when it
+    eventually merges.
+  Name the branch you are proposing explicitly, so the choice is visible rather than
+  assumed, and wait for my answer. On my go: `git fetch origin` then the merge above
+  (never push — rule 1 still applies). If the merge conflicts, stop, list the conflicting
+  files, and ask — never resolve conflicts on your own. After a clean merge, re-run the
+  targeted tests from Step 4 and report the result.
