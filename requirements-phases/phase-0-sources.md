@@ -35,6 +35,7 @@ Create `~/.claude/runs/<repo>/requirements/YYYY-MM-DD-HHMM-<TICKET-ID>-[slug]/` 
 {
   "id": "feature-slug",
   "workspace": "/absolute/path/of/the/creating/workspace",
+  "worktree": { "path": "/absolute/path", "branch": "branch-name", "createdAtStart": true },
   "started": "ISO-8601-timestamp",
   "lastUpdated": "ISO-8601-timestamp",
   "status": "active | complete | incomplete",
@@ -51,7 +52,7 @@ Create `~/.claude/runs/<repo>/requirements/YYYY-MM-DD-HHMM-<TICKET-ID>-[slug]/` 
 }
 ```
 
-`holds` entries: `{ "comm": "C-3", "owner": "<team> (@who)", "askedAt": "ISO-8601", "heldFRs": ["FR-4"], "resolution": null }` with `resolution` ∈ `null | "answered" | "interim" | "descoped:<ticket>"`. **`status`/`phase` may never be set to "complete" while any hold has `resolution: null`.** The `verification` numbers are only ever written from the computed counts of Phase 3b's arithmetic pass — never typed from memory.
+`worktree` appears ONLY when the router's Step 0 created a worktree for this run (path, branch, `createdAtStart: true`) — omit the field entirely otherwise; /synthesize reads it to offer teardown. `holds` entries: `{ "comm": "C-3", "owner": "<team> (@who)", "askedAt": "ISO-8601", "heldFRs": ["FR-4"], "resolution": null }` with `resolution` ∈ `null | "answered" | "interim" | "descoped:<ticket>"`. **`status`/`phase` may never be set to "complete" while any hold has `resolution: null`.** The `verification` numbers are only ever written from the computed counts of Phase 3b's arithmetic pass — never typed from memory.
 
 ## 0.4 Enumerate the graph — traversal AND search
 

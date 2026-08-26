@@ -49,13 +49,13 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | Command | Role |
 |---|---|
 | `/refine-ticket <url>` | Upstream of the pipeline: crawls every source linked from a tracker ticket, grounds claims against code and data, resolves each open question with you one at a time, and delivers a paste-ready refined ticket plus a Definition-of-Ready verdict, split proposal, and ask pack. |
-| `/requirements-start <ticket>` | Entry point: runs the phased gathering pipeline (source inventory → code analysis → questions → targeted context → adversarial verification → spec). The rules live in `requirements-phases/`. |
+| `/requirements-start <ticket>` | Entry point: offers to run in a fresh worktree (recommended) or the current folder, then runs the phased gathering pipeline (source inventory → code analysis → questions → targeted context → adversarial verification → spec). The rules live in `requirements-phases/`. |
 | `/requirements-status` | Locate and resume the active run from its gate ledger. |
 | `/requirements-current` | Read-only view of the active run. |
 | `/requirements-list` | Dashboard of all runs for the current repo — every clone and worktree, annotated by origin. |
 | `/requirements-remind` | Compressed rule card to re-ground the model after drift or context compaction. |
 | `/requirements-end` | Finalize a run: generate the spec from current information, park it as incomplete, or cancel. |
-| `/synthesize` | Implement the most recent completed spec to a ship-ready state, with a staleness preflight and a Definition-of-Done gate. |
+| `/synthesize` | Implement the most recent completed spec to a ship-ready state, with a staleness preflight and a Definition-of-Done gate; offers teardown of a run-created worktree once the work is safe. |
 | `/requirements-retro` | Post-mortem on a finished run whose findings were later challenged; distills confirmed misses into the lessons journal that future runs load as binding. |
 
 ### Review & delivery

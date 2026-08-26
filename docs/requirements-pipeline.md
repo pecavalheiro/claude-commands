@@ -10,6 +10,8 @@ End-to-end flow:
       → /requirements-retro                       (feedback loop, when a run's findings are challenged)
 ```
 
+At start, `/requirements-start` offers to create a fresh worktree for the run (a sibling of the current checkout, branch named from the ticket; recorded in `metadata.worktree`) or to proceed in the current folder; already inside a linked worktree it proceeds in place. After its final report, `/synthesize` offers to tear a run-created worktree down — only once the tree is clean and the branch pushed. Run artifacts live in the store either way, so teardown never loses pipeline state.
+
 ## Design principles
 
 - **Written sources are authoritative.** The ticket, its linked tickets, PRD/Notion pages, Slack threads, and MRs are exhausted and verified before the user's time is spent. Every fact in the output traces to a source quote, a code location, or an explicit decision; everything else is a labeled assumption.

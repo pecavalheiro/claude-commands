@@ -5,6 +5,14 @@ ultrathink: Deep analysis of the problem space and its implications
 
 The input is typically a Linear ticket (sometimes a document link or a written request). The written sources — the ticket, its linked tickets, the PRD/Notion pages, Slack threads, MRs — are authoritative. Exhaust and verify them before spending my time; every question you ask me must have survived the gates in the phase files. Every fact in the output must be traceable to a source quote, a code location, or an explicit decision; everything else is an assumption and must be labeled as one.
 
+## Step 0 — workspace choice (once, before anything else)
+
+1. Not inside a git repository → stop: "not inside a git repository — the run store is keyed by repo".
+2. Already inside a LINKED worktree (`git rev-parse --git-dir` differs from `--git-common-dir`) → say so in one line and proceed in place; never offer to nest a worktree inside one.
+3. Otherwise ask me and WAIT: **"Do you want me to create a worktree for this (recommended) or proceed in the current folder?"**
+   - **Current folder** → continue below, unchanged.
+   - **Worktree** → `git fetch origin`, then `git worktree add -b <branch> <path> origin/<default-branch>` with defaults I may override in my answer: path = a sibling of the current toplevel named `<toplevel>-<ticket-id-lower>` (no ticket → the run slug); branch = `<ticket-id-lower>-<slug>`. Then MOVE INTO it — use Claude Code's worktree tool (EnterWorktree) when available, otherwise treat the worktree path as the repo root for EVERY subsequent operation this session performs, subagents included (their briefings state the worktree path). The worktree is the run's workspace from here on: Phase 0's workspace derivation, pointer file, and metadata all use it, and Phase 0 records it in `metadata.json`'s `worktree` field so /synthesize can offer teardown when the work is done.
+
 ## The one rule that carries everything
 
 This file is only the map. The rules live in per-phase files, and **a phase's file IS the phase**: you may not begin, resume, or continue a phase without having Read its file top to bottom in this session, after the previous phase's gate was appended. Never run a phase from memory, from a summary, or from recall of a previous run — recall decays and the files change. This is not a reminder to be diligent; it is the mechanism that makes the rules present at the moment they are applied. After ANY interruption, resume, or context compaction: resolve the run via this workspace's pointer file (`~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>` — see Files below), read its `gates.md` to locate the run, then re-read this file and the current phase's file before the next action.
@@ -51,4 +59,4 @@ Interactive phases (2 and 4): ONLY yes/no questions (critical third-party items 
 - After each gate: announce "Phase N complete (gate appended). Starting <next>..." — then read the next phase file.
 - /requirements-remind prints the compressed rule card on demand; /requirements-status locates a run. The phase files stay authoritative over both.
 
-**Begin now: read `~/.claude/requirements-phases/phase-0-sources.md`.**
+**Begin now: run Step 0 (workspace choice), then read `~/.claude/requirements-phases/phase-0-sources.md`.**
