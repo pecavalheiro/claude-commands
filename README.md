@@ -62,7 +62,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 
 | Command | Role |
 |---|---|
-| `/deep-review <link>` | Deep review of my own Linear ticket branch or a colleague's GitLab MR: five parallel review lenses (`review-lenses/`), strict scope and evidence discipline, severity-ranked findings with paste-ready comments. |
+| `/deep-review <link>` | Deep review of my own Linear ticket branch or a colleague's GitLab MR: five parallel review lenses (`review-lenses/`), strict scope and evidence discipline, severity-ranked findings with paste-ready comments. For an MR, offers a disposable detached review worktree and its teardown after the review. |
 | `/review-retro <MR>` | Closes the `/deep-review` loop after humans review: classifies what they found vs what the review caught, verifies their claims, appends lessons to the review-lessons journal (binding on the next run), and proposes lens-file edits. |
 | `/mr-feedback-fix <MR>` | Work through unresolved review threads on my own MR: a verdict per thread, fixes grouped one commit per group, paste-ready replies. |
 | `/commit` | Commit current changes split into logical, chronologically ordered commits. |
