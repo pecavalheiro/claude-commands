@@ -13,11 +13,10 @@ Analyzes completed requirements, generates a detailed implementation plan with t
 
 When the user runs the `synthesize` command:
 
-1. **Find Most Recent Completed Requirements**
-   - Navigate to `requirements/` in the current working directory
-   - Look for subdirectories with timestamp format (YYYY-MM-DD-HHMM-*)
-   - Find the most recent directory containing a `metadata.json` with `"status": "complete"` (legacy folders may instead have `"status": "active"` with `"phase": "complete"` — accept those too, UNLESS `metadata.holds` contains an entry with `"resolution": null`: a run paused on a critical answer is never picked up)
-   - Skip directories with `"status": "superseded"`; if multiple non-superseded complete runs exist for the same ticket, use the most recent and say so explicitly
+1. **Resolve the Requirements Run**
+   - Derive `<repo>` and this workspace (recipe in requirements-start.md's Files section: remote basename → only remote → toplevel dir name; an empty key is an error, and outside a git repository stop with "not inside a git repository — the run store is keyed by repo"). The bucket is `~/.claude/runs/<repo>/requirements/`; run folders use the timestamp format (YYYY-MM-DD-HHMM-*)
+   - Take the FIRST of these that yields a qualifying run: (1) an explicit run name/path in the arguments; (2) this workspace's pointer file (`.pointers/<workspace-slug>`, valid only if its second line equals this workspace's toplevel); (3) the most recent qualifying run whose metadata `workspace` contains this workspace's path; (4) the most recent qualifying run in the whole bucket — ONLY while announcing, before any work, which run was chosen and which workspace created it
+   - Qualifying: `metadata.json` with `"status": "complete"` (legacy folders may instead have `"status": "active"` with `"phase": "complete"` — accept those too), UNLESS `metadata.holds` contains an entry with `"resolution": null`: a run paused on a critical answer is never picked up. Skip `"status": "superseded"`; if multiple qualify at one step for the same ticket, use the most recent and say so explicitly
    - Extract the requirement name from the directory (part after timestamp)
 
 2. **Load the Full Requirement Corpus**
@@ -80,7 +79,7 @@ When the user runs the `synthesize` command:
 
 ## Error Handling
 
-- If no completed requirements found: "No completed requirements found in requirements/"
+- If no completed requirements found: "No completed requirements found in this repo's bucket (~/.claude/runs/<repo>/requirements/)"
 - If requirements incomplete: "Found requirement [name] but status is [status], not 'complete'"
 - If missing required files: list which files are missing from the requirement
 
@@ -88,4 +87,4 @@ When the user runs the `synthesize` command:
 
 - Respects coding standards from the project's CLAUDE.md / AGENTS.md.
 - Each todo task maps to specific FR/TR items; testing and validation happen inside each task, never deferred to the end — the DoD gate is confirmation, not discovery.
-- The command's contract with /requirements-start: spec sections and file names are fixed; `research-notes.md` carries the currency snapshot + volatile claims the preflight consumes; `communications.md` is reconciled in the final report but never drives implementation.
+- The command's contract with /requirements-start: spec sections and file names are fixed; runs live in `~/.claude/runs/<repo>/requirements/` and resolve workspace-first (step 1's order); `research-notes.md` carries the currency snapshot + volatile claims the preflight consumes; `communications.md` is reconciled in the final report but never drives implementation.

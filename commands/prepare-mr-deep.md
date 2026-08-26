@@ -51,9 +51,12 @@ and never guessed from the diff alone.
 - The run: if `/synthesize` ran in this session, that run folder is authoritative and its
   final report ("Needs you now", "Yours by design", "Deviations from spec",
   "Done & verified") is the primary source for Step 4 — it is already in context.
-  Otherwise resolve the folder from `$ARGUMENTS`, then `requirements/.current-requirement`,
-  then the most recent `requirements/YYYY-MM-DD-HHMM-*` that has an `implementation/`
-  directory. If several fit, take the most recent and say which.
+  Otherwise resolve the folder from `$ARGUMENTS`, then this workspace's pointer file in
+  `~/.claude/runs/<repo>/requirements/.pointers/` (repo/workspace derivation per
+  requirements-start.md's Files section), then the most recent run in the bucket with an
+  `implementation/` directory whose metadata `workspace` contains this workspace, then the
+  most recent such run in the whole bucket — naming the chosen run and its origin
+  workspace when this last step decides. If several fit, take the most recent and say which.
 - Confirm the run actually matches this branch (touched files, ticket key, timing). A
   mismatched run is worse than none: if it does not match, say so and treat it as absent.
 - No run folder → say so plainly in one line, then work from the session and the diff

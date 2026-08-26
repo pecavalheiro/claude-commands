@@ -4,10 +4,10 @@ Display detailed information about the active requirement.
 
 ## Instructions:
 
-1. Read requirements/.current-requirement
-2. If no active requirement:
+1. Resolve this workspace's active run via its pointer file (`~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>` — derivation in requirements-start.md's Files section; outside a git repository, stop with "not inside a git repository — the run store is keyed by repo")
+2. If no active requirement for this workspace:
    - Show "No active requirement"
-   - Display last 3 completed requirements
+   - Display the last 3 completed runs from the repo's bucket (`~/.claude/runs/<repo>/requirements/`), each annotated with its origin workspace from metadata
    - Exit
 
 3. For active requirement:

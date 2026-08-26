@@ -29,16 +29,16 @@ This symlinks every command under `commands/` (flat — subfolders are organizat
 
 If any target the installer owns (`~/.claude/requirements-phases`, `~/.claude/review-lenses`, `~/.claude/skills/review-retro`) already exists as a **real directory** rather than a symlink, the installer stops with `ERROR: … move it aside first` and changes nothing. Move or remove it, then re-run. Individual command files that are real files, not symlinks, are skipped with a message instead.
 
-### Per-project setup (requirements pipeline only)
+### The run store (requirements pipeline and /refine-ticket)
 
-The pipeline writes run folders to `requirements/` in the **target project's** working directory, and `/refine-ticket` writes to `ticket-refinements/`. Neither belongs in that project's history, so ignore them there — per repo:
+Run folders never live inside your projects. The pipeline writes to a machine-local store, created on demand:
 
-```gitignore
-/requirements/
-/ticket-refinements/
+```
+~/.claude/runs/<repo>/requirements/<run>/         # /requirements-start runs
+~/.claude/runs/<repo>/ticket-refinements/<run>/   # /refine-ticket runs
 ```
 
-or once for every repo in your global ignore (`~/.config/git/ignore`, or wherever `core.excludesFile` points). Keep the leading slash: it anchors the rule to the repo root, so a legitimately tracked nested directory of the same name — like `commands/requirements/` in this repo — stays trackable.
+`<repo>` comes from the repo's remote — `basename -s .git "$(git remote get-url origin)"`, falling back to its only remote, then to the top-level directory name — the same keying the journals use, so every clone and worktree of a repo shares one bucket wherever it sits on disk. Which run is *active* is tracked per workspace (per clone/worktree): each workspace has its own pointer file under `<repo>/requirements/.pointers/`, so parallel runs in several checkouts of one repo never collide, while `/requirements-list` and `/requirements-retro` see the whole repo's history in one place. Like the journals, the store is machine-local, belongs to no repo, is never installed by this one, and routinely holds private content — never commit or publish it. No per-project setup or gitignore entries are needed.
 
 ## Commands
 
@@ -52,7 +52,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | `/requirements-start <ticket>` | Entry point: runs the phased gathering pipeline (source inventory → code analysis → questions → targeted context → adversarial verification → spec). The rules live in `requirements-phases/`. |
 | `/requirements-status` | Locate and resume the active run from its gate ledger. |
 | `/requirements-current` | Read-only view of the active run. |
-| `/requirements-list` | Dashboard of all runs in the current project. |
+| `/requirements-list` | Dashboard of all runs for the current repo — every clone and worktree, annotated by origin. |
 | `/requirements-remind` | Compressed rule card to re-ground the model after drift or context compaction. |
 | `/requirements-end` | Finalize a run: generate the spec from current information, park it as incomplete, or cancel. |
 | `/synthesize` | Implement the most recent completed spec to a ship-ready state, with a staleness preflight and a Definition-of-Done gate. |
@@ -87,6 +87,7 @@ Conventions for adding commands are in [CLAUDE.md](CLAUDE.md).
 ## Notes
 
 - Some commands read or append **journals** under `~/.claude/journals/` — machine-local, in no repo, and not installed by this one: `<app>/review-lessons.md` (per app, written by `/review-retro`), `requirements-lessons.md` (all projects, written by `/requirements-retro`), and `domain.md` (all projects, maintained separately). `<app>` comes from the repo's remote, not its path, so every clone of an app shares one journal wherever it lives. A missing journal is a normal first-run state: commands note it and continue. See [CLAUDE.md](CLAUDE.md#journals).
+- The **run store** under `~/.claude/runs/` (see "The run store" above) follows the same model: machine-local, keyed by remote, created on demand, never installed or committed.
 
 ## Acknowledgments
 

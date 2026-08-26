@@ -1,6 +1,6 @@
 # Requirements Retro
 
-Post-mortem on a completed /requirements-start run whose findings were later challenged or proven wrong. Input: the run folder (or enough to find it under `requirements/`), plus what turned out to be wrong — my description, an MR, a thread, or a conversation excerpt.
+Post-mortem on a completed /requirements-start run whose findings were later challenged or proven wrong. Input: the run folder (or enough to find it in the repo's bucket, `~/.claude/runs/<repo>/requirements/` — runs from every clone and worktree of the repo live there, including runs whose creating workspace no longer exists; `<repo>` derivation is in requirements-start.md's Files section), plus what turned out to be wrong — my description, an MR, a thread, or a conversation excerpt.
 
 A retro's job is to make future runs better, not to make the journal longer. Every entry and every rule is paid for on every future run (Phase 0 and 3b load the journal in full), and most misses are not missing rules — they are existing rules that did not bite. Default to tightening what exists over adding something new.
 

@@ -4,11 +4,11 @@ Show current requirement gathering progress and continue.
 
 ## Instructions:
 
-1. Read requirements/.current-requirement
-2. If no active requirement:
-   - Show message: "No active requirement gathering"
-   - Suggest /requirements-start or /requirements-list
-   - Exit
+1. Resolve this workspace's active run: derive `<repo>` and the workspace slug (recipe in requirements-start.md's Files section; outside a git repository, stop with "not inside a git repository — the run store is keyed by repo"), then read `~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>` — valid only if its second line equals this workspace's toplevel and the named run folder exists in the bucket
+2. If this workspace has no valid pointer:
+   - If the bucket holds run(s) whose metadata `workspace` path no longer exists on disk (orphans of deleted clones/worktrees), list them and offer to adopt one — on acceptance, write this workspace's pointer file and continue with that run
+   - Prune pointer files whose recorded workspace path or target run no longer exists
+   - Otherwise show "No active requirement gathering", suggest /requirements-start or /requirements-list, and exit
 
 3. If active requirement exists:
    - Read metadata.json for current phase and progress

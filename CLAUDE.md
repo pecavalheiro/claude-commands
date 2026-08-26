@@ -29,6 +29,10 @@ Three machine-local journals under `~/.claude/journals/`, in no repo and never i
 
 `<app>` is the repo's name from its remote — `basename -s .git "$(git remote get-url origin)"`, falling back to its only remote, then to the top-level directory name. Keying on the remote rather than a path is deliberate: every clone of an app shares one journal wherever it sits on disk, and the commands carry no assumption about anyone's folder layout.
 
+## The run store
+
+Pipeline run folders live in a machine-local store, never in any repo: `~/.claude/runs/<repo>/requirements/<run>/` (`/requirements-start`) and `~/.claude/runs/<repo>/ticket-refinements/<run>/` (`/refine-ticket`), with `<repo>` derived by the same recipe as the journals' `<app>`. Created on demand (`mkdir -p`), never by `install.sh`. The active run is per **workspace** (per clone/worktree, identified by `git rev-parse --show-toplevel`): each workspace has its own pointer file under `<repo>/requirements/.pointers/` — two lines, run name then raw workspace path, content authoritative — so parallel runs in several checkouts never collide. Each run's `metadata.json` records its creating `workspace`. Like the journals, the store routinely holds private content: it is never installed, committed, or published, and no repo needs gitignore entries for it.
+
 ## Contracts not to break
 
 - **This repo is public; the journals are not.** Nothing in here may name a company, an internal app, module, or namespace, a vendor or product, a feature flag, a ticket ID, a person, or an internal URL — not in commands, lenses, phase files, or docs. Procedure is public; what a real review or run taught you goes in a journal. Naming a language or framework is fine.

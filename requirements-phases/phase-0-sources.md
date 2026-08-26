@@ -23,11 +23,18 @@ The usual source connectors: Linear, Notion, GitLab, Figma, Slack. Verify every 
 
 ## 0.3 Setup — every run starts fresh
 
-Create `requirements/YYYY-MM-DD-HHMM-<TICKET-ID>-[slug]/` (ticket id verbatim from the primary source, e.g. `ABC-123`; a request with no ticket drops that segment), write `00-initial-request.md` (the request verbatim + a summary of the primary source), `metadata.json` (structure below — record the primary ticket id in `sources` immediately), create an empty `gates.md`, and update `requirements/.current-requirement`. Then print, on its own line, a ready-to-type `/rename <TICKET-ID>-[slug]` — sessions renamed this way are findable later in `/resume`; suggest it once and move on, never wait on it. **Never scan, list, read, or search other folders under `requirements/` or any other prior local working documents — no prior-run check, no resume-by-scan, no answer inheritance.** A prior document enters this run ONLY if I explicitly name its path in the request; it joins the source graph as an ordinary source — its contents are evidence to quote with locators, never decisions: nothing recorded there counts as an answer I gave in THIS run unless I confirm it here.
+Runs live in the central store `~/.claude/runs/`, never in the repo. Derive the store location now, at the moment of use:
+
+- `<repo>`: `basename -s .git "$(git remote get-url origin)"`. No `origin` → the same basename applied to the repo's only remote's URL (list remotes with `git remote`). No remotes at all → the basename of `git rev-parse --show-toplevel`. An EMPTY result is an error — STOP and say the repo key could not be derived; never proceed with a blank key. Not inside a git repository at all → STOP with "not inside a git repository — the run store is keyed by repo"; never create a run folder in the working directory.
+- `<workspace>`: the output of `git rev-parse --show-toplevel` — each clone and each linked worktree is its own workspace. `<workspace-slug>`: that path with every `/` replaced by `-`.
+- The bucket `~/.claude/runs/<repo>/requirements/` is created on demand with `mkdir -p` (a first run on a machine legitimately creates it; install.sh never touches the store).
+
+Create `~/.claude/runs/<repo>/requirements/YYYY-MM-DD-HHMM-<TICKET-ID>-[slug]/` (ticket id verbatim from the primary source, e.g. `ABC-123`; a request with no ticket drops that segment), write `00-initial-request.md` (the request verbatim + a summary of the primary source), `metadata.json` (structure below — record the primary ticket id in `sources` immediately, and `workspace`: this workspace's path), create an empty `gates.md`, and write this workspace's pointer file `~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>` — exactly two lines: the run-folder name, then the raw workspace path. Then print, on its own line, a ready-to-type `/rename <TICKET-ID>-[slug]` — sessions renamed this way are findable later in `/resume`; suggest it once and move on, never wait on it. **Never scan, list, read, or search other run folders in the bucket (`~/.claude/runs/<repo>/`) or any other prior local working documents — no prior-run check, no resume-by-scan, no answer inheritance.** A prior document enters this run ONLY if I explicitly name its path in the request; it joins the source graph as an ordinary source — its contents are evidence to quote with locators, never decisions: nothing recorded there counts as an answer I gave in THIS run unless I confirm it here.
 
 ```json
 {
   "id": "feature-slug",
+  "workspace": "/absolute/path/of/the/creating/workspace",
   "started": "ISO-8601-timestamp",
   "lastUpdated": "ISO-8601-timestamp",
   "status": "active | complete | incomplete",

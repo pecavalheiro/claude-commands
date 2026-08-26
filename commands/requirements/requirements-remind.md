@@ -4,8 +4,8 @@ Re-grounding card for requirements gathering. Two uses: a quick correction when 
 
 ## Instructions:
 
-1. Check requirements/.current-requirement
-2. If no active requirement:
+1. Check this workspace's pointer file: `~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>` (derivation in requirements-start.md's Files section; outside a git repository, stop with "not inside a git repository — the run store is keyed by repo")
+2. If no active requirement for this workspace:
    - Show "No active requirement gathering session"
    - Exit
 

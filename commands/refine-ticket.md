@@ -38,7 +38,7 @@ The input is a tracker ticket (URL or ID), optionally followed by extra context 
 ### Phase 0 — Setup & source crawl (autonomous)
 
 1. **Connector preflight (BEFORE any investigation — same discipline as /requirements-start):** make one trivial read call to EVERY MCP connector this command can use — tracker (Linear), Slack, docs (Notion), GitLab, Figma, Loom, web (WebSearch/WebFetch), AND the Snowflake MCP (data grounding). If ANY of them is missing, unauthenticated, erroring, or returns an app-shell/permission failure, STOP IMMEDIATELY and tell me exactly which server failed and how — do not begin the crawl, do not launch any subagent, do not silently waive or work around it. Only I decide whether to connect it (e.g. `/mcp`) or proceed without it.
-2. Create `ticket-refinements/YYYY-MM-DD-HHMM-<TICKET-ID>/` with `metadata.json` (structure below) and `research-notes.md`. These files are working memory only (chat-first contract).
+2. Create `~/.claude/runs/<repo>/ticket-refinements/YYYY-MM-DD-HHMM-<TICKET-ID>/` with `metadata.json` (structure below) and `research-notes.md` — `<repo>` derived at the moment of use per requirements-start.md's Files section (remote basename → only remote → toplevel dir name; an empty key is an error, and outside a git repository stop with "not inside a git repository — the run store is keyed by repo"); `mkdir -p` the family dir on first use. These files are working memory only (chat-first contract).
 3. **Crawl the source graph breadth-first until closed:** the ticket (description AND comments) → linked/related tickets (relations + current status) → PRD/docs including inline comments and what each is anchored to → pages they link → referenced threads (full, every reply) → referenced MRs/branches → media (video transcripts, design files). One extraction subagent per source; each fetches COMPLETELY via the native connector, writes its FULL extract to `sources/<SRC-ID>.md` (mandatory — this file is what the Phase 2 verifiers re-check against; a run that ends with an empty `sources/` folder has skipped its own protocol), and returns only a register row + discovered links.
 4. Build the **claims register** in `research-notes.md` per Principle 3 — open questions posed in ANY source (question marks, TBDs, option lists without a decision, AND imperative "confirm/verify/decide X" or "X vs Y" phrasings) are first-class entries with who posed them and what they were anchored to. An imperative to "confirm" is the source telling you it is unsure: it stays OPEN until a source decision or I settle it — never closed by a code or data read (Principle 8).
 5. **Currency snapshot:** status + timestamp for every mutable fact (ticket/MR states, dependency availability).
@@ -158,7 +158,7 @@ Precedence recommends SRC-5.4 (later + decision owner) — recommendation only �
 
 ## Files, metadata & handoff
 
-- Folder: `ticket-refinements/YYYY-MM-DD-HHMM-<TICKET-ID>/` — files: `research-notes.md`, `sources/*.md`, `refined-ticket.md`, `children/*.md`, `asks.md`, `metadata.json`. Working memory only; /synthesize never reads this folder.
+- Folder: `~/.claude/runs/<repo>/ticket-refinements/YYYY-MM-DD-HHMM-<TICKET-ID>/` — files: `research-notes.md`, `sources/*.md`, `refined-ticket.md`, `children/*.md`, `asks.md`, `metadata.json`. Working memory only; /synthesize never reads this folder.
 - Handoff: once the ticket is READY (pasted + status updated by me), /requirements-start runs on it as the primary source for implementation.
 
 ```json

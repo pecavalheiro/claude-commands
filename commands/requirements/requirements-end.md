@@ -4,8 +4,8 @@ Finalize the current requirement gathering session.
 
 ## Instructions:
 
-1. Read requirements/.current-requirement
-2. If no active requirement:
+1. Resolve this workspace's active run via its pointer file (`~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>` — derivation in requirements-start.md's Files section; outside a git repository, stop with "not inside a git repository — the run store is keyed by repo")
+2. If no active requirement for this workspace:
    - Show "No active requirement to end"
    - Exit
 
@@ -36,11 +36,11 @@ Finalize the current requirement gathering session.
 
 ### Option 3: Cancel
 - Confirm deletion
-- Remove requirement folder
-- Clear .current-requirement
+- Remove the run folder from the bucket (`~/.claude/runs/<repo>/requirements/`)
+- Delete this workspace's pointer file (another workspace's pointer at the deleted run becomes stale and is pruned on its next read)
 
 ## Final Spec Format:
 
 Use the output contract from `~/.claude/requirements-phases/phase-5-output.md` verbatim — sections: Problem Statement, Solution Overview, Functional Requirements (FR*), Technical Requirements, Implementation Hints, Acceptance Criteria, Assumptions, Out of Scope. Do not use an alternative template: /synthesize parses these exact section names.
 
-5. Clear .current-requirement
+5. Delete this workspace's pointer file (`~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>`)
