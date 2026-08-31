@@ -13,7 +13,7 @@ While any `metadata.holds` entry has `resolution: null` (override option (a), pa
 - **Provenance per requirement:** each FR notes whether it is source-stated (claim ID + locator), user-decided (which answer), a user-decided interim (the tag above), or an autonomous engineering decision (with rationale). Code facts carry the file:line verified in Phase 3b. Claim IDs keep the chain question → decision → FR → source greppable.
 - **Per-row provenance:** a citation covers exactly the sentences and rows it names. Any table or field mapping whose content comes from more than one source — or partly from user decisions or model proposals — carries a provenance tag PER ROW; a blanket "source-stated" over a table is valid only if the cited source states every row. A row with no provenance does not ship.
 - **No FR may rest on an `[unverified]` claim.** Remaining unknowns become explicit Assumptions, each naming the fact that would settle it.
-- **Volatile-claim markers:** any FR/TR resting on the ticket-stated shape of an UNMERGED dependency (open MR, in-review schema or API) is marked `[volatile: <dependency>]` — it can only ever be as accurate as the dependency's ticket, and the merged code may diverge. /synthesize's staleness preflight re-derives every `[volatile]` claim from the merged code before implementing.
+- **Volatile-claim markers:** any FR/TR resting on the ticket-stated shape of an UNMERGED dependency (open MR, in-review schema or API) is marked `[volatile: <dependency>]` — it can only ever be as accurate as the dependency's ticket, and the merged code may diverge. Before marking anything `[volatile: <dependency>]`, search the app for existing readers of that same contract — a sibling caller's extraction shape is evidence the register must hold, and it bounds what is genuinely unknown. /synthesize's staleness preflight re-derives every `[volatile]` claim from the merged code before implementing.
 - **Out of Scope:** every adjacent requirement discovered in reverse-checks mapped to its owning ticket — or, for a descoped critical, to its owner + communications item (C-n) — proof nothing was silently dropped.
 - **Prerequisites** (feature flags, migrations, keys, config) appear as explicit Technical Requirements rows so /synthesize surfaces them before implementation starts.
 - **Acceptance criteria** cover each trigger/path end-to-end — including data freshness/timing at trigger time (does the data the job reads exist and is it committed when the trigger fires?), failure paths, idempotency/redelivery, and the flag-off case. When a predicate or rule is being replaced, include cases only the NEW rule passes — the inclusive boundary instant and a state where old and new inputs disagree — written so that reverting the change fails them; an AC both versions satisfy pins nothing.
@@ -42,6 +42,10 @@ Set metadata `"status": "complete"` and `"phase": "complete"` (never while a hol
 ## Gate 5 — output (<timestamp>)
 - holds: <"none open", or the list that blocked completion>
 - spec: section headings verified against the contract; banned-word scan: <command + result>
+- acceptance criteria: FR → AC map, every FR listed: <FR-n → AC-n, …>; for each FR, the
+  §"output contract" classes covered or excluded with a reason — failure paths,
+  idempotency/redelivery, flag-off, data freshness at trigger time: <per-FR list, or
+  "N/A — <why>">; FRs with no AC: <list, or "none">
 - per-row provenance: <how checked + result>
 - final provenance audit: report at <location>; <N> findings, each resolved
 - currency at freeze: fetched; origin/<default-branch> <sha> (Gate 3b: <sha>); commits touching register-cited paths since: <list, each re-derived, or "none">
