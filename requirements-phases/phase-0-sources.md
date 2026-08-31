@@ -93,7 +93,7 @@ Login-walled videos, expiring screenshots: flag explicitly in the register with 
 
 ## 0.8 Currency snapshot
 
-Record status + timestamp of every mutable fact (ticket states, MR states, branch existence) — and repo state as the SHA of `origin/<default-branch>` after an explicit `git fetch`, never a local branch's HEAD (a multi-worktree checkout can be days behind, and a stale SHA makes every later "no changes" verdict false while looking clean). Code absence claims ("no callers", "no such column") are mutable facts of this class. These get re-checked in Phase 3b, at Gate 5, and again by /synthesize's staleness preflight at implementation start.
+Record status + timestamp of every mutable fact (ticket **titles, descriptions and acceptance criteria, plus `updatedAt`** — not only workflow state — MR states, branch existence) — and repo state as the SHA of `origin/<default-branch>` after an explicit `git fetch`, never a local branch's HEAD (a multi-worktree checkout can be days behind, and a stale SHA makes every later "no changes" verdict false while looking clean). Code absence claims ("no callers", "no such column") are mutable facts of this class. These get re-checked in Phase 3b, at Gate 5, and again by /synthesize's staleness preflight at implementation start.
 
 ## 0.9 Subagent ledger
 
