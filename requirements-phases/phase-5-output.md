@@ -36,6 +36,8 @@ Per source — claims extracted/verified counts (the Phase 3b COMPUTED numbers, 
 
 Set metadata `"status": "complete"` and `"phase": "complete"` (never while a hold is unresolved). Announce completion in chat with: the communications list (each item with its consequence label), every interim decision (owner + C-n), every held/descoped FR, the Assumptions, anything that blocked verification, and every source excluded as out-of-scope or inaccessible (with the reasoning / my Phase 0 ruling) — nothing gets dropped silently.
 
+Close the announcement with an unmissable handoff as its final lines: state plainly that **requirements gathering is COMPLETE** and the next step is `/synthesize`. Print the worktree reference — the path from metadata `worktree.path` (no worktree → the `workspace` path) — and the paste-ready command `/synthesize <worktree name>` so I can run it from another session.
+
 ## Gate 5 — append to `gates.md`
 
 ```
@@ -52,7 +54,7 @@ Set metadata `"status": "complete"` and `"phase": "complete"` (never while a hol
 - communications: <N> items, each with destination + consequence label; drafts contract applied per draft
 - verification report appended: <location>; metadata verification numbers = computed numbers (<show both>)
 - subagent ledger: launched <N> / done <D> / failed-reconciled <F>, N = D + F — <count command + output>; ListAgents at <date -u output>: none of this run's agents running
-- completion announced in chat
+- completion announced in chat, closing with the /synthesize handoff (worktree reference + paste-ready /synthesize command)
 ```
 
 **The run is complete.** If I later report that a finding from this run was wrong, run `/requirements-retro` — it verifies the miss, distills the lesson into the journal, and future Phase 0/3b reads it.
