@@ -6,7 +6,7 @@ Personal collection of Claude Code slash commands and the runtime files they dep
 
 **CLI tools:**
 
-- **[`glab`](https://gitlab.com/gitlab-org/cli)**, authenticated (`glab auth login`) — every GitLab-facing command shells out to it: `/deep-review` (whose MR gate refuses to produce findings without the discussion threads), `/mr-feedback-fix`, `/prepare-mr`, `/prepare-mr-deep`, `/review-retro`. `/deep-review` needs it even when the GitLab MCP is connected, because that server has no MR-notes tool.
+- **[`glab`](https://gitlab.com/gitlab-org/cli)**, authenticated (`glab auth login`) — every GitLab-facing command shells out to it: `/deep-review` (whose MR gate refuses to produce findings without the discussion threads), `/mr-feedback-fix`, `/mr-open` (whose preflight stops without it), `/prepare-mr`, `/prepare-mr-deep`, `/review-retro`. `/deep-review` needs it even when the GitLab MCP is connected, because that server has no MR-notes tool.
 - **`jq`** — used by `/review-retro` to resolve your GitLab username.
 
 **MCP connectors** are not optional for the two research commands; both gate on them before doing any work:
@@ -55,7 +55,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | `/requirements-list` | Dashboard of all runs for the current repo — every clone and worktree, annotated by origin. |
 | `/requirements-remind` | Compressed rule card to re-ground the model after drift or context compaction. |
 | `/requirements-end` | Finalize a run: generate the spec from current information, park it as incomplete, or cancel. |
-| `/synthesize` | Implement the most recent completed spec to a ship-ready state, with a staleness preflight and a Definition-of-Done gate; offers teardown of a run-created worktree once the work is safe. |
+| `/synthesize` | Implement the most recent completed spec to a ship-ready state, with a staleness preflight and a Definition-of-Done gate; its final report offers `/mr-open` for publishing and teardown of a run-created worktree once the work is safe. |
 | `/requirements-retro` | Post-mortem on a finished run whose findings were later challenged; distills confirmed misses into the lessons journal that future runs load as binding. |
 
 ### Review & delivery
@@ -68,6 +68,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | `/commit` | Commit current changes split into logical, chronologically ordered commits. |
 | `/prepare-mr [ticket]` | Default MR write-up: fills the repo's own MR template plus a title from the branch diff and the ticket, reconciling what the ticket asked against what actually shipped, and lists what must be solved before merge. One pass, no fan-out. |
 | `/prepare-mr-deep` | Same job for complex pipeline work: additionally sweeps the `/synthesize` run folder (`implementation/` notes, spec Assumptions and volatile markers, `communications.md`, holds) for loose ends, each re-verified against the code. Thorough and slow — use `/prepare-mr` unless the run folder matters. |
+| `/mr-open [ticket]` | Publish step: commits per `/commit`, splits work over 550 changed lines into a stack of dependency-ordered MRs (each independently green), fills the repo's own GitLab MR template (stops if there is none), and opens them with reviewers on my go. Offered by `/synthesize`'s final report. |
 
 ## Repository layout
 

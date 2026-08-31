@@ -7,6 +7,7 @@ End-to-end flow:
       → /requirements-start … /requirements-end   (gathering)
       → /synthesize                               (implementation)
       → /prepare-mr-deep                          (delivery: MR title + description + pre-merge items)
+      → /mr-open                                  (publish: commit, split into ≤550-line stacked MRs, open them)
       → /requirements-retro                       (feedback loop, when a run's findings are challenged)
 ```
 
