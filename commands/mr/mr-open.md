@@ -91,6 +91,9 @@ say so. Several → rule 2: ask me to pick. None → rule 2: STOP.
 
 - One per MR, per rule 4, from the ticket ($ARGUMENTS, else the branch name) and that
   chunk's diff; titles follow the repo's convention read from recently merged MRs.
+- A write-up already produced this session by /prepare-mr or /prepare-mr-deep is the
+  description source: reuse it rather than regenerating (for a stack, split its content
+  by chunk), and carry its pre-merge items into the publish gate's confirm list.
 - Each stacked description states its place plainly: part N of M, what the previous part
   provides, what the next one builds on it. The depends-on link is injected at creation
   time, when the previous MR's iid exists.
