@@ -9,6 +9,7 @@ Read the full final content of every changed file, not just the diff hunks, then
 ## Hunt list
 
 - **Wrong results on realistic inputs.** Walk each changed function with a few concrete inputs, including the boundaries between clauses. Pattern-match fallthroughs (`def call(_), do: :ok` and friends) that silently swallow cases the author did not consider.
+- **Mirrors and reconstructions.** When the change claims to reproduce another code path's behavior (a backfill, a reconstruction, a copied private builder), walk the original from its public entry point and list every guard, clause dispatch, and config gate above the mirrored fragment — each one is either replicated, derivable from persisted data, or a fidelity gap. Then search the original's test file for the claimed behavior; an existing test that names it is decisive evidence either way.
 - **Error handling.** Errors swallowed into `:ok`; `with/else` clauses that miss a failure shape; error branches on reachable paths that report nothing; error tuples whose shape does not match what callers match on.
 - **Transaction and consistency boundaries.** Partial writes when a later step fails; side effects (jobs, hooks, external calls) fired inside transactions; missing idempotency where a trigger can fire twice; races when two triggers overlap.
 - **Async and retry semantics.** For anything queued, hooked, or scheduled: read the actual mode, queue, retry, and uniqueness config. Sync vs async changes failure semantics — ask "who notices when this fails?"
