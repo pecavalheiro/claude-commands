@@ -74,6 +74,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 
 ```
 commands/               # one .md = one slash command, installed flat
+  mr/                   #   the MR family (prepare, open, feedback-fix)
   requirements/         #   the requirements pipeline family
   *.md                  #   standalone commands
 requirements-phases/    # pipeline rule files  -> ~/.claude/requirements-phases
