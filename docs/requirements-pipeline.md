@@ -42,7 +42,7 @@ The active run is tracked **per workspace**: each clone/worktree has its own poi
 
 ## The /synthesize interface (do not break)
 
-- Resolves its run workspace-first: explicit argument → the workspace's pointer → newest qualifying run created by this workspace (metadata `workspace`) → newest qualifying run in the whole bucket, only with an announcement naming the run and its origin workspace.
+- Resolves its run workspace-first: explicit argument (a run name/path, or a worktree reference — name or full path — matched against metadata `worktree.path`, then `workspace`; this is what makes Gate 5's paste-ready `/synthesize <worktree name>` handoff work from another session) → the workspace's pointer → newest qualifying run created by this workspace (metadata `workspace`) → newest qualifying run in the whole bucket, only with an announcement naming the run and its origin workspace.
 - Reads: `metadata.json` (needs `"status": "complete"`, `contextFiles`, `relatedFeatures`, `holds` — never complete while any hold has `resolution: null`), `06-requirements-spec.md`, `03-context-findings.md`, and `research-notes.md` (currency snapshot + verification report, for its staleness preflight).
 - The spec's section names are parsed and are not negotiable: **Problem Statement, Solution Overview, Functional Requirements (FR-numbered), Technical Requirements, Implementation Hints, Acceptance Criteria, Assumptions, Out of Scope.**
 - `communications.md` and `gates.md` are never spec input.
