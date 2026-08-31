@@ -5,7 +5,7 @@ description: Post-review retrospective on a GitLab MR previously reviewed with /
 
 # Review Retro
 
-Turn a human review into durable review knowledge. Input: a GitLab MR URL. Optionally the user also pastes what the earlier /deep-review run found; if not, reconstruct it from the comments they posted on the MR (resolve their GitLab username with `glab api user | jq -r .username`) and ask when ambiguous.
+Turn a human review into durable review knowledge. Input: a GitLab MR URL. Optionally the user also pastes what the earlier /deep-review run found; if not, reconstruct it from the comments they posted on the MR (resolve their GitLab username with `glab api user | jq -r .username`) and ask when ambiguous. The comparison source can also be a second /deep-review run of the same MR at the same head (a different model or session) instead of a human review: classify what one run caught and the other missed with the same taxonomy, skip the discussion-focused steps that don't apply, and name which run caught each lesson in its Source line.
 
 ## The journal
 
