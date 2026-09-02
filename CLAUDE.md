@@ -19,13 +19,14 @@ Agent skills live in `skills/<name>/SKILL.md` and install as **per-skill** symli
 
 ## Journals
 
-Three machine-local journals under `~/.claude/journals/`, in no repo and never installed by this one. Commands read them; retros write them; a missing journal is always a normal state that is noted and continued past, never an error and never a reason to search elsewhere.
+Four machine-local journals under `~/.claude/journals/`, in no repo and never installed by this one. Commands read them; retros write them; a missing journal is always a normal state that is noted and continued past, never an error and never a reason to search elsewhere — except `investigation.md`, which is load-bearing for `/investigate-ticket` (it holds this machine's repo paths and internal names), so when it is missing the command asks for the environment instead of continuing.
 
 | Journal | Path | Scope | Written by |
 |---|---|---|---|
 | Review lessons | `<app>/review-lessons.md` | per app | `/review-retro` |
 | Requirements lessons | `requirements-lessons.md` | all projects | `/requirements-retro` |
 | Domain knowledge | `domain.md` | all projects | maintained outside this repo |
+| Investigation environment | `investigation.md` | all projects | maintained outside this repo |
 
 `<app>` is the repo's name from its remote — `basename -s .git "$(git remote get-url origin)"`, falling back to its only remote, then to the top-level directory name. Keying on the remote rather than a path is deliberate: every clone of an app shares one journal wherever it sits on disk, and the commands carry no assumption about anyone's folder layout.
 

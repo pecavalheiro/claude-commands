@@ -70,6 +70,12 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | `/prepare-mr-deep` | Same job for complex pipeline work: additionally sweeps the `/synthesize` run folder (`implementation/` notes, spec Assumptions and volatile markers, `communications.md`, holds) for loose ends, each re-verified against the code. Thorough and slow — use `/prepare-mr` unless the run folder matters. |
 | `/mr-open [ticket]` | Publish step: commits per `/commit`, splits work over 550 changed lines into a stack of dependency-ordered MRs (each independently green), fills the repo's own GitLab MR template (stops if there is none), and opens them with reviewers on my go. Offered by `/synthesize`'s final report. |
 
+### Investigation
+
+| Command | Role |
+|---|---|
+| `/investigate-ticket <thread>` | Evidence-first investigation of a support/escalation Slack thread: the thread is the source of truth, the codebase gives the rule, the data warehouse and telemetry prove it against production, with cross-checks in both directions before any claim is stated. Three deliverable modes — answering the asker's questions verbatim, a verdict (where "false alarm" is a valid result), or a gated and post-verified state change — plus a mandatory adversarial audit of its own draft. Reads a machine-local environment journal for repo paths and internal names. |
+
 ## Repository layout
 
 ```
@@ -88,7 +94,7 @@ Conventions for adding commands are in [CLAUDE.md](CLAUDE.md).
 
 ## Notes
 
-- Some commands read or append **journals** under `~/.claude/journals/` — machine-local, in no repo, and not installed by this one: `<app>/review-lessons.md` (per app, written by `/review-retro`), `requirements-lessons.md` (all projects, written by `/requirements-retro`), and `domain.md` (all projects, maintained separately). `<app>` comes from the repo's remote, not its path, so every clone of an app shares one journal wherever it lives. A missing journal is a normal first-run state: commands note it and continue. See [CLAUDE.md](CLAUDE.md#journals).
+- Some commands read or append **journals** under `~/.claude/journals/` — machine-local, in no repo, and not installed by this one: `<app>/review-lessons.md` (per app, written by `/review-retro`), `requirements-lessons.md` (all projects, written by `/requirements-retro`), `domain.md` (all projects, maintained separately), and `investigation.md` (all projects, read by `/investigate-ticket`, maintained separately). `<app>` comes from the repo's remote, not its path, so every clone of an app shares one journal wherever it lives. A missing journal is a normal first-run state: commands note it and continue — except `investigation.md`, which `/investigate-ticket` needs and will ask for. See [CLAUDE.md](CLAUDE.md#journals).
 - The **run store** under `~/.claude/runs/` (see "The run store" above) follows the same model: machine-local, keyed by remote, created on demand, never installed or committed.
 
 ## Acknowledgments
