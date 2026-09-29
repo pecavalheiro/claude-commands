@@ -19,14 +19,15 @@ Agent skills live in `skills/<name>/SKILL.md` and install as **per-skill** symli
 
 ## Journals
 
-Five machine-local journals under `~/.claude/journals/`, in no repo and never installed by this one. Commands read them; retros write them; a missing journal is always a normal state that is noted and continued past, never an error and never a reason to search elsewhere — except `investigation.md` and `weekly-recap.md`, which are load-bearing for `/investigate-ticket` and `/weekly-recap` (they hold this machine's repo paths and internal names, and the team channel and recap style sample), so when one is missing its command asks for the environment instead of continuing.
+Six machine-local journals under `~/.claude/journals/`, in no repo and never installed by this one. Commands read them; retros write them; a missing journal is always a normal state that is noted and continued past, never an error and never a reason to search elsewhere — except `investigation.md` and `weekly-recap.md`, which are load-bearing for `/investigate-ticket` and `/weekly-recap` (they hold this machine's repo paths and internal names, and the team channel and recap style sample), so when one is missing its command asks for the environment instead of continuing.
 
 | Journal | Path | Scope | Written by |
 |---|---|---|---|
 | Review lessons | `<app>/review-lessons.md` | per app | `/review-retro`, on approval |
 | Requirements lessons | `requirements-lessons.md` | all projects | `/requirements-retro` |
-| Domain knowledge | `domain.md` | all projects | maintained outside this repo |
-| Investigation environment | `investigation.md` | all projects | maintained outside this repo |
+| Investigation lessons | `investigation-lessons.md` | all projects | `/investigate-retro`, on approval |
+| Domain knowledge | `domain.md` | all projects | maintained outside this repo; `/investigate-retro` proposes additions |
+| Investigation environment | `investigation.md` | all projects | maintained outside this repo; `/investigate-retro` proposes additions |
 | Weekly recap environment | `weekly-recap.md` | all projects | maintained outside this repo |
 
 `<app>` is the repo's name from its remote — `basename -s .git "$(git remote get-url origin)"`, falling back to its only remote, then to the top-level directory name. Keying on the remote rather than a path is deliberate: every clone of an app shares one journal wherever it sits on disk, and the commands carry no assumption about anyone's folder layout.

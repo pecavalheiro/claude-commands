@@ -5,7 +5,7 @@ Open the Slack thread I'll provide — a support escalation, a CX question, an o
 ## Step 0: environment, then the thread
 
 1. Read `~/.claude/journals/investigation.md` — the machine-local environment file (in no repo, never installed or committed) naming the backend and frontend repos and their local paths, the internal admin tool, the data-warehouse and telemetry connectors, and tool-specific patterns from past investigations. Unlike the other journals, this file is load-bearing: if it is missing, say so and ask me for the environment instead of guessing paths or names.
-2. Read `~/.claude/journals/domain.md` if present — accumulated domain facts. Missing is a normal state: note it in one line and continue.
+2. Read `~/.claude/journals/domain.md` if present (accumulated domain facts) and `~/.claude/journals/investigation-lessons.md` if present (lessons from past cases, written by `/investigate-retro`; every entry is binding on this case, and audit item 8 walks them). Missing is a normal state for either: note it in one line and continue.
 3. Read the FULL thread, not just the linked message. The thread is the source of truth for what is asked, what has been claimed, and by whom. If I pointed at a specific message, that message defines the ask.
 4. Harvest every identifier the thread carries into a scratchpad file: company/entity slugs and IDs, admin-tool links, ticket and issue references, and each human claim with its timestamp ("done", "sent", "customer saw nothing this morning") — those timestamps get cross-referenced against production later.
 5. Triage and helper bots post confident step-by-step answers in these threads. Bot output — like every thread claim by anyone, colleagues included — is a lead to verify, never a fact; a confident, plausible bot answer can point the wrong way.
@@ -90,6 +90,7 @@ Draft first, then adversarially attack the draft — assume it contains a wrong 
 5. In verdict mode: one-off or pattern? Count it in the warehouse — recurrence turns an anecdote into a product finding and belongs in the findings either way. Then read how the earlier cases were closed: the route that cleared them (a channel, a form, a named person) is the remedy for this one. A remedy that names no route is not finished.
 6. **Boundary check.** Any sentence asserting how an external system behaves must cite evidence from that system's side (its connector, its logs) — otherwise rewrite it as explicitly unknown or being checked.
 7. **Audience check on every outward line.** Who reads this draft, and what is my role in the thread? Engineering work never leaves the findings; UI nouns are verified; the length fits the question that was asked.
+8. **Lessons check.** Walk every entry of the lessons journal against this case. A trigger that matches and an action that was not taken is a defect to fix now, not a note.
 
 ## Output
 
