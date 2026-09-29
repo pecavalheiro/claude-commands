@@ -6,13 +6,14 @@ Personal collection of Claude Code slash commands and the runtime files they dep
 
 **CLI tools:**
 
-- **[`glab`](https://gitlab.com/gitlab-org/cli)**, authenticated (`glab auth login`) — every GitLab-facing command shells out to it: `/deep-review` (whose MR gate refuses to produce findings without the discussion threads), `/mr-feedback-fix`, `/mr-open` (whose preflight stops without it), `/prepare-mr`, `/prepare-mr-deep`, `/review-retro`. `/deep-review` needs it even when the GitLab MCP is connected, because that server has no MR-notes tool.
+- **[`glab`](https://gitlab.com/gitlab-org/cli)**, authenticated (`glab auth login`) — every GitLab-facing command shells out to it: `/deep-review` (whose MR gate refuses to produce findings without the discussion threads), `/mr-feedback-fix`, `/mr-open` (whose preflight stops without it), `/prepare-mr`, `/prepare-mr-deep`, `/review-retro`, `/weekly-recap` (which lists my merge requests through it). `/deep-review` needs it even when the GitLab MCP is connected, because that server has no MR-notes tool.
 - **`jq`** — used by `/review-retro` to resolve your GitLab username.
 
 **MCP connectors** are not optional for the two research commands; both gate on them before doing any work:
 
 - `/refine-ticket` preflights **every** connector it can use, before it crawls anything: Linear, Slack, Notion, GitLab, Figma, Loom, web, and **Snowflake** — it confirms load-bearing data assumptions against real data, not just against code. If any one is missing, unauthenticated, or erroring it stops immediately and names it; only you may decide to proceed without it.
 - `/requirements-start` preflights on demand — whichever connectors the ticket's source graph actually needs (typically Linear, Notion, GitLab, Figma, Slack). A source type absent from the graph can be deferred, but that deferral cancels itself the moment a link of that type appears. Missing or unauthenticated means it stops and asks you to connect it (`/mcp`) or to waive that source type for the run.
+- `/weekly-recap` needs the Slack and Linear connectors plus `glab`, and a machine-local journal (`~/.claude/journals/weekly-recap.md`) naming the team channel and holding a past recap as its style sample. Missing any of them, it stops and asks rather than guessing a channel or a voice.
 - Elsewhere they genuinely are optional: `/prepare-mr` reads the ticket through the Linear MCP or `glab`, whichever fits the URL.
 
 That connector list is the stack this pipeline was built against. `/requirements-start`'s gate is generic — it verifies whatever a source in the graph requires — but `/refine-ticket`'s list is explicit, so on a different stack (no Snowflake, another tracker) it will stop on the first run until you waive the missing servers or edit that list.
@@ -76,6 +77,12 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 |---|---|
 | `/investigate-ticket <thread>` | Evidence-first investigation of a support/escalation Slack thread: the thread is the source of truth, the codebase gives the rule, the data warehouse and telemetry prove it against production, with cross-checks in both directions before any claim is stated. Three deliverable modes — answering the asker's questions verbatim, a verdict (where "false alarm" is a valid result), or a gated and post-verified state change — plus a mandatory adversarial audit of its own draft. Reads a machine-local environment journal for repo paths and internal names. |
 
+### Reporting
+
+| Command | Role |
+|---|---|
+| `/weekly-recap` | Drafts my end-of-week recap for the team channel from the week's evidence (tracker issues, merge requests, my own chat messages, with every candidate thread read to its end), asks me for next week's availability and priorities instead of inferring them, and hands the result back as a paste-ready block in the conversation with an evidence row per sentence. Topics, not tickets; it never posts and never creates a Slack draft. Reads a machine-local environment journal for the channel, emoji vocabulary, and style sample. |
+
 ## Repository layout
 
 ```
@@ -94,7 +101,7 @@ Conventions for adding commands are in [CLAUDE.md](CLAUDE.md).
 
 ## Notes
 
-- Some commands read or append **journals** under `~/.claude/journals/` — machine-local, in no repo, and not installed by this one: `<app>/review-lessons.md` (per app, written by `/review-retro`), `requirements-lessons.md` (all projects, written by `/requirements-retro`), `domain.md` (all projects, maintained separately), and `investigation.md` (all projects, read by `/investigate-ticket`, maintained separately). `<app>` comes from the repo's remote, not its path, so every clone of an app shares one journal wherever it lives. A missing journal is a normal first-run state: commands note it and continue — except `investigation.md`, which `/investigate-ticket` needs and will ask for. See [CLAUDE.md](CLAUDE.md#journals).
+- Some commands read or append **journals** under `~/.claude/journals/` — machine-local, in no repo, and not installed by this one: `<app>/review-lessons.md` (per app, written by `/review-retro`), `requirements-lessons.md` (all projects, written by `/requirements-retro`), `domain.md` (all projects, maintained separately), `investigation.md` (all projects, read by `/investigate-ticket`, maintained separately), and `weekly-recap.md` (all projects, read by `/weekly-recap`, maintained separately). `<app>` comes from the repo's remote, not its path, so every clone of an app shares one journal wherever it lives. A missing journal is a normal first-run state: commands note it and continue — except `investigation.md` and `weekly-recap.md`, which `/investigate-ticket` and `/weekly-recap` need and will ask for. See [CLAUDE.md](CLAUDE.md#journals).
 - The **run store** under `~/.claude/runs/` (see "The run store" above) follows the same model: machine-local, keyed by remote, created on demand, never installed or committed.
 
 ## Acknowledgments
