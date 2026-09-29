@@ -56,9 +56,18 @@ in scope.
 ## Step 0 — Git preflight (always, before anything else)
 
 - Check the current branch and the working tree (`git status`, untracked files included).
-- **Worktree mode**: the default, not an option to offer. `git fetch origin`, create a
-  worktree at the MR source branch's remote tip, and do ALL work there; the main checkout
-  is never touched. A clean tree already sitting on the MR branch is no reason to skip
+- **Worktree mode**: the default, not an option to offer. `git fetch origin`, then
+  freshen the default branch before creating anything: compare the local default branch
+  (`git symbolic-ref --short refs/remotes/origin/HEAD`, falling back to whichever of
+  master/main exists on origin) against its origin counterpart. Behind → fast-forward it
+  where it is checked out, normally the main folder (`git worktree list` shows which):
+  `git -C <that folder> merge --ff-only origin/<branch>`, or
+  `git fetch origin <branch>:<branch>` when no folder has it checked out. Already
+  current → say so in one line. Diverged, or local state blocks the fast-forward →
+  report the state in one line and ask me (update how / proceed on the stale branch /
+  abort); never merge, rebase, or reset to resolve it yourself. Then create a worktree
+  at the MR source branch's remote tip, and do ALL work there; apart from that
+  fast-forward, the main checkout is never touched. A clean tree already sitting on the MR branch is no reason to skip
   it: another session can switch that checkout's branch mid-run and git still reads
   clean. Expect a fresh worktree to need bootstrapping (deps installed or cloned from
   the main checkout before hooks and tests work). Provision test resources per run with
