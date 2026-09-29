@@ -56,10 +56,11 @@ in scope.
 ## Step 0 — Git preflight (always, before anything else)
 
 - Check the current branch and the working tree (`git status`, untracked files included).
-- **Worktree mode** — take it when I ask for it; offer it when the checkout is dirty or
-  visibly in use by another session: `git fetch origin`, create a worktree at the MR
-  source branch's remote tip, and do ALL work there — the main checkout is never touched
-  again. Expect a fresh worktree to need bootstrapping (deps installed or cloned from
+- **Worktree mode**: the default, not an option to offer. `git fetch origin`, create a
+  worktree at the MR source branch's remote tip, and do ALL work there; the main checkout
+  is never touched. A clean tree already sitting on the MR branch is no reason to skip
+  it: another session can switch that checkout's branch mid-run and git still reads
+  clean. Expect a fresh worktree to need bootstrapping (deps installed or cloned from
   the main checkout before hooks and tests work). Provision test resources per run with
   unique names/ports (e.g. a throwaway database container) — never reuse another
   session's shared containers; parallel sessions tear them down under you. Keep a
@@ -67,11 +68,11 @@ in scope.
 - **Any local changes** (staged, unstaged, or untracked), when not in worktree mode:
   STOP. Report the branch and the exact files and ask what to do (worktree / stash /
   commit / abort) — never stash, discard, or proceed on your own.
-- **Clean tree**: if $ARGUMENTS is empty, resolve the MR for the current branch NOW,
-  before switching away. Then sync: `git switch master` (or the repo's default branch if
-  it isn't master) and `git pull`. Then check out the MR's source branch and bring it to
-  the remote tip — the fixes in Step 4 are committed there, never on master. Only then
-  start Step 1.
+- **Clean tree**, when not in worktree mode: if $ARGUMENTS is empty, resolve the MR for
+  the current branch NOW, before switching away. Then sync: `git switch master` (or the
+  repo's default branch if it isn't master) and `git pull`. Then check out the MR's
+  source branch and bring it to the remote tip — the fixes in Step 4 are committed
+  there, never on master. Only then start Step 1.
 
 ## Step 1 — Fetch & scope gate
 
