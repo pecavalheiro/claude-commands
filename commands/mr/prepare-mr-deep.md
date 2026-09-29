@@ -42,6 +42,14 @@ and never guessed from the diff alone.
    `C-n`, no claim IDs, no phase names, no "the spec", no journal names. The MR page and
    the repo are all a reader has. Restate the fact in plain words instead.
 8. This command creates no files. Output lands in chat, in fenced blocks I copy from.
+9. Budgets, hard, per section type: summary 1-2 sentences; why at most 3 short sentences
+   and at most one number, no timeline narrative; what-changed 3-6 one-line bullets,
+   behavior first, mechanics only where the diff cannot show the intent, at most one
+   closest-look pointer; verification the steps or commands a reviewer runs, one line
+   each, pass/fail only, no test-coverage inventories; checkbox notes one short clause,
+   only on boxes not ticked `[x]`. Screenshots are never transcribed into prose or
+   tables. What does not fit a budget goes to chat under "Confirm before you paste",
+   never into the description.
 
 ## Step 1 — Locate the work and its run
 
@@ -73,7 +81,8 @@ and never guessed from the diff alone.
   in one line. Genuinely ambiguous → ask me, do not guess.
 - No template anywhere → STOP and tell me; ask whether to use a plain
   Summary / Changes / How to verify / Risks shape instead.
-- Template comments (`<!-- ... -->`) are author instructions: drop the instruction block
+- Template comments (`<!-- ... -->`) are author instructions that bind the content
+  ("be very concise", "plain language"): obey them, then drop the instruction block
   from a section once that section is filled, keep every structural or executable
   element. Keep the quick-action lines exactly as written and in place.
 
@@ -86,13 +95,13 @@ has never seen the run — spec prose is written for implementation, not for rev
 
 - **Description / Summary** ← Problem Statement + Solution Overview, plus the approach and
   any trade-off worth a reviewer's attention (from `implementation-notes`). Enough that
-  the diff does not have to be read to understand intent.
+  the reader knows what changed for users and why; the diff carries the implementation.
 - **Changed behavior** ← the requirements as implemented, checked against the diff.
 - **Related resources** ← the ticket URL and the source links in `metadata.json` /
   the claims register. Real links only.
 - **Type of change** ← inferred from the diff; state the inference so I can correct it.
 - **Testing / How to verify** ← the acceptance criteria turned into steps a reviewer can
-  run, plus the exact commands the Definition-of-Done gate ran and their results.
+  run, plus the commands the Definition-of-Done gate ran, one line each, pass/fail.
 - **Rollout / risks / dependencies** ← the prerequisites in Technical Requirements (flags,
   migrations, keys, config), deploy order, and every `[volatile: <dependency>]` dependency
   whose MR is still open — that is what the "requires a specific branch / feature flag"
@@ -102,9 +111,11 @@ has never seen the run — spec prose is written for implementation, not for rev
   Loom link: leave the placeholder and make it a pre-merge item.
 - **Checklists** ← per rule 3.
 
-Register: plain, direct English, valid GitLab Markdown, every identifier (module,
-function, variable, config key, file path, literal value) in backticks. No em dashes, no
-bold-for-emphasis, no first-person narration of work ("I decided", "as we discussed").
+Register: write for a person skimming the MR page who will open the diff next: the
+description orients, the diff carries the detail. Product and user-flow language; module,
+function, and file names only where the reviewer needs the anchor, in backticks. Plain,
+direct English, valid GitLab Markdown. No em dashes, no bold-for-emphasis, no
+first-person narration of work ("I decided", "as we discussed").
 
 ## Step 4 — Collect and verify what must be solved before merge
 

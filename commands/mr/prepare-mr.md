@@ -15,8 +15,9 @@ use `/prepare-mr-deep` instead.
 - Never post, push, or create/update the MR (`glab mr create|update` included). The output
   is paste-ready; publishing is mine.
 - Reproduce the template's headings, order, `<details>` blocks, and GitLab quick-action
-  lines (`/assign me`) verbatim. Drop only the author-instruction comments from the
-  sections you fill. Fill sections; never redesign them.
+  lines (`/assign me`) verbatim. The template's comment instructions ("be very concise",
+  "plain language") bind what you write: obey them, then drop them from the sections you
+  fill. Fill sections; never redesign them.
 - Tick a checkbox only with evidence for it. Anything else stays unticked and gets listed
   for me to confirm — never make me sign a claim I did not make.
 - Invent nothing: no links, ticket keys, flag names, screenshots, or commands absent from
@@ -25,8 +26,21 @@ use `/prepare-mr-deep` instead.
 - Never claim a check ran that did not run, or a result you did not see.
 - Keep it cheap: one pass over the diff, the template, and the ticket. No subagents, no
   repo-wide exploration, no re-reading what is already in context.
-- Plain direct English, valid GitLab Markdown, identifiers in backticks. No first-person
-  narration, no em dashes.
+- Write for a person skimming the MR page who will open the diff next: the description
+  orients, the diff carries the detail. Product and user-flow language; module, function,
+  and file names only where the reviewer needs the anchor, in backticks. Plain direct
+  English, valid GitLab Markdown. No first-person narration, no em dashes.
+- Budgets, hard, per section type: summary 1-2 sentences; why at most 3 short sentences
+  and at most one number, no timeline narrative; what-changed 3-6 one-line bullets,
+  behavior first, mechanics only where the diff cannot show the intent, at most one
+  closest-look pointer; verification the steps or commands a reviewer runs, one line
+  each, pass/fail only, no test-coverage inventories; checkbox notes one short clause,
+  only on boxes not ticked `[x]`. Screenshots are never transcribed into prose or
+  tables. What does not fit a budget goes to chat under Check before pasting, never
+  into the description.
+- Fill only sections the template has; never invent one. The only addition ever made is
+  the blocker section from Output rule 1. Evidence with no template section — test runs,
+  divergence explanations — belongs in the chat message, not the description.
 
 ## Instructions
 
@@ -39,12 +53,14 @@ use `/prepare-mr-deep` instead.
    shipped. Read enough of the changed files to state the *why* behind the approach, not
    only the *what*, and name every divergence: asked for but absent, present but not asked
    for, solved differently. A divergence you cannot explain from the code is a question
-   for me, never narration in the description.
+   for me, never narration in the description. An explained one goes to Check before
+   pasting; only a divergence the reviewer must weigh in on earns one sentence in the
+   description.
 4. **Find the template**: `.gitlab/merge_request_templates/*.md`, then
    `.github/PULL_REQUEST_TEMPLATE.md` or `pull_request_template.md`. Several candidates →
    pick the fitting one and name it. None → ask whether to use a plain
    Summary / Changes / How to verify / Risks shape.
-5. **Fill it** for a reviewer who has not read the ticket: what changed and why, the ticket
+5. **Fill it** for a reader who has not read the ticket and reads the diff next: what changed and why, the ticket
    link, how to verify (commands or steps a reviewer can actually run), risks, dependent
    MRs, feature flags, migrations. UI touched → leave the screenshot placeholder rather
    than fabricating one.
