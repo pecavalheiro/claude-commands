@@ -29,7 +29,17 @@ in scope.
 4. Evidence discipline (as in /deep-review): verify every thread's premise against the
    code before any verdict — behavioral claims traced to their defining source, never
    assumed from the diff. A reviewer can be wrong; prove it before pushing back — and
-   prove them right before agreeing.
+   prove them right before agreeing. Before pushing back on a premise, check for prior
+   art: `ls ~/.claude/runs/<repo>/requirements/` for the ticket in the branch name, and
+   read that run's spec on the behavior in question — it often settles the point with
+   better sources than a fresh investigation will find. Any push-back resting on "X
+   cannot happen" states the frame its evidence was gathered under: which enforcement,
+   which config, which seeding path. An invariant is only as absolute as the constraint
+   behind it, and a constraint the repo ships a way to disable is not absolute. When the
+   push-back defends a design or a module boundary, run the search that would disprove
+   you before drafting: look for code outside that boundary which already does what you
+   claim only the boundary can do. Precedent that supports your position is not
+   evidence; the counter-precedent is.
 5. Provenance separation: the reviewer's words and your analysis are NEVER blended.
    Every quote carries its clickable note anchor
    (…/merge_requests/<iid>#note_<note_id> — not an internal discussion hash). Anything
