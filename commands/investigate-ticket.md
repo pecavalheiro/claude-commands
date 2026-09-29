@@ -1,8 +1,6 @@
 # /investigate-ticket
 
-Open the Slack thread I'll provide — a support escalation, a CX question, an ops request, or a suspicion about production behavior. The deliverable's shape depends on what the thread actually needs (Step 0.5 decides), but the method never varies: every claim backed by evidence gathered this session, labeled by its evidence class, cross-checked in both directions, and adversarially audited before anything reaches me as final. Nothing is assumed, nothing is guessed, and nothing is posted or executed without the explicit unlocks at the end.
-
-This command exists because a real investigation got the substance right and still needed six corrections before the answer was postable. Each correction is a hard rule below — the disciplines and prohibitions are binding, not advisory.
+Open the Slack thread I'll provide — a support escalation, a CX question, an ops request, or a suspicion about production behavior. The deliverable's shape depends on what the thread actually needs (Step 0.5 decides), but the method never varies: every claim backed by evidence gathered this session, labeled by its evidence class, cross-checked in both directions, and adversarially audited before anything reaches me as final. Nothing is assumed, nothing is guessed, and nothing is posted or executed without the explicit unlocks at the end. Every discipline and prohibition below is binding, not advisory.
 
 ## Step 0: environment, then the thread
 
@@ -10,7 +8,7 @@ This command exists because a real investigation got the substance right and sti
 2. Read `~/.claude/journals/domain.md` if present — accumulated domain facts. Missing is a normal state: note it in one line and continue.
 3. Read the FULL thread, not just the linked message. The thread is the source of truth for what is asked, what has been claimed, and by whom. If I pointed at a specific message, that message defines the ask.
 4. Harvest every identifier the thread carries into a scratchpad file: company/entity slugs and IDs, admin-tool links, ticket and issue references, and each human claim with its timestamp ("done", "sent", "customer saw nothing this morning") — those timestamps get cross-referenced against production later.
-5. Triage and helper bots post confident step-by-step answers in these threads. Bot output — like every thread claim by anyone, colleagues included — is a lead to verify, never a fact. A plausible bot answer pointing the wrong way is a recorded failure mode.
+5. Triage and helper bots post confident step-by-step answers in these threads. Bot output — like every thread claim by anyone, colleagues included — is a lead to verify, never a fact; a confident, plausible bot answer can point the wrong way.
 6. Record participant names only. Roles, teams, and seniority are unknown until looked up (people rule, in the audit).
 
 ## Step 0.5: shape the deliverable — three modes
@@ -27,15 +25,15 @@ In the backend and frontend repos named by the environment file, grep from the t
 
 The code yields the **rule** — what the system is built to do — always cited as file:line. The code never proves what happened in production; that is Steps 2–3. Prefer running the app's own functions against real data (a scratchpad script through the app's runner) over hand-simulating logic; when the build won't cooperate, derive from source and label the derivation as such.
 
-## Step 2: production state — the data warehouse (Snowflake MCP)
+## Step 2: production state — the data warehouse
 
-`list_skills`/`get_skill` for curated query recipes first; `describe_table` before SQL against any identifier not already seen this session. Pull the actual rows: status fields and timestamps, job rows (state, attempts, errors, and args — job args often carry the literal recipient or target list, the strongest evidence of who an action touched), the notifications actually created and for whom, the affected user's roles, stored permissions, and history.
+Query through the warehouse connector named by the environment file: its curated query recipes first, and describe a table before writing SQL against any identifier not already seen this session. Pull the actual rows: status fields and timestamps, job rows (state, attempts, errors, and args — job args often carry the literal recipient or target list, the strongest evidence of who an action touched), the notifications actually created and for whom, the affected user's roles, stored permissions, and history.
 
 Run the **negative** queries too, not just the confirming ones: who is absent from a list, which rows do NOT exist, what never got enqueued. Every absence claim names the query that would have found the row.
 
-## Step 3: runtime — telemetry (Honeycomb MCP)
+## Step 3: runtime — telemetry
 
-Traces and request-level events: the job's trace (state, error flag, timing matched against the thread's human timestamps) and — always, in the main pass — the affected user's own footprint: their requests against the surfaces in question, sign-ins, errors. A 403 in the user's own request log turns a permission analysis from inference into observation and is routinely the strongest single piece of evidence in a case; in the session this command was distilled from, it was found only during the late audit. Look for it here.
+Through the telemetry connector named by the environment file: traces and request-level events — the job's trace (state, error flag, timing matched against the thread's human timestamps) and the affected user's own footprint: their requests against the surfaces in question, sign-ins, errors. A 403 in the user's own request log turns a permission analysis from inference into observation and is routinely the strongest single piece of evidence in a case. Search for it now, in the main pass, not during the audit.
 
 ## Cross-check discipline — both directions, before any claim is stated
 
@@ -66,7 +64,7 @@ Investigation first proves the action is right: the current production state, wh
 
 ## The audit — mandatory, after drafting, before anything reaches me as final
 
-Draft first, then adversarially attack the draft. In the source session this step found a flatly wrong claim, an unsupported claim, an invented escalation, and the strongest evidence in the case. Walk every sentence through:
+Draft first, then adversarially attack the draft — assume it contains a wrong claim, an unsupported claim, or missed evidence, and go looking for them. Walk every sentence through:
 
 1. **Does the cited data actually demonstrate this specific claim?** Re-read the rows and check what they ARE, not just that they exist. Canonical failure: a count of three records cited as proof of "one per entity" when the rows were retries on a single entity — the count was real, the claim attached to it was false.
 2. **People and teams — looked up, never inferred.** Every name attached to an escalation, cc, or role gets its Slack profile read NOW. Team ownership comes from code ownership annotations and telemetry team fields, never from who talks in the thread. If the owning team is already in the thread, there is nobody to "raise it with" and no escalation line belongs in any draft.
@@ -86,7 +84,7 @@ Then the mode's deliverable. Every Slack draft is paste-ready in a fenced code b
 
 **C. Action mode.** Before the unlock: the verified plan per the gate above. After post-verification: a short confirmation draft stating what was run and what the re-queried production state now shows — never the exit status alone.
 
-## Prohibitions — each one a mistake already made once
+## Prohibitions
 
 1. **Never rephrase, reorder, merge, or editorialize the asker's questions.** In answer mode they are reproduced verbatim as the headlines.
 2. **Never invent escalation targets, cc lists, team ownership, or people's roles.** Look every one up (Slack profile, code ownership annotations, telemetry team fields) before the name appears anywhere.
