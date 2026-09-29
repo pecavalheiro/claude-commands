@@ -39,8 +39,8 @@ use `/prepare-mr-deep` instead.
   tables. What does not fit a budget goes to chat under Check before pasting, never
   into the description.
 - Fill only sections the template has; never invent one. The only addition ever made is
-  the blocker section from Output rule 1. Evidence with no template section — test runs,
-  divergence explanations — belongs in the chat message, not the description.
+  the blocker section from Output rule 1. Evidence with no template section (test runs,
+  divergence explanations) belongs in the chat message, not the description.
 
 ## Instructions
 

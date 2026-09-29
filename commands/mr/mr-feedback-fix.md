@@ -31,7 +31,7 @@ in scope.
    assumed from the diff. A reviewer can be wrong; prove it before pushing back — and
    prove them right before agreeing. Before pushing back on a premise, check for prior
    art: `ls ~/.claude/runs/<repo>/requirements/` for the ticket in the branch name, and
-   read that run's spec on the behavior in question — it often settles the point with
+   read that run's spec on the behavior in question: it often settles the point with
    better sources than a fresh investigation will find. Any push-back resting on "X
    cannot happen" states the frame its evidence was gathered under: which enforcement,
    which config, which seeding path. An invariant is only as absolute as the constraint

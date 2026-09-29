@@ -47,7 +47,7 @@ Close the announcement with an unmissable handoff as its final lines: state plai
 - acceptance criteria: FR → AC map, every FR listed: <FR-n → AC-n, …>; for each FR, the
   §"output contract" classes covered or excluded with a reason — failure paths,
   idempotency/redelivery, flag-off, data freshness at trigger time: <per-FR list, or
-  "N/A — <why>">; FRs with no AC: <list, or "none"> — this line is never omitted, "none" is an
+  "N/A — <why>">; FRs with no AC: <list, or "none">. This line is never omitted: "none" is an
   answer and silence is not; for each FR in that no-AC list, state why an AC is impossible
 - per-row provenance: <how checked + result>
 - final provenance audit: report at <location>; <N> findings, each resolved
