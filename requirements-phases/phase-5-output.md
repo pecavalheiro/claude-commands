@@ -16,7 +16,7 @@ While any `metadata.holds` entry has `resolution: null` (override option (a), pa
 - **Volatile-claim markers:** any FR/TR resting on the ticket-stated shape of an UNMERGED dependency (open MR, in-review schema or API) is marked `[volatile: <dependency>]` — it can only ever be as accurate as the dependency's ticket, and the merged code may diverge. Before marking anything `[volatile: <dependency>]`, search the app for existing readers of that same contract — a sibling caller's extraction shape is evidence the register must hold, and it bounds what is genuinely unknown. /synthesize's staleness preflight re-derives every `[volatile]` claim from the merged code before implementing.
 - **Out of Scope:** every adjacent requirement discovered in reverse-checks mapped to its owning ticket — or, for a descoped critical, to its owner + communications item (C-n) — proof nothing was silently dropped.
 - **Prerequisites** (feature flags, migrations, keys, config) appear as explicit Technical Requirements rows so /synthesize surfaces them before implementation starts.
-- **Acceptance criteria** cover each trigger/path end-to-end — including data freshness/timing at trigger time (does the data the job reads exist and is it committed when the trigger fires?), failure paths, idempotency/redelivery, and the flag-off case. When a predicate or rule is being replaced, include cases only the NEW rule passes — the inclusive boundary instant and a state where old and new inputs disagree — written so that reverting the change fails them; an AC both versions satisfy pins nothing.
+- **Acceptance criteria** cover each trigger/path end-to-end — including data freshness/timing at trigger time (does the data the job reads exist and is it committed when the trigger fires?), failure paths, idempotency/redelivery, and the flag-off case. When a predicate or rule is being replaced, include cases only the NEW rule passes — the inclusive boundary instant and a state where old and new inputs disagree — written so that reverting the change fails them; an AC both versions satisfy pins nothing. An AC restating a payload on a surface the spec has proven is unchanged pass-through duplicates the originating surface's AC; state it as a TR or assumption instead. An FR whose own text argues a state is reachable always gets an AC: the mechanism that makes it reachable is that test's setup, so name it in Implementation Hints together with any in-repo precedent that already uses it. Research that establishes reachability is a test recipe, not just justification prose.
 
 ## `communications.md`
 
@@ -47,7 +47,8 @@ Close the announcement with an unmissable handoff as its final lines: state plai
 - acceptance criteria: FR → AC map, every FR listed: <FR-n → AC-n, …>; for each FR, the
   §"output contract" classes covered or excluded with a reason — failure paths,
   idempotency/redelivery, flag-off, data freshness at trigger time: <per-FR list, or
-  "N/A — <why>">; FRs with no AC: <list, or "none">
+  "N/A — <why>">; FRs with no AC: <list, or "none"> — this line is never omitted, "none" is an
+  answer and silence is not; for each FR in that no-AC list, state why an AC is impossible
 - per-row provenance: <how checked + result>
 - final provenance audit: report at <location>; <N> findings, each resolved
 - currency at freeze: fetched; origin/<default-branch> <sha> (Gate 3b: <sha>); commits touching register-cited paths since: <list, each re-derived, or "none">
