@@ -66,4 +66,4 @@ This sweep is what makes it expensive, so it is not the default: `/prepare-mr` d
 
 ## The feedback loop
 
-`/requirements-retro` runs when a finished run's findings are challenged: it verifies the counter-claims like any other claim, identifies the mechanism of each confirmed miss (enforcement miss vs spec gap, which gate line should have caught it), and appends ≤3-line lessons to `~/.claude/journals/requirements-lessons.md`, which Phase 0 and Phase 3b load as **binding** on future runs. It proposes phase-file edits in chat but never applies them, and never rewrites a finished run's artifacts.
+`/requirements-retro` runs when a finished run's findings are challenged: it verifies the counter-claims like any other claim, identifies the mechanism of each confirmed miss (enforcement miss vs spec gap, which gate line should have caught it), ranks the misses by value, cost and likelihood, and proposes ≤3-line lessons for `~/.claude/journals/requirements-lessons.md` (which Phase 0 and Phase 3b load as **binding** on future runs) and phase-file edits. It writes nothing until I approve an item, and never rewrites a finished run's artifacts.
