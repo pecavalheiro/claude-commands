@@ -15,7 +15,7 @@ Runtime files a command reads (not commands themselves) live in a top-level dire
 
 ## Skills
 
-Agent skills live in `skills/<name>/SKILL.md` and install as **per-skill** symlinks `~/.claude/skills/<name>`, so skills maintained privately outside this repo coexist untouched. `review-retro` is `/deep-review`'s closing half: it appends to the review-lessons journal that `/deep-review` loads as binding, and proposes edits to `review-lenses/`.
+Agent skills live in `skills/<name>/SKILL.md` and install as **per-skill** symlinks `~/.claude/skills/<name>`, so skills maintained privately outside this repo coexist untouched. `review-retro` is `/deep-review`'s closing half: it ranks candidate changes to the review-lessons journal that `/deep-review` loads as binding and to `review-lenses/`, and writes one only when I ask.
 
 ## Journals
 
@@ -23,7 +23,7 @@ Five machine-local journals under `~/.claude/journals/`, in no repo and never in
 
 | Journal | Path | Scope | Written by |
 |---|---|---|---|
-| Review lessons | `<app>/review-lessons.md` | per app | `/review-retro` |
+| Review lessons | `<app>/review-lessons.md` | per app | `/review-retro`, on approval |
 | Requirements lessons | `requirements-lessons.md` | all projects | `/requirements-retro` |
 | Domain knowledge | `domain.md` | all projects | maintained outside this repo |
 | Investigation environment | `investigation.md` | all projects | maintained outside this repo |
