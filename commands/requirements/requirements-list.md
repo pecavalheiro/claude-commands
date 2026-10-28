@@ -8,7 +8,7 @@ Display all requirements with their status and summaries.
 2. List all run folders in the repo's bucket — `~/.claude/runs/<repo>/requirements/` and `~/.claude/runs/<repo>/ticket-refinements/` (plus `investigations/` if present, an archive family) — across ALL workspaces: every clone and worktree of this repo shares the bucket
 3. For each run folder:
    - Read metadata.json
-   - Extract key information, including its origin workspace (`workspace`) and family
+   - Extract key information, including its origin workspace (`workspace`), family, and `mode` (`fast` runs are marked as such; absent means the full pipeline)
    - Format for display: annotate each run with its origin workspace (shorten `~`-relative), and mark the run named by THIS workspace's pointer as active
 
 4. Sort by:

@@ -8,7 +8,7 @@ A retro's job is to make future runs better, not to make the journal longer. Eve
 
 ## Steps
 
-1. Read the run's record: `gates.md`, the register and verification report in `research-notes.md`, `06-requirements-spec.md`, `communications.md`, the question files, and any `implementation/` notes. Then read the CURRENT phase files (`~/.claude/requirements-phases/`) and the FULL lessons journal — you cannot classify a miss as a gap without knowing what the rulebook already says, and a "new rule" that restates an existing one is the retro failing its own purpose.
+1. Read the run's record: `gates.md`, the register and verification report in `research-notes.md`, `06-requirements-spec.md`, `communications.md`, the question files, and any `implementation/` notes. Then read the CURRENT phase files (`~/.claude/requirements-phases/`, or the single file `~/.claude/requirements-phases-fast/rules.md` for a run whose metadata has `"mode": "fast"`; both variants share `drafts-contract.md` and the spec headings of `phase-5-output.md`) and the FULL lessons journal — you cannot classify a miss as a gap without knowing what the rulebook already says, and a "new rule" that restates an existing one is the retro failing its own purpose.
 2. **Verify the counter-claims like any claim.** "It was wrong" is itself a set of claims — confirm each against sources and code before treating it as ground truth. Some challenges are themselves mistaken; when one is, say so plainly, with evidence. A challenge can also be right in its facts and wrong in its premise — separate the two.
 3. For each CONFIRMED miss, identify the mechanism, not just the fact:
    - which phase owned it, and which gate line should have caught it;

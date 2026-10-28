@@ -2,6 +2,8 @@
 
 Re-grounding card for requirements gathering. Two uses: a quick correction when deviating from the rules, and a proactive refresh — run it on resuming a run and after the conversation has been summarized/compacted, before any drift appears. This card is only the gist; the authoritative rules live in the per-phase files under `~/.claude/requirements-phases/` — a phase's file IS the phase, and it must be Read before that phase begins, resumes, or continues (see requirements-start.md). After printing this card, read `gates.md` in the run folder to locate the run, then re-read the current phase's file.
 
+**Fast runs** (metadata.json has `"mode": "fast"`, started by /requirements-start-fast): the phase-specific rules below describe the full variant and do not apply as written. Print only the header, the CURRENT STATE block and the GENERAL RULES, then re-read `~/.claude/requirements-phases-fast/rules.md`, the single binding file for that run.
+
 ## Instructions:
 
 1. Check this workspace's pointer file: `~/.claude/runs/<repo>/requirements/.pointers/<workspace-slug>` (derivation in requirements-start.md's Files section; outside a git repository, stop with "not inside a git repository — the run store is keyed by repo")

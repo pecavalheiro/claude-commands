@@ -27,7 +27,7 @@ Nothing else needs setting up. The journals under `~/.claude/journals/` are crea
 ./install.sh
 ```
 
-This symlinks every command under `commands/` (flat — subfolders are organizational only) into `~/.claude/commands/`, and every top-level support bundle (`requirements-phases/`, `review-lenses/`, `review-rules/`) into `~/.claude/<name>`. Because everything is a symlink, `git pull` updates content in place; re-run the installer only when files are added, moved, or renamed. The installer never clobbers real files or directories already living in `~/.claude`, and prunes its own leftover links after renames.
+This symlinks every command under `commands/` (flat — subfolders are organizational only) into `~/.claude/commands/`, and every top-level support bundle (`requirements-phases/`, `requirements-phases-fast/`, `review-lenses/`, `review-rules/`) into `~/.claude/<name>`. Because everything is a symlink, `git pull` updates content in place; re-run the installer only when files are added, moved, or renamed. The installer never clobbers real files or directories already living in `~/.claude`, and prunes its own leftover links after renames.
 
 If any target the installer owns (`~/.claude/requirements-phases`, `~/.claude/review-lenses`, `~/.claude/review-rules`, `~/.claude/skills/review-retro`) already exists as a **real directory** rather than a symlink, the installer stops with `ERROR: … move it aside first` and changes nothing. Move or remove it, then re-run. Individual command files that are real files, not symlinks, are skipped with a message instead.
 
@@ -52,6 +52,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 |---|---|
 | `/refine-ticket <url>` | Upstream of the pipeline: crawls every source linked from a tracker ticket, grounds claims against code and data, resolves each open question with you one at a time, and delivers a paste-ready refined ticket plus a Definition-of-Ready verdict, split proposal, and ask pack. |
 | `/requirements-start <ticket>` | Entry point: offers to run in a fresh worktree (recommended) or the current folder, then runs the phased gathering pipeline (source inventory → code analysis → questions → targeted context → adversarial verification → spec). The rules live in `requirements-phases/`. |
+| `/requirements-start-fast <ticket>` | The single-context variant: the orchestrator reads the ticket's own ring of sources and the named code itself, lists what it did not open for you to pull in, asks the same evidence-cited questions, and launches at most three subagents in a run (a bulk reader for large sources, a refuter for a door-closing claim, one verifier on the finished spec). Same run folder and spec headings, so every sibling command works unchanged. For tickets whose scope the ticket itself states; the rules are the one file `requirements-phases-fast/rules.md`. |
 | `/requirements-status` | Locate and resume the active run from its gate ledger. |
 | `/requirements-current` | Read-only view of the active run. |
 | `/requirements-list` | Dashboard of all runs for the current repo — every clone and worktree, annotated by origin. |
@@ -95,6 +96,7 @@ commands/               # one .md = one slash command, installed flat
   requirements/         #   the requirements pipeline family
   *.md                  #   standalone commands
 requirements-phases/    # pipeline rule files  -> ~/.claude/requirements-phases
+requirements-phases-fast/ # the fast variant's single rules file -> ~/.claude/requirements-phases-fast
 review-lenses/          # /deep-review lenses  -> ~/.claude/review-lenses
 review-rules/           # verification and output rules both review commands read -> ~/.claude/review-rules
 skills/                 # agent skills, per-skill -> ~/.claude/skills/<name>

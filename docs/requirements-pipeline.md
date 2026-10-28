@@ -34,6 +34,24 @@ At start, `/requirements-start` offers to create a fresh worktree for the run (a
 | 5 — Spec & communications | `phase-5-output.md` | The `06-requirements-spec.md` output contract (the `/synthesize` interface) plus `communications.md` for people-facing items. |
 | any | `drafts-contract.md` | Cross-cutting rules for every paste-ready human-facing draft. |
 
+## The fast variant
+
+`/requirements-start-fast` runs the same five steps in one context, under one rules file, `requirements-phases-fast/rules.md`, read once per run. Its run folders live in the same store with the same file names and carry `"mode": "fast"` in `metadata.json`, which `/requirements-status`, `/requirements-remind` and `/requirements-retro` read to find that file. The spec carries the same section headings, which `rules.md` lists and `phase-5-output.md` defines, and every paste-ready draft follows the shared `drafts-contract.md`.
+
+It exists because the full pipeline's cost does not scale with ticket size. Measured on a config ticket, the full command spent about 600M input-side tokens over 50 subagents; a first fast variant that only capped the fan-out still spent about 100M over 17 subagents on a trivial script change. The fan-out architecture itself, the proof-of-work bookkeeping around it, and a fixed verification stage were the cost, so the fast variant removes them rather than bounding them.
+
+| Full | Fast |
+|---|---|
+| Breadth-first crawl of the source graph until it closes, one extraction subagent per source, a mandatory search of every system for every named person | The orchestrator reads the ticket and what it links (25 fetches at most), opens a second-ring link only with a written reason, lists the rest by title, and runs two or three searches itself |
+| Every inaccessible source stops the run on the user | Low-criticality items are skipped and listed; medium and high are put to the user once, together |
+| Subagents for code tracing, targeted context, seven verification passes and three provenance audits (typically 15 to 50 per run) | At most three subagents per run: a bulk reader when the sources exceed about ten pages, a refuter for a door-closing claim, one verifier on the finished spec |
+| A node census, a subagent ledger, and gate blocks with pasted count commands after every phase | Claims registered only when a question, decision or FR cites them (`research-notes.md` under 15KB); three-line phase notes |
+| Every claim verified or sampled | The code claims and the quotes the FRs rest on, re-derived at a fresh origin SHA, plus the orchestrator's own currency check |
+| Acceptance criteria walk a fixed class list per FR; per-row provenance tables; a final audit subagent | FRs only for behaviour that changes or that the user decided; one happy-path and one failure-path criterion per FR, more only around triggers, jobs and external calls; a self-check instead of an audit agent |
+| `ultrathink` on every step | Thinking reserved for decisions |
+
+What it gives up: the guarantee that nothing two hops away was missed, the sampled re-check of claims no FR rests on, and the independent audit of question wording. The skipped-by-title list and the unlinked-sources ask at each question round are the replacement: the user sees what was not opened and pulls in what matters.
+
 ## Run folder contract
 
 Runs live in the machine-local store, never in the target project: `~/.claude/runs/<repo>/requirements/YYYY-MM-DD-HHMM-<TICKET-ID>-[slug]/` (the ticket segment is dropped when the request has no ticket). `<repo>` is derived at the moment of use from the repo's remote — `basename -s .git "$(git remote get-url origin)"`, falling back to the only remote, then to the top-level directory name; an empty key is an error, and outside a git repository the commands stop. Every clone and worktree of a repo shares one bucket. Each run contains: `00-initial-request.md`, `01-discovery-questions.md`, `02-discovery-answers.md`, `03-context-findings.md`, `04-detail-questions.md`, `05-detail-answers.md`, `06-requirements-spec.md`, `metadata.json` (which records the creating `workspace` — the `git rev-parse --show-toplevel` of the checkout that started the run), `research-notes.md`, `communications.md`, `gates.md`.

@@ -1,7 +1,6 @@
 # Start Requirements Gathering
 
 Begin gathering requirements for: $ARGUMENTS
-ultrathink: Deep analysis of the problem space and its implications
 
 The input is typically a Linear ticket (sometimes a document link or a written request). The written sources — the ticket, its linked tickets, the PRD/Notion pages, Slack threads, MRs — are authoritative. Exhaust and verify them before spending my time; every question you ask me must have survived the gates in the phase files. Every fact in the output must be traceable to a source quote, a code location, or an explicit decision; everything else is an assumption and must be labeled as one.
 
