@@ -14,6 +14,7 @@ Personal collection of Claude Code slash commands and the runtime files they dep
 - `/refine-ticket` preflights **every** connector it can use, before it crawls anything: Linear, Slack, Notion, GitLab, Figma, Loom, web, and **Snowflake** — it confirms load-bearing data assumptions against real data, not just against code. If any one is missing, unauthenticated, or erroring it stops immediately and names it; only you may decide to proceed without it.
 - `/requirements-start` preflights on demand — whichever connectors the ticket's source graph actually needs (typically Linear, Notion, GitLab, Figma, Slack). A source type absent from the graph can be deferred, but that deferral cancels itself the moment a link of that type appears. Missing or unauthenticated means it stops and asks you to connect it (`/mcp`) or to waive that source type for the run.
 - `/weekly-recap` needs the Slack and Linear connectors plus `glab`, and a machine-local journal (`~/.claude/journals/weekly-recap.md`) naming the team channel and holding a past recap as its style sample. Missing any of them, it stops and asks rather than guessing a channel or a voice.
+- `/project-update` needs the Linear and Slack connectors, plus `glab` or the GitLab connector for MR states. It reads the project's own previous updates as its style sample, so it needs no journal.
 - Elsewhere they genuinely are optional: `/prepare-mr` reads the ticket through the Linear MCP or `glab`, whichever fits the URL.
 
 That connector list is the stack this pipeline was built against. `/requirements-start`'s gate is generic — it verifies whatever a source in the graph requires — but `/refine-ticket`'s list is explicit, so on a different stack (no Snowflake, another tracker) it will stop on the first run until you waive the missing servers or edit that list.
@@ -83,6 +84,7 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 
 | Command | Role |
 |---|---|
+| `/project-update <project> [notes]` | Drafts the weekly status update for a tracker project I lead: reads the project's previous updates for voice and length, gathers what moved since the last one (issues, their MRs, my chat threads read to their end), checks my notes against those sources, and returns a short overview of where the project stands as a paste-ready block, plus a health recommendation. The project, not its tickets; it never posts. |
 | `/weekly-recap` | Drafts my end-of-week recap for the team channel from the week's evidence (tracker issues, merge requests, my own chat messages, with every candidate thread read to its end), asks me for next week's availability and priorities instead of inferring them, and hands the result back as a paste-ready block in the conversation with an evidence row per sentence. Topics, not tickets; it never posts and never creates a Slack draft. Reads a machine-local environment journal for the channel, emoji vocabulary, and style sample. |
 
 ## Repository layout
