@@ -93,7 +93,7 @@ Login-walled videos, expiring screenshots: flag explicitly in the register with 
 
 ## 0.8 Currency snapshot
 
-Record status + timestamp of every mutable fact (ticket **titles, descriptions and acceptance criteria, plus `updatedAt`** — not only workflow state — MR states, branch existence) — and repo state as the SHA of `origin/<default-branch>` after an explicit `git fetch`, never a local branch's HEAD (a multi-worktree checkout can be days behind, and a stale SHA makes every later "no changes" verdict false while looking clean). Code absence claims ("no callers", "no such column") are mutable facts of this class. These get re-checked in Phase 3b, at Gate 5, and again by /synthesize's staleness preflight at implementation start.
+Record status + timestamp of every mutable fact (ticket **titles, descriptions and acceptance criteria, plus `updatedAt`** — not only workflow state — MR states, branch existence) — and repo state as the SHA of `origin/<default-branch>` after an explicit `git fetch`, never a local branch's HEAD (a multi-worktree checkout can be days behind, and a stale SHA makes every later "no changes" verdict false while looking clean). After Step 0 the snapshot is read-only: `git fetch` plus read-only commands (`rev-parse`, `log`, `diff`, `show`). Nothing here moves a branch or the working tree: no merge, pull, reset or checkout, not even a fast-forward of a branch with no commits of its own. Code absence claims ("no callers", "no such column") are mutable facts of this class. These get re-checked in Phase 3b, at Gate 5, and again by /synthesize's staleness preflight at implementation start.
 
 ## 0.9 Subagent ledger
 
@@ -109,7 +109,7 @@ A turn ends into one of three things: a question awaiting my answer, a running a
 ## Gate 0 — sources (<timestamp>)
 - connectors: <each connector → the trivial call run + result; deferred types with their re-fire condition, or "none deferred">
 - lessons journal: <path read, or "absent">
-- node census: <N> nodes enumerated; register rows with status + fetched_via: <count command + output> — must equal N
+- node census: <N> nodes enumerated; register rows with status + fetched_via: <count command + output> — must equal N; closure sweep: the last sweep over every fetched node's outlinks added 0 nodes (sweep report at <location>)
 - exclusion honesty: zero nodes excluded/fully-read/partial without a fetch record — <the check run + result>
 - search sweep: <per system: query → hits → added to graph>, or the STOP ruling that waived it
 - claims: <N> register entries — <count command + output>
