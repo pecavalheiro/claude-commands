@@ -26,9 +26,9 @@ Nothing else needs setting up. The journals under `~/.claude/journals/` are crea
 ./install.sh
 ```
 
-This symlinks every command under `commands/` (flat — subfolders are organizational only) into `~/.claude/commands/`, and every top-level support bundle (`requirements-phases/`, `review-lenses/`) into `~/.claude/<name>`. Because everything is a symlink, `git pull` updates content in place; re-run the installer only when files are added, moved, or renamed. The installer never clobbers real files or directories already living in `~/.claude`, and prunes its own leftover links after renames.
+This symlinks every command under `commands/` (flat — subfolders are organizational only) into `~/.claude/commands/`, and every top-level support bundle (`requirements-phases/`, `review-lenses/`, `review-rules/`) into `~/.claude/<name>`. Because everything is a symlink, `git pull` updates content in place; re-run the installer only when files are added, moved, or renamed. The installer never clobbers real files or directories already living in `~/.claude`, and prunes its own leftover links after renames.
 
-If any target the installer owns (`~/.claude/requirements-phases`, `~/.claude/review-lenses`, `~/.claude/skills/review-retro`) already exists as a **real directory** rather than a symlink, the installer stops with `ERROR: … move it aside first` and changes nothing. Move or remove it, then re-run. Individual command files that are real files, not symlinks, are skipped with a message instead.
+If any target the installer owns (`~/.claude/requirements-phases`, `~/.claude/review-lenses`, `~/.claude/review-rules`, `~/.claude/skills/review-retro`) already exists as a **real directory** rather than a symlink, the installer stops with `ERROR: … move it aside first` and changes nothing. Move or remove it, then re-run. Individual command files that are real files, not symlinks, are skipped with a message instead.
 
 ### The run store (requirements pipeline and /refine-ticket)
 
@@ -64,7 +64,8 @@ An evidence-first pipeline that takes a ticket from raw idea to implemented code
 | Command | Role |
 |---|---|
 | `/deep-review <link>` | Deep review of my own Linear ticket branch or a colleague's GitLab MR: five parallel review lenses (`review-lenses/`), strict scope and evidence discipline, severity-ranked findings with paste-ready comments. For an MR, offers a disposable detached review worktree and its teardown after the review. |
-| `/review-retro <MR>` | Closes the `/deep-review` loop after humans review: classifies what they found vs what the review caught, verifies their claims, and ranks candidate changes (review-lessons journal, lens files, the review commands) by cost, value and likelihood; it writes a change only when I ask for it. A second `/deep-review` run of the same MR can stand in for the human review as the comparison source. |
+| `/deep-review-fast <link>` | The same review under budgets: the orchestrator builds one context pack (diff, full changed files, touched rule files, journals) that every lens reads in a few calls, each lens gets a scope and a tool-call ceiling and reports what it left unexplored, and the orchestrator verifies only what the lenses cite, by ranged reads, launching at most three narrow follow-up agents instead of exploring itself. Same lenses, same evidence bar and output (shared through `review-rules/`), with a budget line at the end. A `/deep-review` run measured 50M to 165M input-side tokens; this variant exists to cut that by about two thirds. |
+| `/review-retro <MR>` | Closes the `/deep-review` (or `/deep-review-fast`) loop after humans review: classifies what they found vs what the review caught, verifies their claims, and ranks candidate changes (review-lessons journal, lens files, the review commands) by cost, value and likelihood; it writes a change only when I ask for it. A second `/deep-review` run of the same MR can stand in for the human review as the comparison source. |
 | `/mr-feedback-fix <MR>` | Work through unresolved review threads on my own MR: a verdict per thread, fixes grouped one commit per group, paste-ready replies, and a wrap-up that offers publishing (push, post, resolve) only on my explicit go. Works in a fresh worktree by default, so the main checkout is never touched. |
 | `/commit` | Commit current changes split into logical, chronologically ordered commits. |
 | `/prepare-mr [ticket]` | Default MR write-up: fills the repo's own MR template plus a title from the branch diff and the ticket, reconciling what the ticket asked against what actually shipped, and lists what must be solved before merge. One pass, no fan-out. |
@@ -93,6 +94,7 @@ commands/               # one .md = one slash command, installed flat
   *.md                  #   standalone commands
 requirements-phases/    # pipeline rule files  -> ~/.claude/requirements-phases
 review-lenses/          # /deep-review lenses  -> ~/.claude/review-lenses
+review-rules/           # verification and output rules both review commands read -> ~/.claude/review-rules
 skills/                 # agent skills, per-skill -> ~/.claude/skills/<name>
 docs/                   # documentation (not installed)
 install.sh

@@ -1,6 +1,6 @@
 ---
 name: review-retro
-description: Post-review retrospective on a GitLab MR previously reviewed with /deep-review. Compares the other reviews against what my review caught, verifies their claims, and reports which changes to my review setup (journal, lenses, the review commands) would be worth making, ranked by cost, value and how likely the situation is to recur. Triggers on "/review-retro <MR url>", "run a retro on this MR review", "why did my review miss this".
+description: Post-review retrospective on a GitLab MR previously reviewed with /deep-review or /deep-review-fast. Compares the other reviews against what my review caught, verifies their claims, and reports which changes to my review setup (journal, lenses, the review commands) would be worth making, ranked by cost, value and how likely the situation is to recur. Triggers on "/review-retro <MR url>", "run a retro on this MR review", "why did my review miss this".
 ---
 
 # Review Retro
@@ -15,7 +15,7 @@ Input: a GitLab MR URL. Optionally I paste what the earlier /deep-review run fou
 
 - **The journal**, `~/.claude/journals/<app>/review-lessons.md`, for knowledge specific to one app: conventions, invariants, org facts. `<app>` is the reviewed repo's name from its remote: `basename -s .git "$(git remote get-url origin)"` (no `origin`: its only remote; no remotes: the repo's top-level directory name). Lessons are per app and shared by every clone of it. Entries are **Lesson / Why / How to apply / Source**; the house style is whatever the file already does, so read it first. Merging is by root cause: a lesson that shares an existing entry's cause extends that entry (its Why gains the case, its How to apply generalizes, its Source gains the MR) instead of getting a near-duplicate neighbor. Past ~15 sections, same-cause entries should be consolidated.
 - **The lenses**, `~/.claude/review-lenses/`, for generic questions a review should ask about a mechanism. They live in a public repo, so a lens question carries no app, module or namespace names, no vendor or product names, no feature-flag names, no ticket IDs, no reviewer names and no internal URLs; naming the framework or language of a stack-specific mechanism is fine. A rule that only makes sense with those specifics attached is journal knowledge, not a lens question. When a journal lesson graduates into a lens, its journal entry goes away in the same change, so the lesson is not read twice.
-- **The review commands themselves** (/deep-review, this skill), when the miss came from how the review runs (what it reads, when it runs, what it records) rather than from what it knows or asks.
+- **The review commands themselves** (/deep-review, /deep-review-fast, this skill), when the miss came from how the review runs (what it reads, when it runs, what it records) rather than from what it knows or asks. What counts as a verified finding and how the review is written live in `~/.claude/review-rules/verify-and-output.md`, which both commands read, so a change to those rules is made there, once; a change to a lens ceiling, the context pack, or the brief contract belongs to /deep-review-fast alone.
 
 ## Steps
 
