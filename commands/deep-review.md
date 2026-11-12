@@ -3,6 +3,8 @@ Open the link I'll provide. It will be one of two paths, and they differ a lot i
 - **A Linear ticket** is my own work. The changes sit in the current local branch, committed or not. Treat the branch as not merged and all of its code as new, and inspect it by diffing the branch against its base (plus any uncommitted changes). Because the code is mine, you can be more flexible about structure and design preferences. There is no MR and no review discussion, so this is the simpler path: skip the MR gate below.
 - **A GitLab MR** is a colleague's work that I'm reviewing. This is the more complex path: there may be existing comments, bot reviews, and back-and-forth between several people. The ticket link is in the MR description. Get the changes readable locally — Step 1 offers a disposable review worktree for exactly this — and treat all of its code as new.
 
+**`--r2m`**, given after the link, selects the posting layout defined in the shared rules file's section "The `--r2m` layout": four levels (Blocking, Should fix, Optional, Pre-existing) and five areas instead of severities, each note as a heading with three fixed lines and folded details, an overall comment with one line per area and the open counts, and posting through the machine-local script named in `~/.claude/journals/review-posting.md`, so the result is indistinguishable from my team's automated review notes. Nothing in Steps 1 to 3 changes, and the lenses are never told about the flag.
+
 ## GitLab MR only: mandatory gate before ANY findings
 
 1. Retrieve every existing discussion thread, not just the MR description. The GitLab MCP has no MR-notes tool, so use glab:
@@ -10,7 +12,7 @@ Open the link I'll provide. It will be one of two paths, and they differ a lot i
    Bot threads count too (BugBot, Cursor, Terraform, and similar). If you cannot retrieve them, STOP and tell me. Never produce findings blind.
 2. Summarize what each thread raised and its state: resolved, unresolved, author-replied, or bot.
 3. Cross-check every candidate finding against those threads before showing me anything:
-   - Drop whatever was already raised and adequately addressed.
+   - Drop whatever was already raised and adequately addressed. A thread the author resolved with a reason is adequately addressed only once the reason's factual claims are verified like any other statement (Step 3's evidence discipline); a claim that does not hold brings the point back as a follow-up on that thread, at its real level.
    - If a raised issue is still unresolved, or the author's fix looks wrong or incomplete, surface it as a follow-up on the existing thread, not as a new finding.
    - For each surviving finding, state explicitly that it is novel.
 

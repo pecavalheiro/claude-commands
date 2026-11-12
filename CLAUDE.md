@@ -11,7 +11,7 @@ Personal Claude Code slash commands and their runtime support files, installed i
 
 ## Support bundles
 
-Runtime files a command reads (not commands themselves) live in a top-level directory, which the installer symlinks to `~/.claude/<dirname>`: `requirements-phases/` (the pipeline's phase rules), `requirements-phases-fast/` (the single rules file `rules.md` that `/requirements-start-fast` reads once per run; it shares `drafts-contract.md` and the spec headings of `phase-5-output.md` with the full bundle), `review-lenses/` (the five lenses both review commands fan out to), `review-rules/` (the single file `/deep-review` and `/deep-review-fast` both read for the lens output contract, the all-lenses barrier, verification and the Output section). Commands reference them by their `~/.claude/<dirname>` path. `commands/`, `docs/`, and `skills/` are exempt from this rule.
+Runtime files a command reads (not commands themselves) live in a top-level directory, which the installer symlinks to `~/.claude/<dirname>`: `requirements-phases/` (the pipeline's phase rules), `requirements-phases-fast/` (the single rules file `rules.md` that `/requirements-start-fast` reads once per run; it shares `drafts-contract.md` and the spec headings of `phase-5-output.md` with the full bundle), `review-lenses/` (the five lenses both review commands fan out to), `review-rules/` (the single file `/deep-review` and `/deep-review-fast` both read for the lens output contract, the all-lenses barrier, verification, the Output section and the `--r2m` layout both commands switch to on that flag). Commands reference them by their `~/.claude/<dirname>` path. `commands/`, `docs/`, and `skills/` are exempt from this rule.
 
 ## Skills
 
@@ -19,7 +19,7 @@ Agent skills live in `skills/<name>/SKILL.md` and install as **per-skill** symli
 
 ## Journals
 
-Six machine-local journals under `~/.claude/journals/`, in no repo and never installed by this one. Commands read them; retros propose entries and write them only on my approval; a missing journal is always a normal state that is noted and continued past, never an error and never a reason to search elsewhere — except `investigation.md` and `weekly-recap.md`, which are load-bearing for `/investigate-ticket` and `/weekly-recap` (they hold this machine's repo paths and internal names, and the team channel and recap style sample), so when one is missing its command asks for the environment instead of continuing.
+Seven machine-local journals under `~/.claude/journals/`, in no repo and never installed by this one. Commands read them; retros propose entries and write them only on my approval; a missing journal is always a normal state that is noted and continued past, never an error and never a reason to search elsewhere (a missing `review-posting.md` makes `--r2m` posting fall back to direct API notes, said in one line) — except `investigation.md` and `weekly-recap.md`, which are load-bearing for `/investigate-ticket` and `/weekly-recap` (they hold this machine's repo paths and internal names, and the team channel and recap style sample), so when one is missing its command asks for the environment instead of continuing.
 
 | Journal | Path | Scope | Written by |
 |---|---|---|---|
@@ -29,6 +29,7 @@ Six machine-local journals under `~/.claude/journals/`, in no repo and never ins
 | Domain knowledge | `domain.md` | all projects | maintained outside this repo; `/investigate-retro` proposes additions |
 | Investigation environment | `investigation.md` | all projects | maintained outside this repo; `/investigate-retro` proposes additions |
 | Weekly recap environment | `weekly-recap.md` | all projects | maintained outside this repo |
+| Review posting environment | `review-posting.md` | all projects | maintained outside this repo; read only by `--r2m` posting, holds the posting script's path and invocation |
 
 `<app>` is the repo's name from its remote — `basename -s .git "$(git remote get-url origin)"`, falling back to its only remote, then to the top-level directory name. Keying on the remote rather than a path is deliberate: every clone of an app shares one journal wherever it sits on disk, and the commands carry no assumption about anyone's folder layout.
 
@@ -42,4 +43,4 @@ Pipeline run folders live in a machine-local store, never in any repo: `~/.claud
 - The spec section headings defined in `requirements-phases/phase-5-output.md` are parsed by `/synthesize` — never rename them (see `docs/requirements-pipeline.md`). The fast variant's `rules.md` lists the same headings and names `phase-5-output.md` as their definition, so the `/synthesize` interface cannot drift between the two variants. Never fork the headings into a second definition.
 - The phase files are authoritative; the `requirements-*` commands stay thin routers that read them at the moment of use.
 - `commands/deep-review.md`, `commands/deep-review-fast.md`, `review-lenses/`, `review-rules/`, and `skills/review-retro/` are the live source; the copies in the dotfiles repo are a frozen backup — don't edit those.
-- `review-rules/verify-and-output.md` is read by both `/deep-review` and `/deep-review-fast` at their Step 1 and is the only place the lens output contract, the all-lenses barrier, Step 3 and the Output live. The two commands differ only in Step 1 (how the context is assembled) and Step 2 (how the lenses are briefed and launched). Never fork it and never copy a section of it back into a command: a rule about what counts as a verified finding changes in one place or not at all.
+- `review-rules/verify-and-output.md` is read by both `/deep-review` and `/deep-review-fast` at their Step 1 and is the only place the lens output contract, the all-lenses barrier, Step 3, the Output and the `--r2m` layout live. The two commands differ only in Step 1 (how the context is assembled) and Step 2 (how the lenses are briefed and launched). Never fork it and never copy a section of it back into a command: a rule about what counts as a verified finding changes in one place or not at all.

@@ -1,6 +1,6 @@
 # Review rules: lens output contract, verification, and output
 
-Shared by `/deep-review` and `/deep-review-fast`, on purpose: the two commands differ only in how the context is assembled (their Step 1) and how the lenses are briefed and launched (their Step 2). What counts as a verified finding, how the review is written, and what may be posted live here and nowhere else. This file IS the lens output contract, the all-lenses barrier, Step 3 and the Output: read it top to bottom in this session before writing the briefing, and again after any context compaction. Never run these steps from memory or from a summary.
+Shared by `/deep-review` and `/deep-review-fast`, on purpose: the two commands differ only in how the context is assembled (their Step 1) and how the lenses are briefed and launched (their Step 2). What counts as a verified finding, how the review is written, and what may be posted live here and nowhere else. This file IS the lens output contract, the all-lenses barrier, Step 3, the Output and the `--r2m` layout: read it top to bottom in this session before writing the briefing, and again after any context compaction. Never run these steps from memory or from a summary.
 
 ## Lens output contract (copy into the briefing verbatim)
 
@@ -40,10 +40,13 @@ This is the sibling of scope discipline. Scope asks "is this finding about the c
 - Never harden a hedge. If your own reasoning or a lens says "likely," "implied," "should," "presumably," or "by default," that is an unverified premise. Resolve it by reading the source, or carry the uncertainty into the output verbatim. Do not convert it into a confident assertion.
 - Prose proves only itself. A comment, moduledoc, README or config annotation is evidence that the document says X, never that X is true now. That is exactly the right evidence for a convention finding, where the documented rule is the claim. For a claim about current behavior or deployment state, cite the configured value, the code path, or a test that pins it; when the repo cannot settle it, the fence carries the uncertainty as a clause or drops the claim.
 - Statements in MR threads, the MR description, or my own prior review comments are claims, not evidence - verify them like anything else before a finding rests on them.
-- Tag every ranked finding `[verified]` and name the evidence. A finding you cannot tag verified is a hypothesis. Hypotheses are never ranked: they go under "Unverified, worth a look," stating exactly what you could not confirm and the one fact that would confirm it.
+- **Production state** (a count, a volume, whether a row or a configuration exists today): when a finding's severity turns on it, one follow-up agent may run aggregate queries against the data warehouse. Counts and shapes only, never names, ids, rows or personal data; at most one data follow-up per review; the query and its result go in the finding's `Why:` (under `--r2m`, its Details), never in a posted line. A claim about production state that no such query settled stays a hypothesis.
+- Tag every ranked finding `[verified]` and name the evidence. A finding you cannot tag verified is a hypothesis. Hypotheses are never ranked: they go under "Unverified, worth a look," stating exactly what you could not confirm and the one fact that would confirm it. Before a hypothesis is listed, try to settle it: when that one fact lives in the repo or the workspace (a grep, a config value, a test, a sibling repo's suite), spend one targeted read or one follow-up agent on it while budget remains, then rank it or drop it. Only a fact outside the repo may be listed without that attempt.
 - Do not delegate the conclusion. A subagent (lens or otherwise) returns evidence (snippets, `file:line`), not verdicts. Read its evidence and decide yourself; if it hedged, that is your cue to verify, not to trust.
 
 ## Output
+
+Under `--r2m`, the section "The `--r2m` layout" below replaces the ratings, the verdict line, the finding layout, the summary comment and the posting mechanics described here; everything else in this section still applies.
 
 Ultrathink, then give me:
 - two ratings, each 0 to 10, neither allowed to depend on any unverified finding:
@@ -94,7 +97,125 @@ The Medium keeps the claim, the consequence and the question; the mechanism and 
 
 Posting is unlocked only by me asking for it, and the unlock works exactly like `git push`: one explicit instruction authorizes one posting action, covering the findings I named in it, and then the authorization is spent. It never carries into the next turn and never becomes standing permission; a follow-up like "looks good" or "thanks" is not a fresh instruction. If the scope of what I asked for is ambiguous (which findings, how many threads), ask before posting rather than guessing, since posting to a colleague's MR is outward-facing and cannot be taken back. Once I have asked, do it rather than re-litigating the rule. Afterwards, state plainly what went up and that the authorization is spent.
 
-**Pre-output gate:** first, the barrier: confirm every lens has delivered its findings into this conversation. If any has not, this message must not contain any part of the review; end the turn with a one-line status instead, per the all-lenses barrier above. Then, immediately before writing the final message, re-read the Output section above and walk every candidate finding through the self-check again. Any finding whose `[verified:]` line you cannot fill from files you actually opened this session gets verified NOW (late verification is cheaper than a wrong finding) or demoted to "Unverified, worth a look". For design findings the same gate means: every fact read this session, the rule or lesson cited, and the judgment labeled as judgment. Then re-read every paste-ready comment as the MR author will see it, alone, on the diff, with no access to this session: any reference that does not resolve from the MR page or the repo (internal thread numbers, finding IDs, lenses, journals) gets rewritten to its public form NOW. Then read each fence against its own `Why:` paragraph and the "Unverified, worth a look" section: when the fence asserts something those call unsettled, the fence is wrong, not them, so add the hedge as a clause or cut the claim. Then apply the comment-economy check to each fence: claim first, one concern, the ask as a question, and the budget for its severity (20 to 40 words and no citations for Medium and below; about 55 words and at most one citation for High and Critical). Cut anything the author does not need to start verifying and move it to `Why:`. Read the fence once more as a teammate's comment on the diff: if it reads like a report, shorten it. A comment the author can verify in fewer words gets more engagement, not less. Then run the mechanical fence checks on every comment: no em dashes anywhere inside a fence; any concrete code a comment proposes must be legal at the location it names (for example, an Elixir guard cannot call a remote function; suggest the form that works instead); and every file path cited in a fence or `[verified:]` line must resolve in the repo, since a path cited from memory is a path you have not checked. Last, check agreement: the merge verdict, the summary comment, and every `Comment to post [blocking|non-blocking]` tag must all be consistent with the severity labels; fix any mismatch now. Never ship a ranked finding on the promise that you would probably confirm it.
+**Pre-output gate:** first, the barrier: confirm every lens has delivered its findings into this conversation. If any has not, this message must not contain any part of the review; end the turn with a one-line status instead, per the all-lenses barrier above. Then, immediately before writing the final message, re-read the Output section above and walk every candidate finding through the self-check again. Any finding whose `[verified:]` line you cannot fill from files you actually opened this session gets verified NOW (late verification is cheaper than a wrong finding) or demoted to "Unverified, worth a look". For design findings the same gate means: every fact read this session, the rule or lesson cited, and the judgment labeled as judgment. Then re-read every paste-ready comment as the MR author will see it, alone, on the diff, with no access to this session: any reference that does not resolve from the MR page or the repo (internal thread numbers, finding IDs, lenses, journals) gets rewritten to its public form NOW. Then read each fence against its own `Why:` paragraph and the "Unverified, worth a look" section: when the fence asserts something those call unsettled, the fence is wrong, not them, so add the hedge as a clause or cut the claim. Then apply the comment-economy check to each fence: claim first, one concern, the ask as a question, and the budget for its severity (20 to 40 words and no citations for Medium and below; about 55 words and at most one citation for High and Critical). Cut anything the author does not need to start verifying and move it to `Why:`. Read the fence once more as a teammate's comment on the diff: if it reads like a report, shorten it. A comment the author can verify in fewer words gets more engagement, not less. Then run the mechanical fence checks on every comment: no em dashes anywhere inside a fence; any concrete code a comment proposes must be legal at the location it names (for example, an Elixir guard cannot call a remote function; suggest the form that works instead); and every file path cited in a fence or `[verified:]` line must resolve in the repo, since a path cited from memory is a path you have not checked. Last, check agreement: the merge verdict, the summary comment, and every `Comment to post [blocking|non-blocking]` tag must all be consistent with the severity labels; fix any mismatch now. Never ship a ranked finding on the promise that you would probably confirm it. Under `--r2m`, the comment-economy, voice and tag checks in this gate are replaced by the checks in "The gate under `--r2m`" below; the rest of this gate applies as written.
+
+## The `--r2m` layout
+
+`--r2m`, given after the link on either command, writes the review to be posted as-is, in the note layout of the automated reviewer my team runs on its MRs, so a note from this review and a note from that reviewer are indistinguishable on the MR page. Nothing before the Output changes: the MR gate, the lenses and their output contract (the lenses are never told about the flag and keep suggesting the five-step severity), Step 3's scope and evidence discipline, and the barrier all apply as written. What changes is the vocabulary of the findings, the shape of every text that can be posted, the final message, and how posting works. Where this section and the Output section disagree, this section wins under the flag; where it is silent, the Output section applies: "Unverified, worth a look", the posting unlock, the barrier part of the pre-output gate, the teardown offer and the retro pointer. On the Linear-ticket path the flag only changes the layout; there is nothing to post.
+
+### Levels instead of severities
+
+Every ranked finding carries one of four levels. Assign the level by these definitions first, then check that the mapping below agrees; when they disagree, the definitions win, because the level is a judgment about the merge, not a relabeling:
+
+- **Blocking**: the MR cannot merge as it is. It solves the wrong problem, or the right one the wrong way, the code is wrong, or there is a real product, security, data or production risk. A repo rule blocks only when it protects one of those; a code-style rule never does.
+- **Should fix**: something serious to fix in this MR before it is approved. The author may decline, with a reason, a case that needs two or more independent unlikely events, never a security, permissions or data-loss case.
+- **Optional**: a minor point the author can take or decline; it never holds the approval. A title or description that no longer matches the code is Optional, since the code is what merges. Style, naming and wording are Optional at most, and a point a linter catches is not posted at all.
+- **Pre-existing**: a real problem this MR did not introduce. It goes in the overall comment, never in a thread, so it never blocks and never reads as the author's fault. The Output section's Reminders land here under the flag.
+
+Mapping from the severity you would otherwise have given: Critical and High become Blocking; Medium becomes Should fix; Low and Nitpick become Optional. The anti-downgrade rules apply unchanged: a written rule the diff violates ranks at the level its protection earns, and a defect in the exact behavior the MR exists to change is Blocking.
+
+A design preference that no written rule or verified behavior backs is not a note under this layout, whatever its merit: list it for me in one line each under **Not posted, your call**, after the review, so I raise it in my own words if I want to.
+
+### Areas
+
+Every note also carries one area, and the overall comment has one line per area, always all five:
+
+- **Product fit**: does it solve the right problem for the people who use it, the way their work really goes.
+- **Design**: is it the simplest fit for the domain and the existing code, and what does it make hard later. The structure and placement of tests go here.
+- **Correctness**: code that is wrong: a wrong result, a crash, lost or duplicated data, a case it misses. Untested or wrongly tested changed behavior goes here.
+- **Security and data**: permissions, personal and customer data, secrets, what is stored and logged.
+- **Risk**: what can break in production, at real volumes, and how it is switched off or undone. Performance at scale lives here.
+
+### The note
+
+Each Blocking, Should fix or Optional finding whose `Post at:` is a diff line is rendered as the note exactly as it will appear on the MR, in a fenced code block. A finding whose `Post at:` is `general MR comment (not in diff)` is never rendered as a note fence: it appears once, in its one-line form inside the overall comment under "Not on a changed line", which is exactly how it will be posted. Before settling on `general MR comment`, look for the changed line the finding follows from (the sentence the MR added, the clause it removed, the test it changed) and anchor there when one exists: a thread on the diff reaches the author, a line in the overall comment rarely does.
+
+```
+**<Level> · <Area>: <title>**
+
+- **What goes wrong:** <one or two short sentences>
+- **Why it matters:** <one or two short sentences, saying for whom>
+- **What to change:** <one or two short sentences>
+
+<details><summary>Details</summary>
+
+<the evidence: quoted words, numbers, paths, precedent>
+
+</details>
+
+> on behalf of <my name as GitLab shows it>
+```
+
+Its text follows these rules, which replace the Output section's comment economy, voice and size rules:
+
+- The title is the problem in a few plain words, on one line, at most 90 characters.
+- Each of the three lines makes sense on its own to someone new to the code: one or two short sentences in plain words, the meaning before any identifier or shorthand, no metaphors, and no review-internal terms (lens, briefing, journal, finding IDs, thread numbers). Quote the words the note is about rather than pointing at a line by number; a bare line reference such as ":86" is refused at posting.
+- "What to change" states what to do; it is not phrased as a question. The voice is plain and impersonal: never first person, never "my rule" or "I asked for" (refused at posting), no simulated reactions, no em dashes.
+- Evidence, quotes, numbers and precedent go under Details, folded, never in the three lines. Details replaces the Output section's `Why:` paragraph: the derivation is written once, for the author, and nothing is kept for my eyes alone. Omit the whole Details block when there is no evidence worth the author's time.
+- A note rests on a written rule in the repo, cited by path with the words quoted, or on code behavior verified per Step 3. The same mistake in several places is one note that names the class and lists every place.
+- One concern per note. Identifiers (modules, functions, files, options, atoms) are written plain, without backticks, in the title, the three lines and the overall comment's lines, the way the team reviewer writes them; Details may use backticks. The fence contains nothing but the note, and nothing outside a fence is ever posted.
+- My GitLab display name comes from `glab api user` (its `name`, falling back to `username`); never guess it.
+
+### The overall comment
+
+Rendered once, in its own fence, after the notes, exactly as it will be posted as the review's summary. Bracketed parts appear only when they apply:
+
+```
+[**Waiting for <name>'s own approval: high risk (<reason>).**  <- high risk, nothing Blocking or Should fix]
+[**High risk (<reason>): <name> approves it once nothing serious is left.**  <- high risk, something serious]
+
+- **Product fit:** <one plain line>
+- **Design:** <one plain line>
+- **Correctness:** <one plain line>
+- **Security and data:** <one plain line>
+- **Risk:** <one plain line>
+- **Access change:** <No access change | Not checked: <what the diff touches>>
+
+<the verdict and the main reason, one to three short sentences>
+
+[Already raised in another thread (agreed, and counted below):
+- **<Blocking | Should fix> · <Area>:** <the point, and who raised it where>]
+
+[Not on a changed line:
+- **<Level> · <Area>:** `<path>:<line>`: <title>: <what goes wrong> <what to change>]
+
+[Pre-existing, not introduced by this MR (these never block):
+- `<path>:<line>`: <title>: <what goes wrong> <what to change>]
+
+**Open now:** Blocking: <n> · Should fix: <n> · Optional: <n>      (or: **Open now:** nothing.)
+
+> on behalf of <name>
+```
+
+- One plain line per area, always all five: what the review found there (naming the note it led to as "(note below)"), or in a few words that it looked and found nothing. The area lines and the verdict follow the note's writing rules: plain words, the meaning before any ID, no ticket IDs, MR references or acronyms as shorthand (say what the ticket asks for, not its number), no review-internal terms, and no account of how something was checked (a query, a replica, a search, a lens): the result goes in the line, the method stays out or goes under a note's Details.
+- **Access change** is a result this command does not fully produce: the full access review is not part of it. Write `No access change` only when you verified that the diff changes nothing that decides who can see, receive or do something (permissions, policies, roles, visibility, recipients, data scoping); otherwise write `Not checked: <what it touches>`. Never `Passed` or `Failed`.
+- The verdict is one sentence in the team reviewer's idiom: `Approved: <the main reason>` when nothing Blocking or Should fix is posted and the MR is not high risk (I approve it on GitLab right after posting; the final message reminds me); `Not approved yet: <what stands, the Blocking and Should fix points in plain words>` when something Blocking or Should fix is posted; and on a high-risk MR a sentence on what stands without either word ("Two Should fix notes stand: ...", "Nothing serious found: ...").
+- **Already raised**: a Blocking or Should fix that someone else raised in a thread and Step 3 confirmed is listed here and counted, never posted again as a note; the MR gate's follow-up on the existing thread stays available on my instruction.
+- **Not on a changed line**: a note whose `Post at:` is `general MR comment (not in diff)` is listed here instead of becoming a thread.
+- **Open now** counts the Blocking, Should fix and Optional notes being posted plus my earlier notes with those labels still open on the MR, from the gate's thread retrieval: a Blocking or Should fix one counts until I resolved it myself, an Optional one until anyone did.
+- The review state is Request changes when any Blocking note is posted or already raised, otherwise Reviewed.
+- **Risk** is high when the diff touches auth, permissions or secrets, a migration, anything that moves money or decides whether it moves or changes financial records, personal data, CI or infrastructure, or a public or partner API; medium for application or backend logic, a new external call or a large diff; low for copy, docs, styling or tests only. A high-risk MR is approved by me, never by tooling, and its overall comment opens with the high-risk line.
+
+### The final message
+
+1. `Verdict: Request changes (<n> Blocking)`, or `Verdict: Reviewed, approval withheld (<n> Should fix)`, or `Verdict: Reviewed, nothing holds the approval`, followed by `Risk: <low | medium | high (<reason>)>`. No ratings.
+2. The notes, most serious first (Blocking, then Should fix, then Optional), each as exactly three parts: the `Post at:` line, the `[verified:]` line, both as the Output section defines them, then the note's fence. No severity heading or level line outside the fence, no `Why:` paragraph, no `Comment to post` label, and no sections beyond the ones listed here. A note missing either line is invalid output.
+3. The overall comment's fence.
+4. "Unverified, worth a look" as in the Output section, then **Not posted, your call** when there is anything in it.
+5. Then as the Output section says: the fast variant's budget line, the teardown offer when there is a worktree, and the retro pointer.
+
+### Posting under `--r2m`
+
+Posting is unlocked only by my asking, one instruction for one action, exactly as the Output section says. What changes is the mechanics, because a hand-pasted note and a posted review are not the same thing on the MR page: the automated reviewer publishes the notes and the overall comment together as one review, signed, labelled, with a hidden machine-readable line on the overall comment that carries the reviewed head and the counts of Blocking and Should fix notes, which the approval tooling reads.
+
+- The posting script is machine-local: read `~/.claude/journals/review-posting.md` at posting time. It names the script's absolute path and the form of its arguments (the MR reference, the reviewed head sha, the review file). The script's own header documents the file it takes: read the header (`sed -n '/^# Usage:/,/^set /p' <script>`), build the file in the scratchpad from the notes I authorized and nothing else, run the script, and show its output verbatim. The script signs, labels, publishes as one review, sets Request changes when a Blocking note is in it, and writes the hidden line: never write any of those yourself when the script is available, and never work around one of its refusals (the head moved, pending notes of mine on the MR, a wording it rejects) with direct API calls. A refusal is shown to me and ends the action.
+- **The posted set is what I named.** The file holds exactly the notes I authorized, and the overall comment is recomposed for that set at posting time: its verdict, its area lines, its review state and the counts in its hidden line describe what goes up, never a note I dropped. When dropping a note changes the verdict (the only Blocking one, say), say so in one line before posting and recompose; never post a verdict the posted notes no longer support.
+- Post in one action when you can. A second posting action on the same head adds a second overall comment whose counts include the first one's notes still open; say so when I ask for a second batch.
+- When the journal is missing, or names a script that is not there, say so in one line and post the authorized notes directly with `glab api`: each note as a diff discussion at its `Post at:` position on the MR's latest diff version (new side or old side as given), the overall comment as a plain MR note, each with its signature line and nothing else. That path adds no label, no hidden line and no review state, so the approval tooling will not recognise the review; say that in the report of what went up.
+
+### The gate under `--r2m`
+
+In the pre-output gate, the comment-economy, voice and tag checks are replaced by these, applied to every fence: the heading carries a level, an area and a title of at most 90 characters; the three lines are present, each one or two short sentences, with no bare line reference, no first person, no "my rule" or "I asked for", identifiers plain and no ticket ID, MR reference or acronym used as shorthand; the evidence sits under Details; the signature line closes the note. For the overall comment: the same writing checks on every line; all five area lines present; a finding not on a diff line appears only there, never as a note fence; the access line is one of its two allowed forms; the Open now counts match the notes and my open threads; the verdict's opening word agrees with the levels and the risk. Everything else in the gate applies as written: the barrier, the verification of every `[verified:]` line, the public-form check, no em dashes inside a fence, and every cited path resolving in the repo.
 
 **Review worktree teardown:** when Step 1 created a review worktree, end the review's final message with one line offering to remove it now that the review is delivered; keeping it is the right call if I expect follow-up questions that need the code readable. On my acceptance: `git worktree remove <path>`, run from outside it. It is clean by construction (the review writes nothing there); if git reports it dirty anyway, STOP and show what changed instead of forcing. The saved diff and briefing live in the scratchpad and survive teardown. This offer is local housekeeping; it never interacts with the posting rules above.
 
